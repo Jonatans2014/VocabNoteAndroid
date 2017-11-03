@@ -28,8 +28,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
 
 
+    private static final String TAG =" GotThe msg" ;
     LoginButton loginButtonFB;
     CallbackManager callbackManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         getHeroes();
 
 
-                /*
+
         // findIds
         loginButtonFB = (LoginButton) findViewById(R.id.login_button);
 
@@ -70,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onError(FacebookException exception) {
                 // App code
             }
-        });*/
+        });
     }
 
 
