@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">VocabNote</string>
+
+    <string name="facebook_app_id">1057757051029932</string>
+    <string name="fb_login_protocol_scheme">fb1057757051029932</string>
+
+</resources>
