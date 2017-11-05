@@ -159,16 +159,18 @@ public class LoginActivity extends AppCompatActivity {
 
                           //  session.FbLogindata(fbId, fbName, fbPropic, fbLocation, fbGend, fbEmail);
 
-                            /*
+
                             Intent fbdata = new Intent(LoginActivity.this, MainActivity.class);
+
+                            /*
                             fbdata.putExtra("fbid",fbId);
                             fbdata.putExtra("fbname",fbName);
                             fbdata.putExtra("email",fbEmail);
                             fbdata.putExtra("gender",fbGend);
                             fbdata.putExtra("location",fbLocation);*/
 
-                            // main.putExtra("imageUrl", profile.getProfilePictureUri(200,200).toString());
-                           // startActivity(fbdata);
+                           // main.putExtra("imageUrl", profile.getProfilePictureUri(200,200).toString());
+                            startActivity(fbdata);
 
 
 
