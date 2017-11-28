@@ -14,5 +14,5 @@ public interface Api {
     String BASE_URL = "http://jonatans.pythonanywhere.com/";
 
     @GET("Wordlist/")
-    Call<List<UserInfo>> getHeroes();
+    Call<List<UserInfo>> getUserList();
 }

@@ -1,5 +1,7 @@
 package almeida.john.vocabnote;
+import android.app.Fragment;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import almeida.john.vocabnote.almieda.john.fragments.CardListVocabFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +36,15 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG =" GotThe msg" ;
     LoginButton loginButtonFB;
     CallbackManager callbackManager;
+    // List of Classifications
+    List<Classification> UserClass = new ArrayList<>();
 
+    List<String>ConStringCLass= new ArrayList<>();
+    // List of Words
+    List<WordsList> UserWords = new ArrayList<>();
+
+
+    ArrayList<String> namesArray = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Api api = retrofit.create(Api.class);
 
-        Call<List<UserInfo>> call = api.getHeroes();
+        Call<List<UserInfo>> call = api.getUserList();
 
         call.enqueue(new Callback<List<UserInfo>>() {
             @Override
@@ -92,35 +103,28 @@ public class LoginActivity extends AppCompatActivity {
                 //List of objects
                 List<UserInfo> users =  response.body();
 
-                // List of Classifications
-                List<Classification> UserClass = new ArrayList<>();
-
-                // List of Words
-                List<WordsList> UserWords = new ArrayList<>();
-
-
                 //loop trough UserClass Variable and assign words to UserWords
                 for(int i = 0; i < users.size(); i ++)
                 {
+
                     UserClass = users.get(i).getClassification();
-                }
 
-                //loop trought UserClass Variable and assign words to UserWords
-                for (int i = 0; i < UserClass.size(); i++)
-                {
-
-                    UserWords = UserClass.get(i).getWord();
 
                 }
 
-                Log.e("UserWords", UserWords.toString());
+
+//            //set Fragmentclass Arguments
+//              Fragmentclass fragobj = new Fragmentclass();
+//              fragobj.setArguments(bundle);
+
+
+                Log.e("getClass", UserWords.toString());
                 Log.e("UserClass", UserClass.toString());
             }
 
             @Override
             public void onFailure(Call<List<UserInfo>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
                 System.out.println("On failure"+getApplicationContext()+ t.getMessage());
             }
         });

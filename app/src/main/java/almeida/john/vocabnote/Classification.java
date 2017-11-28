@@ -1,5 +1,8 @@
 package almeida.john.vocabnote;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +10,7 @@ import java.util.List;
  * Created by John on 28/11/2017.
  */
 
-public class Classification{
+public class Classification  {
 
     private String Classification;
     private List<WordsList> Word;
@@ -24,6 +27,14 @@ public class Classification{
     public List<WordsList> getWord() {
         return Word;
     }
+
+
+
+
+
+
+
+
 }
 
 
