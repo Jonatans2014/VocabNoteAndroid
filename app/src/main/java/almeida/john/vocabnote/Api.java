@@ -13,6 +13,6 @@ import retrofit2.http.POST;
 public interface Api {
     String BASE_URL = "http://jonatans.pythonanywhere.com/";
 
-    @GET("snippets/")
-    Call<List<Hero>> getHeroes();
+    @GET("Wordlist/")
+    Call<List<UserInfo>> getHeroes();
 }

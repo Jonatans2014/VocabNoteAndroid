@@ -14,9 +14,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,16 +41,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-
-
-
         getHeroes();
 
 
 
         // findIds
         loginButtonFB = (LoginButton) findViewById(R.id.login_button);
-
 
         callbackManager = CallbackManager.Factory.create();
         //Permissions
@@ -57,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-
 
                 getProfileInformationFacebook(loginResult.getAccessToken());
 
@@ -87,30 +85,55 @@ public class LoginActivity extends AppCompatActivity {
 
         Api api = retrofit.create(Api.class);
 
-        Call<List<Hero>> call = api.getHeroes();
+        Call<List<UserInfo>> call = api.getHeroes();
 
-        call.enqueue(new Callback<List<Hero>>() {
+        call.enqueue(new Callback<List<UserInfo>>() {
             @Override
-            public void onResponse(Call<List<Hero>> call, Response<List<Hero>> response) {
-                List<Hero> heroList = response.body();
-
-                //Creating an String array for the ListView
-                String[] heroes = new String[heroList.size()];
-
-                //looping through all the heroes and inserting the names inside the string array
-                for (int i = 0; i < heroList.size(); i++) {
-                    heroes[i] = heroList.get(i).getName();
-
-                    System.out.println("hiiii"+heroes[i]);
+            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
 
 
+                List<UserInfo> users =  response.body();
+
+
+                // arraylist for the wordlist
+                List<WordList> UserInfo = new ArrayList<>();
+
+                for(int i = 0; i < users.size(); i ++)
+                {
+                    UserInfo = users.get(i).getWordList();
                 }
+
+                for (int i = 0; i < UserInfo.size(); i++)
+                {
+                    Log.e("UserInfo", UserInfo.get(i).getWord());
+                }
+
+
+                //Log.e("Users", users.toString());
+
+
+
+
+//                List<Users> heroList = response.body();
+//
+//                //Creating an String array for the ListView
+//                List<Users> heroes = new ArrayList<>();
+//
+//                Log.e("Student name", heroes.toString());
+//               // looping through all the heroes and inserting the names inside the string array
+////                for (int i = 0; i < heroList.size(); i++) {
+////                    heroes[i] = heroList.get(i).getUser_Name();
+////
+////                    System.out.println("hiiii"+heroes[i]);
+////
+//
+//                }
 
 
             }
 
             @Override
-            public void onFailure(Call<List<Hero>> call, Throwable t) {
+            public void onFailure(Call<List<UserInfo>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
                 System.out.println("On failure"+getApplicationContext()+ t.getMessage());

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "60083015770",
+    "project_id": "firebase-vocabnote"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60083015770:android:d2107c88f717e20f",
+        "android_client_info": {
+          "package_name": "almeida.john.vocabnote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60083015770-9ek7adigb6va7ncimlnsd3bbeq50kuju.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "almeida.john.vocabnote",
+            "certificate_hash": "b1de70e15f974aac14708fe55071a8231632713b"
+          }
+        },
+        {
+          "client_id": "60083015770-r70tam8lfj25k7604iv2of2uu41q3d0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFBKr1XAgkMKrCQfM8Vk-xpihvZnDHSTw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
