@@ -20,15 +20,15 @@ public class UserInfo {
     private String User_Picture;
    // private String WordList;
 
-    private List<WordList> WordList;
+    private List<Classification> Classification;
 
 
-    public UserInfo(String User_Auth_ID,String User_Name,String User_Picture,List<WordList> Wordlist  ) {
+    public UserInfo(String User_Auth_ID,String User_Name,String User_Picture,List<Classification> Classification  ) {
 
         this.User_Auth_ID = User_Auth_ID;
         this.User_Name = User_Name;
         this.User_Picture = User_Picture;
-        this.WordList = Wordlist;
+        this.Classification = Classification;
 
     }
 
@@ -44,8 +44,8 @@ public class UserInfo {
         return User_Picture;
     }
 
-    public List<almeida.john.vocabnote.WordList> getWordList() {
-        return WordList;
+    public List<almeida.john.vocabnote.Classification> getClassification() {
+        return Classification;
     }
 }
 

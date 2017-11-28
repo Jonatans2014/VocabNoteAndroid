@@ -3,7 +3,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -40,10 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-        getHeroes();
-
-
+        //Fetch lists of users, classifications and Words.
+        getUserLists();
 
         // findIds
         loginButtonFB = (LoginButton) findViewById(R.id.login_button);
@@ -77,10 +74,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-    private void getHeroes() {
+    private void getUserLists() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                //Here we are using the GsonConverterFactory to directly convert json data to object
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Api api = retrofit.create(Api.class);
@@ -91,45 +89,32 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
 
-
+                //List of objects
                 List<UserInfo> users =  response.body();
 
+                // List of Classifications
+                List<Classification> UserClass = new ArrayList<>();
 
-                // arraylist for the wordlist
-                List<WordList> UserInfo = new ArrayList<>();
+                // List of Words
+                List<WordsList> UserWords = new ArrayList<>();
 
+
+                //loop trough UserClass Variable and assign words to UserWords
                 for(int i = 0; i < users.size(); i ++)
                 {
-                    UserInfo = users.get(i).getWordList();
+                    UserClass = users.get(i).getClassification();
                 }
 
-                for (int i = 0; i < UserInfo.size(); i++)
+                //loop trought UserClass Variable and assign words to UserWords
+                for (int i = 0; i < UserClass.size(); i++)
                 {
-                    Log.e("UserInfo", UserInfo.get(i).getWord());
+
+                    UserWords = UserClass.get(i).getWord();
+
                 }
 
-
-                //Log.e("Users", users.toString());
-
-
-
-
-//                List<Users> heroList = response.body();
-//
-//                //Creating an String array for the ListView
-//                List<Users> heroes = new ArrayList<>();
-//
-//                Log.e("Student name", heroes.toString());
-//               // looping through all the heroes and inserting the names inside the string array
-////                for (int i = 0; i < heroList.size(); i++) {
-////                    heroes[i] = heroList.get(i).getUser_Name();
-////
-////                    System.out.println("hiiii"+heroes[i]);
-////
-//
-//                }
-
-
+                Log.e("UserWords", UserWords.toString());
+                Log.e("UserClass", UserClass.toString());
             }
 
             @Override
