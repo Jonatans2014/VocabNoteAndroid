@@ -35,8 +35,7 @@ public class CardListVocabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-                R.layout.recycler_view, container, false);
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
@@ -47,8 +46,6 @@ public class CardListVocabFragment extends Fragment {
     public List getList(List<Classification> getC)
     {
         UserClass =  getC;
-
-
         for(int i = 0; i < UserClass.size(); i++)
         {
 
@@ -66,7 +63,7 @@ public class CardListVocabFragment extends Fragment {
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.card_list, parent, false));
 
-            name = (TextView) itemView.findViewById(R.id.card_title);
+
             description = (TextView) itemView.findViewById(R.id.card_text);
         }
     }
@@ -80,11 +77,7 @@ public class CardListVocabFragment extends Fragment {
 
         public ContentAdapter(Context context) {
             Resources resources = context.getResources();
-
-
-            Classifications =resources.getStringArray(R.array.place_desc);
-
-        }
+            Classifications =resources.getStringArray(R.array.place_desc);}
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

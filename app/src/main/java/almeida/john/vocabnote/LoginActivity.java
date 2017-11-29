@@ -64,19 +64,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-
+                Intent fbdata = new Intent(LoginActivity.this, MainActivity.class);
                 getProfileInformationFacebook(loginResult.getAccessToken());
+                startActivity(fbdata);
 
             }
 
             @Override
             public void onCancel() {
-                // App code
+                Toast.makeText(getApplicationContext(), TAG, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                Toast.makeText(getApplicationContext(),TAG, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -84,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
+    //try to make this an interface
     private void getUserLists() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -142,15 +143,13 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCompleted(
                             JSONObject object,
                             GraphResponse response) {
-                        Log.e("object", object.toString());
+
+                        //declaring variables
                         String fbId = null;
-                        String fbBirthday = null;
-                        String fbLocation = null;
                         String fbEmail = null;
                         String fbName = null;
                         String fbGend = null;
-
-
+                        String  fbPropic = null;
                         try {
 
                             if(object.has("email")){
@@ -165,29 +164,13 @@ public class LoginActivity extends AppCompatActivity {
                                 fbName ="";
                             }if(object.has("gender")){
                                 fbGend = object.getString("gender");
-                            }
-
-                            //fbPropic = "https://graph.facebook.com/\"+ fbId +\"/picture?type=small";
-
-                          //  session.FbLogindata(fbId, fbName, fbPropic, fbLocation, fbGend, fbEmail);
-
-
-                            Intent fbdata = new Intent(LoginActivity.this, MainActivity.class);
-
-                            /*
-                            fbdata.putExtra("fbid",fbId);
-                            fbdata.putExtra("fbname",fbName);
-                            fbdata.putExtra("email",fbEmail);
-                            fbdata.putExtra("gender",fbGend);
-                            fbdata.putExtra("location",fbLocation);*/
-
-                           // main.putExtra("imageUrl", profile.getProfilePictureUri(200,200).toString());
-                            startActivity(fbdata);
+                            }else {fbGend = "";}
+                              fbPropic = "https://graph.facebook.com/\"+ fbId +\"/picture?type=small";
 
 
 
-                            Log.d("lastName",fbName);
-                            Log.d("email",fbName);
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -195,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email,location,gender,birthday");
+        parameters.putString("fields", "id,name,email,gender");
         request.setParameters(parameters);
         request.executeAsync();
     }

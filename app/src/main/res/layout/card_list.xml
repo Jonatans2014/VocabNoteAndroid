@@ -18,27 +18,26 @@
 
 
         <TextView
-            android:id="@+id/card_title"
+            android:id="@+id/card_class"
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_title_height"
 
             android:layout_marginLeft="@dimen/md_keylines"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/white"
-            tools:text="@string/item_title" />
+             />
 
         <TextView
             android:id="@+id/card_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_alignStart="@+id/card_title"
+            android:layout_alignStart="@+id/card_class"
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/dark_grey"
-            android:textSize="@dimen/article_subheading"
-            tools:text="@string/item_desc" />
+            android:textSize="18sp" />
 
         <ImageButton
             android:id="@+id/share_button"
