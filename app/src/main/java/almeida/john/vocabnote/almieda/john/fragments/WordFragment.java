@@ -1,12 +1,9 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
-
 import android.content.Context;
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,11 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import almeida.john.vocabnote.Api;
-import almeida.john.vocabnote.LoginActivity;
-import almeida.john.vocabnote.MainActivity;
 import almeida.john.vocabnote.R;
 import almeida.john.vocabnote.UserInfo;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,19 +26,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by John on 08/11/2017.
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link WordFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link WordFragment#newInstance} factory method to
+ * create an instance of this fragment.
  */
-
-
-
-
-public class CardListVocabFragment extends Fragment {
-
+public class WordFragment extends Fragment {
     public List<Classification> UserClass = new ArrayList<>();
 
     public  List<Classification> getdata =  new ArrayList<>();
     public  List<WordsList> getWordList = new ArrayList<>();
-    public  RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     String[] ClassList ;
     String[] WordList;
     boolean Category = true;
@@ -109,7 +103,7 @@ public class CardListVocabFragment extends Fragment {
                     getWordList  = UserClass.get(0).getWord();
                 }
 
-              //  System.out.println(UserWords);
+                //  System.out.println(UserWords);
 
                 // WordList is now working try the same with another fragment
 
@@ -134,7 +128,7 @@ public class CardListVocabFragment extends Fragment {
 
 
 
-                ContentAdapter adapter = new ContentAdapter(ClassList);
+                WordFragment.ContentAdapter adapter = new WordFragment.ContentAdapter(WordList);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -167,11 +161,21 @@ public class CardListVocabFragment extends Fragment {
         public TextView description;
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.card_list, parent, false));
+            super(inflater.inflate(R.layout.fragment_word, parent, false));
 
 
             description = (TextView) itemView.findViewById(R.id.card_text);
 
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Context context = v.getContext();
+                    //Intent intent = new Intent(context, WordFragment.class);
+                    //intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    //context.startActivity(intent);
+                }
+            });
 
 
 
@@ -182,7 +186,7 @@ public class CardListVocabFragment extends Fragment {
     /**
      * Adapter to display recycler view.
      */
-    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public class ContentAdapter extends RecyclerView.Adapter<WordFragment.ViewHolder> {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 18;
         private  String[] Classifications;
@@ -195,14 +199,14 @@ public class CardListVocabFragment extends Fragment {
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+        public WordFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new WordFragment.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(WordFragment.ViewHolder holder, int position) {
 
-          final String selectedCategory = Classifications[position % Classifications.length];
+            final String selectedCategory = Classifications[position % Classifications.length];
 
 
 
@@ -212,13 +216,6 @@ public class CardListVocabFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
-
-
-                    //Fetch lists of users, classifications and Words.
-                    Intent fbdata = new Intent(getActivity(), WordActivity.class);
-                    // getProfileInformationFacebook(loginResult.getAccessToken());
-                    startActivity(fbdata);
-
                 }
             });
 

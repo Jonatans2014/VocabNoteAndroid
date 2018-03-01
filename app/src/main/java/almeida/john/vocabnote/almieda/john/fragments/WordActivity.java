@@ -1,20 +1,24 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,49 +28,53 @@ import almeida.john.vocabnote.LoginActivity;
 import almeida.john.vocabnote.MainActivity;
 import almeida.john.vocabnote.R;
 import almeida.john.vocabnote.UserInfo;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by John on 08/11/2017.
- */
+public class WordActivity extends AppCompatActivity {
 
 
 
-
-public class CardListVocabFragment extends Fragment {
 
     public List<Classification> UserClass = new ArrayList<>();
-
+    private RecyclerView mRecyclerView;
     public  List<Classification> getdata =  new ArrayList<>();
     public  List<WordsList> getWordList = new ArrayList<>();
     public  RecyclerView recyclerView;
     String[] ClassList ;
     String[] WordList;
-    boolean Category = true;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_word);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
 
 
-
-
+        initViews();
         bindCategoryOrWordsToRecyclerView();
 
 
 
-        return recyclerView;
 
 
     }
 
+
+
+
+    private void initViews(){
+        mRecyclerView = (RecyclerView)findViewById(R.id.card_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+    }
 
     public void bindCategoryOrWordsToRecyclerView()
     {
@@ -109,7 +117,7 @@ public class CardListVocabFragment extends Fragment {
                     getWordList  = UserClass.get(0).getWord();
                 }
 
-              //  System.out.println(UserWords);
+                //  System.out.println(UserWords);
 
                 // WordList is now working try the same with another fragment
 
@@ -134,10 +142,8 @@ public class CardListVocabFragment extends Fragment {
 
 
 
-                ContentAdapter adapter = new ContentAdapter(ClassList);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                WordActivity.ContentAdapter adapter = new WordActivity.ContentAdapter(WordList);
+                mRecyclerView.setAdapter(adapter);
 
 
 
@@ -155,25 +161,18 @@ public class CardListVocabFragment extends Fragment {
 
 
 
-//    //try to make this an interface
-//    private void getUserLists() {
-//
-//    }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public TextView name;
         public TextView description;
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.card_list, parent, false));
+            super(inflater.inflate(R.layout.cardword_row, parent, false));
 
 
-            description = (TextView) itemView.findViewById(R.id.card_text);
-
-
-
+            description = (TextView) itemView.findViewById(R.id.word);
 
 
         }
@@ -182,12 +181,12 @@ public class CardListVocabFragment extends Fragment {
     /**
      * Adapter to display recycler view.
      */
-    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public class ContentAdapter extends RecyclerView.Adapter<WordActivity.ViewHolder> {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 18;
         private  String[] Classifications;
 
-        public  List<Classification> senddata =  new ArrayList<>();
+        public List<Classification> senddata =  new ArrayList<>();
 
         public ContentAdapter(String[] getdata) {
 
@@ -195,14 +194,14 @@ public class CardListVocabFragment extends Fragment {
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+        public WordActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new WordActivity.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(WordActivity.ViewHolder holder, int position) {
 
-          final String selectedCategory = Classifications[position % Classifications.length];
+            final String selectedCategory = Classifications[position % Classifications.length];
 
 
 
@@ -211,13 +210,13 @@ public class CardListVocabFragment extends Fragment {
             holder.description.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
 
 
                     //Fetch lists of users, classifications and Words.
-                    Intent fbdata = new Intent(getActivity(), WordActivity.class);
+                    Intent fbdata = new Intent(WordActivity.this, DicActivity.class);
                     // getProfileInformationFacebook(loginResult.getAccessToken());
                     startActivity(fbdata);
+
 
                 }
             });
@@ -228,10 +227,84 @@ public class CardListVocabFragment extends Fragment {
 
 
 
+
+
+
         @Override
         public int getItemCount() {
             return LENGTH;
         }
+    }
+
+
+
+
+
+
+
+
+    static class Adapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public Adapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+
+        MenuItem search = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        search(searchView);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void search(SearchView searchView) {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+//                if (mAdapter != null) mAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
     }
 
 

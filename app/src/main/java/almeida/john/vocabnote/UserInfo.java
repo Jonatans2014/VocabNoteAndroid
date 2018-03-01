@@ -1,9 +1,9 @@
 package almeida.john.vocabnote;
 
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
+
+import almeida.john.vocabnote.almieda.john.fragments.Classification;
 
 /**
  * Created by John on 02/11/2017.
@@ -44,7 +44,7 @@ public class UserInfo {
         return User_Picture;
     }
 
-    public List<almeida.john.vocabnote.Classification> getClassification() {
+    public List<almeida.john.vocabnote.almieda.john.fragments.Classification> getClassification() {
         return Classification;
     }
 }

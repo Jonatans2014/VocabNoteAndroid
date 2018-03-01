@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import almeida.john.vocabnote.almieda.john.fragments.CardListVocabFragment;
-import almeida.john.vocabnote.almieda.john.fragments.ChatBotFragment;
 import almeida.john.vocabnote.almieda.john.fragments.GamesFragment;
+import almeida.john.vocabnote.almieda.john.fragments.WordFragment;
 
 
 public class MainActivity extends AppCompatActivity

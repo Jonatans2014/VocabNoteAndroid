@@ -1,10 +1,14 @@
 package almeida.john.vocabnote;
-import android.app.Fragment;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -24,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import almeida.john.vocabnote.almieda.john.fragments.CardListVocabFragment;
+import almeida.john.vocabnote.almieda.john.fragments.Classification;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,9 +47,10 @@ public class LoginActivity extends AppCompatActivity {
 
     List<String>ConStringCLass= new ArrayList<>();
     // List of Words
-    List<WordsList> UserWords = new ArrayList<>();
+  //  List<WordsList> UserWords = new ArrayList<>();
 
-
+    String[] ClassList ;
+    String[] ClassWord ;
     ArrayList<String> namesArray = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,12 @@ public class LoginActivity extends AppCompatActivity {
 
         //Fetch lists of users, classifications and Words.
         getUserLists();
+
+
+        //Fetch lists of users, classifications and Words.
+        Intent fbdata = new Intent(LoginActivity.this, MainActivity.class);
+        // getProfileInformationFacebook(loginResult.getAccessToken());
+        startActivity(fbdata);
 
         // findIds
         loginButtonFB = (LoginButton) findViewById(R.id.login_button);
@@ -104,6 +117,9 @@ public class LoginActivity extends AppCompatActivity {
                 //List of objects
                 List<UserInfo> users =  response.body();
 
+
+                //Creating an String array for the ListView
+
                 //loop trough UserClass Variable and assign words to UserWords
                 for(int i = 0; i < users.size(); i ++)
                 {
@@ -111,16 +127,33 @@ public class LoginActivity extends AppCompatActivity {
                     UserClass = users.get(i).getClassification();
 
 
+
+                }
+
+                ClassList = new String[UserClass.size()];
+
+
+
+                //Log.e("getClass", UserWords.toString());
+
+                //looping through all the heroes and inserting the names inside the string array
+                for (int i = 0; i < UserClass.size(); i++) {
+                    ClassList[i] = UserClass.get(i).getClassification();
+
+
+                  //  UserWords = UserClass.get(0).getWord();
                 }
 
 
-//            //set Fragmentclass Arguments
-//              Fragmentclass fragobj = new Fragmentclass();
-//              fragobj.setArguments(bundle);
+               // ClassWord = new String[UserWords.size()];
 
 
-                Log.e("getClass", UserWords.toString());
-                Log.e("UserClass", UserClass.toString());
+
+
+
+
+
+
             }
 
             @Override
@@ -189,5 +222,126 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static class wordFragment extends android.support.v4.app.Fragment {
+
+
+        public List<Classification> UserClass = new ArrayList<>();
+
+        public  List<Classification> getdata =  new ArrayList<>();
+        public RecyclerView recyclerView;
+        String[] ClassList ;
+        String[] WordList;
+        boolean Category = true;
+
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
+
+
+
+
+            bindCategoryOrWordsToRecyclerView();
+
+
+
+            return recyclerView;
+
+
+        }
+
+
+        public void bindCategoryOrWordsToRecyclerView()
+        {
+
+
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Api.BASE_URL)
+                    //Here we are using the GsonConverterFactory to directly convert json data to object
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            Api api = retrofit.create(Api.class);
+
+            Call<List<UserInfo>> call = api.getUserList();
+
+            call.enqueue(new Callback<List<UserInfo>>() {
+                @Override
+                public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
+
+
+
+
+
+
+                    //List of objects
+                    List<UserInfo> users =  response.body();
+
+
+                    //Creating an String array for the ListView
+
+                    //loop trough UserClass Variable and assign words to UserWords
+                    for(int i = 0; i < users.size(); i ++)
+                    {
+
+                        UserClass = users.get(i).getClassification();
+
+
+
+                    }
+
+
+
+                    ClassList = new String[UserClass.size()];
+                    WordList = new String[UserClass.get(0).getWord().size()];
+                    //Log.e("getClass", UserWords.toString());
+
+                    //looping through all the heroes and inserting the names inside the string array
+                    for (int i = 0; i < UserClass.size(); i++) {
+
+                        ClassList[i] = UserClass.get(i).getClassification();
+
+                    }
+
+
+
+
+//
+//                    ContentAdapter adapter = new ContentAdapter(ClassList);
+//                    recyclerView.setAdapter(adapter);
+//                    recyclerView.setHasFixedSize(true);
+//                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+
+                }
+
+                @Override
+                public void onFailure(Call<List<UserInfo>> call, Throwable t) {
+
+                }
+            });
+
+
+        }
+
+
+
+
+    //    //try to make this an interface
+    //    private void getUserLists() {
+    //
+    //    }
+
+
+
+
+
+
     }
 }
