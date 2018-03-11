@@ -47,6 +47,9 @@ public class WordActivity extends AppCompatActivity {
     String[] ClassList ;
     String[] WordList;
 
+    String Dict;
+
+    String Category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,9 @@ public class WordActivity extends AppCompatActivity {
         initViews();
         bindCategoryOrWordsToRecyclerView();
 
-
-
+        //get category clicked by users.
+        Category  = getIntent().getStringExtra("Category");
+        System.out.println(Category);
 
 
     }
@@ -113,28 +117,44 @@ public class WordActivity extends AppCompatActivity {
 
                     UserClass = users.get(i).getClassification();
 
+                    System.out.println("Class"+ UserClass );
 
-                    getWordList  = UserClass.get(0).getWord();
+
                 }
+
+                ClassList = new String[UserClass.size()];
 
                 //  System.out.println(UserWords);
 
                 // WordList is now working try the same with another fragment
 
-                ClassList = new String[UserClass.size()];
-                WordList = new String[getWordList.size()];
+
                 //Log.e("getClass", UserWords.toString());
 
                 //looping through all the heroes and inserting the names inside the string array
                 for (int i = 0; i < UserClass.size(); i++) {
 
-                    ClassList[i] = UserClass.get(i).getClassification();
+                  //  ClassList[i] = UserClass.get(i).getClassification();
+
+
+
+
+
+                    if(UserClass.get(i).getClassification().equals(Category))
+                    {
+                        ClassList[i] = UserClass.get(i).getClassification();
+                        getWordList  = UserClass.get(i).getWord();
+                    }
 
 
                 }
+
+                WordList = new String[getWordList.size()];
                 for(int i = 0; i <getWordList.size(); i++)
                 {
                     WordList[i] = getWordList.get(i).getWord();
+
+                    System.out.println("Words"+ WordList[i] );
                 }
 
 
@@ -215,6 +235,9 @@ public class WordActivity extends AppCompatActivity {
                     //Fetch lists of users, classifications and Words.
                     Intent fbdata = new Intent(WordActivity.this, DicActivity.class);
                     // getProfileInformationFacebook(loginResult.getAccessToken());
+
+                    Dict = selectedCategory;
+                    fbdata.putExtra("Dict", Dict);
                     startActivity(fbdata);
 
 

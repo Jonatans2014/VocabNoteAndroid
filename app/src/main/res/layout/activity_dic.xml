@@ -9,7 +9,7 @@
     android:paddingTop="50dp"
     tools:context="almeida.john.vocabnote.almieda.john.fragments.DicActivity">
 
-    
+
 
         <LinearLayout
             android:id="@+id/getl"

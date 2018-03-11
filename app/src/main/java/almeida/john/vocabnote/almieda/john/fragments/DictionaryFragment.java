@@ -33,6 +33,7 @@ public class DictionaryFragment extends Fragment {
     int ListSize = 0;
     TextView Def;
     TextView Example;
+    String Dict;
     ImageView Pronunciation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

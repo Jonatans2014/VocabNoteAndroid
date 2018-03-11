@@ -140,6 +140,12 @@ public class LoginActivity extends AppCompatActivity {
                 for (int i = 0; i < UserClass.size(); i++) {
                     ClassList[i] = UserClass.get(i).getClassification();
 
+                    if(UserClass.get(i).getClassification().equals("Fruits"))
+                    {
+                        System.out.println("Class"+  ClassList[i] );
+
+                    }
+
 
                   //  UserWords = UserClass.get(0).getWord();
                 }

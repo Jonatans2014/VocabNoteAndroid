@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import almeida.john.vocabnote.R;
 
@@ -65,7 +66,7 @@ public class GamesFragment extends Fragment {
     /**
      * Adapter to display recycler view.
      */
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public  class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Tiles in RecyclerView.
         private static final int LENGTH = 3;
 //
@@ -88,13 +89,43 @@ public class GamesFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+
 //            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
 //            holder.name.setText(mPlaces[position % mPlaces.length]);
+
+
+
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    System.out.println(position);
+                    if(position == 0)
+                    {
+                        Intent intent = new Intent(getContext(), SynonymGameActivity.class);
+                        startActivity(intent);
+                    }
+                    else if(position == 1)
+                    {
+
+                    }else
+                    {
+
+                    }
+
+
+                }
+            });
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount(
+
+
+        ) {
             return LENGTH;
         }
     }

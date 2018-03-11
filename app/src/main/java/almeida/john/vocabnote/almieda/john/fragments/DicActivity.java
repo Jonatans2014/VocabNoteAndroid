@@ -33,7 +33,7 @@ public class DicActivity extends AppCompatActivity {
     TextView Def;
     TextView Example;
     ImageView Pronunciation;
-
+    String DictWord;
 
 
     @Override
@@ -44,6 +44,9 @@ public class DicActivity extends AppCompatActivity {
         Def = (TextView)findViewById(R.id.def_text);
         Example=  (TextView)findViewById(R.id.examp_text);
 
+        //get category clicked by users.
+        DictWord = getIntent().getStringExtra("Dict");
+        System.out.println(DictWord);
 
         new CallbackTask().execute(dictionaryEntries());
     }
@@ -53,7 +56,7 @@ public class DicActivity extends AppCompatActivity {
 
     private String dictionaryEntries() {
         final String language = "en";
-        final String word = "car";
+        final String word = DictWord;
         final String word_id = word.toLowerCase(); //word id is case sensitive and lowercase is required
         return "https://od-api.oxforddictionaries.com:443/api/v1/entries/" + language + "/" + word_id ;
     }
@@ -129,14 +132,16 @@ public class DicActivity extends AppCompatActivity {
 
                                 System.out.println(de);
 
-                                JSONArray examples = d.getJSONArray("examples");
-
-                                def = de.getString(ListSize);
-                                example = examples.getString(ListSize);
 
 
-                                // System.out.println(example);
-                                DicInfo dicInfo = new DicInfo(def,example,"prr");
+                                   // JSONArray examples = d.getJSONArray("examples");
+
+                                    def = de.getString(ListSize);
+                                    //example = examples.getString(ListSize);
+
+
+
+                                DicInfo dicInfo = new DicInfo(def,"","");
 
 
                                 getDicdata.add(dicInfo);
@@ -156,10 +161,10 @@ public class DicActivity extends AppCompatActivity {
                 for(int i =0; i < getDicdata.size(); i++)
                 {
                     System.out.println(getDicdata.get(i).getDefinitions());
-                    System.out.println(getDicdata.get(i).getExample());
+                    System.out.println(getDicdata.get(0).getExample());
 
 
-                    Def.setText(getDicdata.get(i).getDefinitions());
+                    Def.setText(getDicdata.get(0).getDefinitions());
                     Example.setText(getDicdata.get(i).getExample());
                 }
 

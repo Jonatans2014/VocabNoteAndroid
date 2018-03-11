@@ -47,7 +47,15 @@
             android:name=".almieda.john.fragments.WordActivity"
             android:label="@string/title_activity_word"
             android:theme="@style/AppTheme" />
-        <activity android:name=".almieda.john.fragments.DicActivity"></activity>
+        <activity android:name=".almieda.john.fragments.DicActivity" />
+        <activity
+            android:name=".almieda.john.fragments.SynonymGameActivity"
+            android:label="@string/title_activity_synonym_game"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".almieda.john.fragments.SynonymGamePlayActivity"
+            android:label="@string/title_activity_synonym_game_play"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

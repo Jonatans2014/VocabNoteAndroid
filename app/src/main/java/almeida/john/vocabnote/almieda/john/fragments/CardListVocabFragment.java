@@ -213,11 +213,15 @@ public class CardListVocabFragment extends Fragment {
                 public void onClick(View view) {
                     Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
 
-
+                    String category = selectedCategory;
                     //Fetch lists of users, classifications and Words.
                     Intent fbdata = new Intent(getActivity(), WordActivity.class);
+
+                    fbdata.putExtra("Category", category);
                     // getProfileInformationFacebook(loginResult.getAccessToken());
                     startActivity(fbdata);
+
+
 
                 }
             });

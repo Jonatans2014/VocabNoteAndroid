@@ -25,22 +25,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link WordFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link WordFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class WordFragment extends Fragment {
     public List<Classification> UserClass = new ArrayList<>();
-
     public  List<Classification> getdata =  new ArrayList<>();
     public  List<WordsList> getWordList = new ArrayList<>();
     public RecyclerView recyclerView;
     String[] ClassList ;
     String[] WordList;
+
     boolean Category = true;
 
     @Override
