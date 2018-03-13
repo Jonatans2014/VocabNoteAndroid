@@ -6,20 +6,22 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="almeida.john.vocabnote.almieda.john.fragments.SynonymGamePlayActivity"
+    tools:layout_editor_absoluteY="81dp"
     tools:showIn="@layout/activity_synonym_game_play">
 
 
     <Button
-        android:id="@+id/play"
+        android:id="@+id/mainWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="139dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="11dp"
         android:background="@drawable/button"
         android:elevation="20dp"
         android:text="@string/play_caps"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/word2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Word" />
@@ -27,53 +29,59 @@
 
     <Button
         android:id="@+id/word1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/play"
+        android:layout_width="0dp"
+        android:layout_height="49dp"
+        android:layout_below="@id/mainWord"
         android:layout_centerHorizontal="true"
 
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/button"
         android:elevation="20dp"
         android:text="@string/about_caps"
         android:textColor="#C0FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/word2"
+        app:layout_constraintEnd_toStartOf="@+id/word2"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="antonym" />
 
 
     <Button
         android:id="@+id/word2"
-        android:layout_width="wrap_content"
+        android:layout_width="87dp"
 
-        android:layout_height="wrap_content"
-        android:layout_below="@id/play"
-        android:layout_marginBottom="148dp"
-        android:layout_marginStart="23dp"
+        android:layout_height="43dp"
+        android:layout_below="@id/mainWord"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="52dp"
         android:background="@drawable/button"
         android:elevation="20dp"
         android:text="@string/about_caps"
         android:textColor="#C0FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/word3"
         app:layout_constraintStart_toEndOf="@+id/word1"
+        app:layout_constraintTop_toBottomOf="@+id/mainWord"
         tools:text="Antonym" />
 
     <Button
         android:id="@+id/word3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
 
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/word1"
-        android:layout_below="@+id/play"
+        android:layout_alignLeft="@+id/word2"
+        android:layout_below="@+id/mainWord"
 
+        android:layout_marginEnd="46dp"
         android:background="@drawable/button"
         android:text="@string/about_caps"
         android:textColor="#C0FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/word2"
-        tools:layout_editor_absoluteX="253dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/word2"
         tools:text="Synonym" />
 
 </android.support.constraint.ConstraintLayout>

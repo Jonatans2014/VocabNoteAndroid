@@ -123,11 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                 //loop trough UserClass Variable and assign words to UserWords
                 for(int i = 0; i < users.size(); i ++)
                 {
-
                     UserClass = users.get(i).getClassification();
-
-
-
                 }
 
                 ClassList = new String[UserClass.size()];
