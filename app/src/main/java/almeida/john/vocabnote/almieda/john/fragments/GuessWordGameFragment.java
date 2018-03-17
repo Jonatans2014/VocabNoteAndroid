@@ -1,28 +1,22 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import almeida.john.vocabnote.Api;
 import almeida.john.vocabnote.R;
@@ -49,6 +43,7 @@ public class GuessWordGameFragment extends Fragment {
     public RecyclerView recyclerView;
     String[] ClassList ;
     String[] WordList;
+    String[] splitWord;
 
     ArrayList <String> getThreeWords = new ArrayList<>();
     TextView ChosenWord, choice1, choice2, choice3;
@@ -61,11 +56,10 @@ public class GuessWordGameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-                R.layout.recycler_view, container, false);
-        GuessWordGameFragment.ContentAdapter adapter = new GuessWordGameFragment.ContentAdapter(recyclerView.getContext());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
+
+
+
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
         // Set padding for Tiles
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.WordGamePadding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
@@ -193,7 +187,7 @@ public class GuessWordGameFragment extends Fragment {
     {
 
         String WordRchosen;
-        String[] splitWord;
+
 
 
         int min = 0;
@@ -221,12 +215,22 @@ public class GuessWordGameFragment extends Fragment {
 
         for(int i = 0; i <splitWord.length; i++)
         {
-            System.out.println("Word Split" + splitWord[i]);
+            System.out.println("Word Split  " + splitWord[i]);
         }
 
 
 
+
+
+        GuessWordGameFragment.ContentAdapter adapter = new GuessWordGameFragment.ContentAdapter(splitWord);
+        recyclerView.setAdapter(adapter);
+
     }
+
+
+
+
+
 
 
 
@@ -235,72 +239,87 @@ public class GuessWordGameFragment extends Fragment {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public TextView name;
-        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
+        public TextView description;
 
-            // this code to be used to connect the fragments
+        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_guess_word_game, parent, false));
-            picture = (ImageView) itemView.findViewById(R.id.tile_picture);
-            name = (TextView) itemView.findViewById(R.id.tile_title);
+
+
+            description = (TextView) itemView.findViewById(R.id.letter);
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Context context = v.getContext();
-//                    Intent intent = new Intent(context, DetailActivity.class);
-//                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
-//                    context.startActivity(intent);
+                    // Context context = v.getContext();
+                    //Intent intent = new Intent(context, WordFragment.class);
+                    //intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    //context.startActivity(intent);
                 }
             });
+
+
+
+
         }
     }
 
     /**
      * Adapter to display recycler view.
      */
-    /**
-     * Adapter to display recycler view.
-     */
-    public  class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        // Set numbers of Tiles in RecyclerView.
-        private static final int LENGTH = 18;
-//
-//        private final String[] mPlaces;
-//        private final Drawable[] mPlacePictures;
-        public ContentAdapter(Context context) {
-//            Resources resources = context.getResources();
-//            mPlaces = resources.getStringArray(R.array.places);
-//            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-//            mPlacePictures = new Drawable[a.length()];
-//            for (int i = 0; i < mPlacePictures.length; i++) {
-//                mPlacePictures[i] = a.getDrawable(i);
-//            }
-//            a.recycle();
+    public class ContentAdapter extends RecyclerView.Adapter<GuessWordGameFragment.ViewHolder> {
+        // Set numbers of List in RecyclerView.
+
+        private  String[] Classifications;
+
+
+
+
+        public  List<Classification> senddata =  new ArrayList<>();
+
+        public ContentAdapter(String[] getdata) {
+
+            this.Classifications = getdata;
+
+
+        }
+
+
+
+
+
+        @Override
+        public GuessWordGameFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new GuessWordGameFragment.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+
+
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
-        }
+        public void onBindViewHolder(GuessWordGameFragment.ViewHolder holder, int position) {
 
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+            final String selectedCategory = Classifications[position % Classifications.length];
 
 
-//
-//            final int selectedCategory = position % mPlacePictures.length;
-//
-//
-//
-//            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
-//            holder.name.setText(mPlaces[position % mPlaces.length]);
 
+            holder.description.setText(Classifications[position % Classifications.length]);
 
+            holder.description.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
         }
+
+
+
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return Classifications.length;
         }
     }
 }
