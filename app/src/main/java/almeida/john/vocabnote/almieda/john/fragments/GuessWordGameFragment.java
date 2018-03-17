@@ -36,8 +36,9 @@ public class GuessWordGameFragment extends Fragment {
     public List<Classification> UserClass = new ArrayList<>();
     public  List<Classification> getdata =  new ArrayList<>();
     public  List<WordsList> getWordList = new ArrayList<>();
+    public  LinkedList<String> getSplit =   new LinkedList<String>();
 
-    public LinkedList<String> allWord =  new LinkedList<String>();
+    public LinkedList<String> allWord =    new LinkedList<String>();
 
 
     public RecyclerView recyclerView;
@@ -62,7 +63,7 @@ public class GuessWordGameFragment extends Fragment {
         recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
         // Set padding for Tiles
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.WordGamePadding);
-        recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
+
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
 
@@ -216,13 +217,17 @@ public class GuessWordGameFragment extends Fragment {
         for(int i = 0; i <splitWord.length; i++)
         {
             System.out.println("Word Split  " + splitWord[i]);
+
+            getSplit.addFirst(splitWord[i]);
         }
 
 
 
+        Collections.shuffle(getSplit);
 
 
-        GuessWordGameFragment.ContentAdapter adapter = new GuessWordGameFragment.ContentAdapter(splitWord);
+
+        GuessWordGameFragment.ContentAdapter adapter = new GuessWordGameFragment.ContentAdapter(getSplit);
         recyclerView.setAdapter(adapter);
 
     }
@@ -270,14 +275,14 @@ public class GuessWordGameFragment extends Fragment {
     public class ContentAdapter extends RecyclerView.Adapter<GuessWordGameFragment.ViewHolder> {
         // Set numbers of List in RecyclerView.
 
-        private  String[] Classifications;
+        private  LinkedList<String> Classifications;
 
 
 
 
         public  List<Classification> senddata =  new ArrayList<>();
 
-        public ContentAdapter(String[] getdata) {
+        public ContentAdapter(LinkedList<String> getdata) {
 
             this.Classifications = getdata;
 
@@ -296,13 +301,13 @@ public class GuessWordGameFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(GuessWordGameFragment.ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, int position) {
 
-            final String selectedCategory = Classifications[position % Classifications.length];
+            final String selectedCategory = Classifications.get(position % Classifications.size());
 
 
 
-            holder.description.setText(Classifications[position % Classifications.length]);
+            holder.description.setText(Classifications.get(position % Classifications.size()));
 
             holder.description.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -319,7 +324,7 @@ public class GuessWordGameFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return Classifications.length;
+            return Classifications.size();
         }
     }
 }
