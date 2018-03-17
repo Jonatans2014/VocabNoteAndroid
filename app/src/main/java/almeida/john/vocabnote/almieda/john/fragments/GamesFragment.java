@@ -68,7 +68,7 @@ public class GamesFragment extends Fragment {
      */
     public  class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Tiles in RecyclerView.
-        private static final int LENGTH = 3;
+        private static final int LENGTH = 2;
 //
 //      //  private final String[] mPlaces;
 //        //private final Drawable[] mPlacePictures;
@@ -97,24 +97,19 @@ public class GamesFragment extends Fragment {
 
 
 
+
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
 
                     System.out.println(position);
-                    if(position == 0)
-                    {
-                        Intent intent = new Intent(getContext(), SynonymGameActivity.class);
-                        startActivity(intent);
-                    }
-                    else if(position == 1)
-                    {
 
-                    }else
-                    {
+                    Intent intent = new Intent(getContext(), SynonymGameActivity.class);
+                    intent.putExtra("position", position);
+                    startActivity(intent);
 
-                    }
 
 
                 }

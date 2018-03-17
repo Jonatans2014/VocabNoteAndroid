@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/VocabNote.iml" filepath="$PROJECT_DIR$/VocabNote.iml" />
       <module fileurl="file://C:\Users\John\Desktop\VocabNoteAndroid-master\VocabNote.iml" filepath="C:\Users\John\Desktop\VocabNoteAndroid-master\VocabNote.iml" />
-      <module fileurl="file://$PROJECT_DIR$/VocabNoteAndroid-master.iml" filepath="$PROJECT_DIR$/VocabNoteAndroid-master.iml" />
+      <module fileurl="file://C:\AndroidFyp\VocabNote\VocabNoteAndroid-master.iml" filepath="C:\AndroidFyp\VocabNote\VocabNoteAndroid-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

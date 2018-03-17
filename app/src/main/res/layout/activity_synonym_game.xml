@@ -20,6 +20,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_synonym_game" />
+    <include
+        android:id="@+id/container"
+        layout="@layout/content_synonym_game" />
 
 </android.support.design.widget.CoordinatorLayout>

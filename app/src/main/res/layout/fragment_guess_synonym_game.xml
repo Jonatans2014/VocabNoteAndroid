@@ -1,0 +1,64 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="almeida.john.vocabnote.almieda.john.fragments.GuessSynonymGameFragment">
+
+
+    <Button
+        android:id="@+id/word3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/button"
+
+
+        android:text="@string/play_caps"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/mainWord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="135dp"
+        android:layout_marginTop="150dp"
+
+        android:background="@drawable/button"
+        android:text="@string/play_caps"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+
+        />
+
+    <Button
+        android:id="@+id/word2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="250dp"
+
+        android:background="@drawable/button"
+        android:text="@string/play_caps"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+
+
+        />
+
+    <Button
+        android:id="@+id/word1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="250dp"
+
+        android:background="@drawable/button"
+        android:text="@string/play_caps"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+</FrameLayout>
