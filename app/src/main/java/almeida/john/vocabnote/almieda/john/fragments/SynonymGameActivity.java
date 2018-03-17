@@ -72,6 +72,9 @@ public class SynonymGameActivity extends AppCompatActivity  {
         }else
         {
 
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container,new GuessWordGameFragment()).commit();
         }
 
     }

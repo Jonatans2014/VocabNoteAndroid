@@ -5,5 +5,9 @@
     tools:context="almeida.john.vocabnote.almieda.john.fragments.GuessWordGameFragment">
 
 
-
+    <Button xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/letter"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        tools:text="A"></Button>
 </FrameLayout>
