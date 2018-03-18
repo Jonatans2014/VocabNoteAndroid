@@ -59,8 +59,9 @@ public class GuessWordGameFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
+        View drawer = inflater.inflate(R.layout.gamerecyclerview, container, false);
 
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
+        recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
         // Set padding for Tiles
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.WordGamePadding);
 
@@ -68,7 +69,7 @@ public class GuessWordGameFragment extends Fragment {
 
 
         bindCategoryOrWordsToRecyclerView();
-        return recyclerView;
+        return drawer;
     }
 
 
