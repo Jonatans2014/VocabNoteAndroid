@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,14 +38,16 @@ public class GuessWordGameFragment extends Fragment {
     public  List<Classification> getdata =  new ArrayList<>();
     public  List<WordsList> getWordList = new ArrayList<>();
     public  LinkedList<String> getSplit =   new LinkedList<String>();
-
+    public LinkedList<String> checkSplit = new LinkedList<>();
     public LinkedList<String> allWord =    new LinkedList<String>();
 
 
     public RecyclerView recyclerView;
+    public RecyclerView recyclerView2;
     String[] ClassList ;
     String[] WordList;
     String[] splitWord;
+    String dash;
 
     ArrayList <String> getThreeWords = new ArrayList<>();
     TextView ChosenWord, choice1, choice2, choice3;
@@ -61,7 +64,13 @@ public class GuessWordGameFragment extends Fragment {
 
         View drawer = inflater.inflate(R.layout.gamerecyclerview, container, false);
 
+        dash = "";
+        ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
+
+
+
+
         // Set padding for Tiles
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.WordGamePadding);
 
@@ -163,12 +172,6 @@ public class GuessWordGameFragment extends Fragment {
 
                 getRandomWordFromList();
 
-
-
-
-
-
-
             }
 
             @Override
@@ -190,11 +193,8 @@ public class GuessWordGameFragment extends Fragment {
 
         String WordRchosen;
 
-
-
         int min = 0;
         int max = allWord.size();
-
 
 //
 //        ArrayList<Integer> number = new ArrayList<Integer>();
@@ -203,13 +203,8 @@ public class GuessWordGameFragment extends Fragment {
         Collections.shuffle(allWord);
 
         System.out.println("Shuffling" + allWord);
-
-
         //get a word
         WordRchosen = allWord.getFirst();
-
-
-
         // word split
         splitWord = WordRchosen.split("(?!^)");
 
@@ -220,15 +215,20 @@ public class GuessWordGameFragment extends Fragment {
             System.out.println("Word Split  " + splitWord[i]);
 
             getSplit.addFirst(splitWord[i]);
+
+            checkSplit.addFirst(splitWord[i]);
         }
 
+
+        for(int i = 0; i < splitWord.length; i++) {
+            ChosenWord.setText(dash);
+        }
 
 
         Collections.shuffle(getSplit);
 
-
-
         GuessWordGameFragment.ContentAdapter adapter = new GuessWordGameFragment.ContentAdapter(getSplit);
+
         recyclerView.setAdapter(adapter);
 
     }
@@ -254,21 +254,20 @@ public class GuessWordGameFragment extends Fragment {
             description = (TextView) itemView.findViewById(R.id.letter);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Context context = v.getContext();
-                    //Intent intent = new Intent(context, WordFragment.class);
-                    //intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
-                    //context.startActivity(intent);
-                }
-            });
-
-
-
 
         }
     }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Adapter to display recycler view.
@@ -310,10 +309,47 @@ public class GuessWordGameFragment extends Fragment {
 
             holder.description.setText(Classifications.get(position % Classifications.size()));
 
+
+
             holder.description.setOnClickListener(new View.OnClickListener() {
+
+                boolean firstClick = true;
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
+                  // Toast.makeText(getContext(),checkSplit.getLast(),Toast.LENGTH_SHORT).show();
+
+//                    if(firstClick == true)
+//                    {
+//                        ChosenWord.setText("-");
+//                        firstClick = false;
+//                    }
+                    if(selectedCategory.equals(checkSplit.getLast()))
+                    {
+                      //  Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
+
+
+
+                        ChosenWord.append(checkSplit.getLast());
+                        checkSplit.removeLast();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"Incorrect letter",Toast.LENGTH_SHORT).show();
+                    }
+                    if(checkSplit.size() == 0)
+                    {
+                        Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
+
+
+                        getRandomWordFromList();
+
+                       System.out.println("hey hey heyy finished");
+                    }
+
+
+
+
                 }
             });
 
