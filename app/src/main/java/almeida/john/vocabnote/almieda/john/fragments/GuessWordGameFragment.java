@@ -301,7 +301,7 @@ public class GuessWordGameFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
 
             final String selectedCategory = Classifications.get(position % Classifications.size());
 
@@ -342,6 +342,7 @@ public class GuessWordGameFragment extends Fragment {
                         Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
 
 
+                        Classifications.clear();
                         getRandomWordFromList();
 
                        System.out.println("hey hey heyy finished");

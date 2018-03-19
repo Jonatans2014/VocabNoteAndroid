@@ -130,18 +130,20 @@ public class DicActivity extends AppCompatActivity {
                                 JSONObject d = s.getJSONObject(h);
                                 JSONArray de = d.getJSONArray("definitions");
 
-                                System.out.println(de);
+                                System.out.println("lenght of Dict" + de.length());
 
 
+                                JSONArray examples = d.getJSONArray("examples");
 
-                                   // JSONArray examples = d.getJSONArray("examples");
 
                                     def = de.getString(ListSize);
-                                    //example = examples.getString(ListSize);
+
+
+                                    example = examples.getString(ListSize);
 
 
 
-                                DicInfo dicInfo = new DicInfo(def,"","");
+                                DicInfo dicInfo = new DicInfo(def,example,"");
 
 
                                 getDicdata.add(dicInfo);
@@ -160,12 +162,12 @@ public class DicActivity extends AppCompatActivity {
 
                 for(int i =0; i < getDicdata.size(); i++)
                 {
-                    System.out.println(getDicdata.get(i).getDefinitions());
-                    System.out.println(getDicdata.get(0).getExample());
+                    System.out.println("this is all def"+getDicdata.get(i).getDefinitions());
+                    System.out.println(getDicdata.get(i).getExample());
 
 
-                    Def.setText(getDicdata.get(0).getDefinitions());
-                    Example.setText(getDicdata.get(i).getExample());
+                    Def.append(getDicdata.get(i).getDefinitions());
+                    ///Example.append(getDicdata.get(i).getExample());
                 }
 
 
