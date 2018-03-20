@@ -138,6 +138,7 @@ public class SynonymGamePlayActivity extends AppCompatActivity  implements View.
 
                         ClassList[i] = UserClass.get(i).getClassification();
                         getWordList  = UserClass.get(i).getWord();
+
                     for(int j = 0; j <getWordList.size(); j++)
                     {
 //                        WordList[j] = getWordList.get(j).getWord();

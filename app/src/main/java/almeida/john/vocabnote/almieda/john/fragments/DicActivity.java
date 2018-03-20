@@ -33,6 +33,11 @@ public class DicActivity extends AppCompatActivity {
     TextView Def;
     TextView Example;
 
+    String def = null;
+
+    String example = null;
+
+
     ImageView Pronunciation;
     String DictWord;
 
@@ -206,10 +211,6 @@ public class DicActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            String def = null;
-
-            String example = null;
-
 
 
 
@@ -235,23 +236,15 @@ public class DicActivity extends AppCompatActivity {
                             for(int h = 0; h < s.length(); h++)
                             {
                                 JSONObject d = s.getJSONObject(h);
-                                JSONArray de = d.getJSONArray("definitions");
+                                example =  d.optString("examples");
 
-                                System.out.println("lenght of Dict" + de.length());
+                                def = d.optString("definitions");
 
-                                JSONArray examples = d.getJSONArray("examples");
+                                //get rid of none words and the name text:
+                                String replaceNoneWordsExample =example.replaceAll("[^\\w-]+", " ");
+                                String replaceNoneWordsDefinition =def.replaceAll("[^\\w-]+", " ");
 
-
-
-
-
-
-
-                                example = examples.getString(ListSize);
-
-                                def = de.getString(ListSize);
-
-                                DicInfo dicInfo = new DicInfo(def,example,"");
+                                DicInfo dicInfo = new DicInfo(replaceNoneWordsDefinition,replaceNoneWordsExample,"");
                                 getDicdata.add(dicInfo);
 
                             }
