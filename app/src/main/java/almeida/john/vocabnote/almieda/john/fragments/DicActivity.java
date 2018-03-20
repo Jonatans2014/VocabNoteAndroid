@@ -1,6 +1,7 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,7 +39,8 @@ public class DicActivity extends AppCompatActivity {
 
     String example = null;
 
-
+    String lexicalCategory;
+    String getDialect;
     ImageView Pronunciation;
     String DictWord;
 
@@ -101,6 +104,7 @@ public class DicActivity extends AppCompatActivity {
         public TextView example;
         public TextView description;
         public TextView word;
+        public ImageView pronunciation;
 
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.dictcardlist, parent, false));
@@ -110,6 +114,8 @@ public class DicActivity extends AppCompatActivity {
             example  = (TextView) itemView.findViewById(R.id.examp);
 
             word = (TextView) itemView.findViewById(R.id.word);
+
+            pronunciation = (ImageView) itemView.findViewById(R.id.Pronunciation);
 
 
         }
@@ -143,18 +149,22 @@ public class DicActivity extends AppCompatActivity {
             holder.description.setText( Classifications.get(position % Classifications.size()).getDefinitions());
             holder.example.setText( Classifications.get(position % Classifications.size()).getExample());
             holder.word.setText((position +1)+"." +DictWord);
-            holder.description.setOnClickListener(new View.OnClickListener() {
+
+            holder.pronunciation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Toast.makeText(getApplication(),selectedCategory,Toast.LENGTH_SHORT).show();
-//
-//                    String category = selectedCategory;
-//                    //Fetch lists of users, classifications and Words.
-//                    Intent fbdata = new Intent(getApplication(), WordActivity.class);
-//
-//                    fbdata.putExtra("Category", category);
-//                    // getProfileInformationFacebook(loginResult.getAccessToken());
-//                    startActivity(fbdata);
+                   Toast.makeText(getApplication(),"vai dar pt",Toast.LENGTH_SHORT).show();
+
+                    MediaPlayer mp = new MediaPlayer();
+                    try {
+                        mp.setDataSource(Classifications.get(ListSize).getPronuncation());
+                        mp.prepare();
+                        mp.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
             });
         }
@@ -226,9 +236,30 @@ public class DicActivity extends AppCompatActivity {
                 for(int i = 0; i<results.length(); i++){
                     JSONObject lentries = results.getJSONObject(i);
                     JSONArray la = lentries.getJSONArray("lexicalEntries");
+
+
+
+
+
+
                     for(int j=0;j<la.length();j++){
                         JSONObject entries = la.getJSONObject(j);
                         JSONArray e = entries.getJSONArray("entries");
+
+                        JSONArray pronunciation= entries.getJSONArray("pronunciations");
+
+                        for(int p =0; p<pronunciation.length(); p++)
+                        {
+                            JSONObject pronunObj = pronunciation.getJSONObject(p);
+
+                             getDialect = pronunObj.optString("audioFile");
+
+                           // System.out.println("this is file "+getDialect);
+                        }
+
+
+                         lexicalCategory =  entries.optString("lexicalCategory");
+
                         for(int k=0;k<e.length();k++){
                             JSONObject senses = e.getJSONObject(k);
                             JSONArray s = senses.getJSONArray("senses");
@@ -244,13 +275,12 @@ public class DicActivity extends AppCompatActivity {
                                 String replaceNoneWordsExample =example.replaceAll("[^\\w-]+", " ");
                                 String replaceNoneWordsDefinition =def.replaceAll("[^\\w-]+", " ");
 
-                                DicInfo dicInfo = new DicInfo(replaceNoneWordsDefinition,replaceNoneWordsExample,"");
+                                DicInfo dicInfo = new DicInfo(replaceNoneWordsDefinition,replaceNoneWordsExample,getDialect);
                                 getDicdata.add(dicInfo);
 
+                               // lexicalCategory
+
                             }
-
-
-
 
 
                         }
@@ -269,18 +299,10 @@ public class DicActivity extends AppCompatActivity {
 //                    Example.append(getDicdata.get(i).getExample());
 //                }
 
-
-
                 DicActivity.ContentAdapter adapter = new DicActivity.ContentAdapter(getDicdata);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplication()));
-
-
-
-
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
