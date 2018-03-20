@@ -1,11 +1,17 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,18 +28,21 @@ import javax.net.ssl.HttpsURLConnection;
 import almeida.john.vocabnote.R;
 
 public class DicActivity extends AppCompatActivity {
-
-
-
-
-
-    public RecyclerView recyclerView;
     public List<DicInfo> getDicdata =  new ArrayList<>();
     int ListSize = 0;
     TextView Def;
     TextView Example;
+
     ImageView Pronunciation;
     String DictWord;
+
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    public  RecyclerView recyclerView;
+    public  String[] ClassList;
+
 
 
     @Override
@@ -48,9 +57,107 @@ public class DicActivity extends AppCompatActivity {
         DictWord = getIntent().getStringExtra("Dict");
         System.out.println(DictWord);
 
+        recyclerView =
+                (RecyclerView) findViewById(R.id.my_recycler_view);
+
+
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        ClassList = new String[2];
+
+
+        ClassList[0] = "hey";
+        ClassList[1] = "hey";
+
+       // word.setText("hehey");
+
+
+
+
+
         new CallbackTask().execute(dictionaryEntries());
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+
+        // use a linear layout manager
+
+//
+//        // specify an adapter (see also next example)
+//        mAdapter = new MyAdapter(myDataset);
+//        mRecyclerView.setAdapter(mAdapter);
     }
 
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView picture;
+        public TextView example;
+        public TextView description;
+        public TextView word;
+
+        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.dictcardlist, parent, false));
+
+
+            description = (TextView) itemView.findViewById(R.id.def);
+            example  = (TextView) itemView.findViewById(R.id.examp);
+
+            word = (TextView) itemView.findViewById(R.id.word);
+
+
+        }
+    }
+
+    /**
+     * Adapter to display recycler view.
+     */
+    public class ContentAdapter extends RecyclerView.Adapter<DicActivity.ViewHolder> {
+        // Set numbers of List in RecyclerView.
+
+        private  List<DicInfo>  Classifications;
+
+        public  List<Classification> senddata =  new ArrayList<>();
+
+        public ContentAdapter(List<DicInfo> getdata) {
+
+            this.Classifications = getdata;
+        }
+
+        @Override
+        public DicActivity.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new DicActivity.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+        }
+
+        @Override
+        public void onBindViewHolder(DicActivity.ViewHolder holder, int position) {
+
+            final String selectedCategory = Classifications.get(position % Classifications.size()).getDefinitions();
+
+            holder.description.setText( Classifications.get(position % Classifications.size()).getDefinitions());
+            holder.example.setText( Classifications.get(position % Classifications.size()).getExample());
+            holder.word.setText((position +1)+"." +DictWord);
+            holder.description.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    Toast.makeText(getApplication(),selectedCategory,Toast.LENGTH_SHORT).show();
+//
+//                    String category = selectedCategory;
+//                    //Fetch lists of users, classifications and Words.
+//                    Intent fbdata = new Intent(getApplication(), WordActivity.class);
+//
+//                    fbdata.putExtra("Category", category);
+//                    // getProfileInformationFacebook(loginResult.getAccessToken());
+//                    startActivity(fbdata);
+                }
+            });
+        }
+        @Override
+        public int getItemCount() {
+            return Classifications.size();
+        }
+    }
 
 
 
@@ -132,20 +239,19 @@ public class DicActivity extends AppCompatActivity {
 
                                 System.out.println("lenght of Dict" + de.length());
 
-
                                 JSONArray examples = d.getJSONArray("examples");
 
 
-                                    def = de.getString(ListSize);
 
 
-                                    example = examples.getString(ListSize);
 
 
+
+                                example = examples.getString(ListSize);
+
+                                def = de.getString(ListSize);
 
                                 DicInfo dicInfo = new DicInfo(def,example,"");
-
-
                                 getDicdata.add(dicInfo);
 
                             }
@@ -160,15 +266,24 @@ public class DicActivity extends AppCompatActivity {
                     }
                 }
 
-                for(int i =0; i < getDicdata.size(); i++)
-                {
-                    System.out.println("this is all def"+getDicdata.get(i).getDefinitions());
-                    System.out.println(getDicdata.get(i).getExample());
+//                for(int i =0; i < getDicdata.size(); i++)
+//                {
+//                    System.out.println("this is all def"+getDicdata.get(i).getDefinitions());
+//                    System.out.println(getDicdata.get(i).getExample());
+//
+//
+//                    Def.append(getDicdata.get(i).getDefinitions());
+//                    Example.append(getDicdata.get(i).getExample());
+//                }
 
 
-                    Def.append(getDicdata.get(i).getDefinitions());
-                    ///Example.append(getDicdata.get(i).getExample());
-                }
+
+                DicActivity.ContentAdapter adapter = new DicActivity.ContentAdapter(getDicdata);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplication()));
+
+
 
 
 

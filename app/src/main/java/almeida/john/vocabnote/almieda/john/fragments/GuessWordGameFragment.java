@@ -43,7 +43,7 @@ public class GuessWordGameFragment extends Fragment {
 
 
     public RecyclerView recyclerView;
-    public RecyclerView recyclerView2;
+
     String[] ClassList ;
     String[] WordList;
     String[] splitWord;
@@ -66,6 +66,7 @@ public class GuessWordGameFragment extends Fragment {
 
         dash = "";
         ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
+
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
 
 
@@ -235,13 +236,6 @@ public class GuessWordGameFragment extends Fragment {
 
 
 
-
-
-
-
-
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public TextView name;
@@ -258,18 +252,7 @@ public class GuessWordGameFragment extends Fragment {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    /**
+   /**
      * Adapter to display recycler view.
      */
     public class ContentAdapter extends RecyclerView.Adapter<GuessWordGameFragment.ViewHolder> {
