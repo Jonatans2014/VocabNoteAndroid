@@ -9,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import almeida.john.vocabnote.Api;
@@ -36,6 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CardListVocabFragment extends Fragment {
 
     public List<Classification> UserClass = new ArrayList<>();
+    public LinkedList<String> allClass =  new LinkedList<String>();
 
     public  List<Classification> getdata =  new ArrayList<>();
     public  List<WordsList> getWordList = new ArrayList<>();
@@ -82,11 +85,6 @@ public class CardListVocabFragment extends Fragment {
             @Override
             public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
 
-
-
-
-
-
                 //List of objects
                 List<UserInfo> users =  response.body();
 
@@ -116,6 +114,7 @@ public class CardListVocabFragment extends Fragment {
                 for (int i = 0; i < UserClass.size(); i++) {
 
                     ClassList[i] = UserClass.get(i).getClassification();
+                    allClass.addFirst(UserClass.get(i).getClassification());
 
 
                 }
@@ -124,12 +123,17 @@ public class CardListVocabFragment extends Fragment {
                     WordList[i] = getWordList.get(i).getWord();
                 }
 
+                for(int i = 0; i <getWordList.size(); i++)
+                {
+//                        WordList[j] = getWordList.get(j).getWord();
+//
+//                        System.out.println("Words"+ WordList[j] );
 
 
+                }
 
 
-
-                ContentAdapter adapter = new ContentAdapter(ClassList);
+                ContentAdapter adapter = new ContentAdapter(allClass);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -177,14 +181,15 @@ public class CardListVocabFragment extends Fragment {
     /**
      * Adapter to display recycler view.
      */
-    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements View.OnClickListener {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 18;
-        private  String[] Classifications;
+        private  LinkedList<String> Classifications;
+         String selectedCategory;
 
         public  List<Classification> senddata =  new ArrayList<>();
 
-        public ContentAdapter(String[] getdata) {
+        public ContentAdapter(LinkedList<String> getdata) {
 
             this.Classifications = getdata;
         }
@@ -195,43 +200,39 @@ public class CardListVocabFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
 
-          final String selectedCategory = Classifications[position % Classifications.length];
-
-
-
-            holder.description.setText(Classifications[position % Classifications.length]);
-
-            holder.description.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
-
-                    String category = selectedCategory;
-                    //Fetch lists of users, classifications and Words.
-                    Intent fbdata = new Intent(getActivity(), WordActivity.class);
-
-                    fbdata.putExtra("Category", category);
-                    // getProfileInformationFacebook(loginResult.getAccessToken());
-                    startActivity(fbdata);
+          selectedCategory = Classifications.get(position % Classifications.size());
 
 
 
-                }
-            });
+            holder.description.setText(Classifications.get(position % Classifications.size()));
 
+            //onLongClick
+            holder.description.setOnClickListener(this);
 
         }
-
-
-
-
         @Override
         public int getItemCount() {
             return LENGTH;
         }
+
+        @Override
+        public void onClick(View view) {
+
+
+            Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
+
+            String category = selectedCategory;
+            //Fetch lists of users, classifications and Words.
+            Intent fbdata = new Intent(getActivity(), WordActivity.class);
+
+            fbdata.putExtra("Category", category);
+            // getProfileInformationFacebook(loginResult.getAccessToken());
+            startActivity(fbdata);
+
+        }
+
+
     }
-
-
 }

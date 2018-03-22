@@ -45,11 +45,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     public List<Classification> UserClass = new ArrayList<>();
     public  List<Classification> getdata =  new ArrayList<>();
     public  List<WordsList> getWordList = new ArrayList<>();
-
-    public  List<String> Tryhard = new ArrayList<>();
     public LinkedList<String> allWord =  new LinkedList<String>();
-
-    public LinkedList<List<WordsList>> lK = new LinkedList<List<WordsList>>();
     public RecyclerView recyclerView;
     String[] ClassList ;
     String[] WordList;
@@ -58,12 +54,16 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     int SynonymObjectSize = 1;
     ArrayList <String> getThreeWords = new ArrayList<>();
     TextView ChosenWord, choice1, choice2, choice3;
+    GamesAddon gamesAddon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)  {
         View view  =  inflater.inflate(R.layout.fragment_guess_synonym_game, container, false);
 
+
+        //Instance of GamesAddon
+         gamesAddon = new GamesAddon(3,0,0,0);
 
 
 
@@ -420,10 +420,17 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
                     getThreeWords.clear();
                     getRandomWordFromList();
+
+                    gamesAddon.addPoints();
+
+                    System.out.println("This is points" + gamesAddon.getPoints());
                 }
                 else
                 {
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
+
+                    gamesAddon.removeLife();
+                    System.out.println("this is life dog  " + gamesAddon.getLife());
                 }
 
                 break;

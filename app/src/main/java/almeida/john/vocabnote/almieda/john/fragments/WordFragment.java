@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import almeida.john.vocabnote.Api;
@@ -31,6 +32,8 @@ public class WordFragment extends Fragment {
     public  List<Classification> getdata =  new ArrayList<>();
     public  List<WordsList> getWordList = new ArrayList<>();
     public RecyclerView recyclerView;
+    public LinkedList<String> allWord =  new LinkedList<String>();
+
     String[] ClassList ;
     String[] WordList;
 
@@ -120,8 +123,32 @@ public class WordFragment extends Fragment {
 
 
 
+                for (int i = 0; i < UserClass.size(); i++) {
 
-                WordFragment.ContentAdapter adapter = new WordFragment.ContentAdapter(WordList);
+                    //  ClassList[i] = UserClass.get(i).getClassification();
+
+
+                    ClassList[i] = UserClass.get(i).getClassification();
+                    getWordList  = UserClass.get(i).getWord();
+                    for(int j = 0; j <getWordList.size(); j++)
+                    {
+//                        WordList[j] = getWordList.get(j).getWord();
+//
+//                        System.out.println("Words"+ WordList[j] );
+                        allWord.addFirst(getWordList.get(j).getWord());
+
+                    }
+
+                    //System.out.println( "this is userclass"+UserClass.get(i).getWord().toString());
+
+                }
+
+
+
+
+
+
+                WordFragment.ContentAdapter adapter = new WordFragment.ContentAdapter(allWord);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -182,11 +209,11 @@ public class WordFragment extends Fragment {
     public class ContentAdapter extends RecyclerView.Adapter<WordFragment.ViewHolder> {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 18;
-        private  String[] Classifications;
+        private  LinkedList<String> Classifications;
 
         public  List<Classification> senddata =  new ArrayList<>();
 
-        public ContentAdapter(String[] getdata) {
+        public ContentAdapter(LinkedList<String> getdata) {
 
             this.Classifications = getdata;
         }
@@ -199,11 +226,11 @@ public class WordFragment extends Fragment {
         @Override
         public void onBindViewHolder(WordFragment.ViewHolder holder, int position) {
 
-            final String selectedCategory = Classifications[position % Classifications.length];
+            final String selectedCategory = Classifications.get(position % Classifications.size());
 
 
 
-            holder.description.setText(Classifications[position % Classifications.length]);
+            holder.description.setText(Classifications.get(position % Classifications.size()));
 
             holder.description.setOnClickListener(new View.OnClickListener() {
                 @Override

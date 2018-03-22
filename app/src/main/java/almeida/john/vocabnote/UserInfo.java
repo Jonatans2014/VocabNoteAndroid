@@ -17,7 +17,7 @@ public class UserInfo {
 
     private String User_Auth_ID;
     private String User_Name;
-    private String User_Picture;
+
    // private String WordList;
 
     private List<Classification> Classification;
@@ -27,7 +27,7 @@ public class UserInfo {
 
         this.User_Auth_ID = User_Auth_ID;
         this.User_Name = User_Name;
-        this.User_Picture = User_Picture;
+
         this.Classification = Classification;
 
     }
@@ -40,9 +40,6 @@ public class UserInfo {
         return User_Name;
     }
 
-    public String getUser_Picture() {
-        return User_Picture;
-    }
 
     public List<almeida.john.vocabnote.almieda.john.fragments.Classification> getClassification() {
         return Classification;
