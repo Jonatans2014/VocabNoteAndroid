@@ -31,7 +31,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class GuessWordGameFragment extends Fragment {
+public class GuessWordGameFragment extends Fragment implements  View.OnClickListener{
 
 
 
@@ -94,20 +94,36 @@ public class GuessWordGameFragment extends Fragment {
          lifeRecyclerV.setHasFixedSize(true);
 //        // Set padding for Tiles
          lifeRecyclerV.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
 
 
-
-
-
-          recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
+        helpIcon.setOnClickListener(this);
 
         bindCategoryOrWordsToRecyclerView();
         return drawer;
     }
 
+    @Override
+    public void onClick(View view) {
 
+
+
+        switch (view.getId()) {
+            case R.id.helpV: {
+
+
+                //Fetch lists of users, classifications and Words.
+                Intent fbdata = new Intent(getContext(), DicActivity.class);
+                // getProfileInformationFacebook(loginResult.getAccessToken());
+
+                Dict = allWord.getFirst();
+                fbdata.putExtra("Dict", Dict);
+                startActivity(fbdata);
+
+            }
+        }
+    }
 
 
     public static class ViewHolderLife extends RecyclerView.ViewHolder {
@@ -400,25 +416,7 @@ public class GuessWordGameFragment extends Fragment {
                 boolean firstClick = true;
                 @Override
                 public void onClick(View view) {
-                  // Toast.makeText(getContext(),checkSplit.getLast(),Toast.LENGTH_SHORT).show();
 
-
-                    switch (view.getId()) {
-                        case R.id.helpV: {
-
-
-
-
-                            //Fetch lists of users, classifications and Words.
-                            Intent fbdata = new Intent(getContext(), DicActivity.class);
-                            // getProfileInformationFacebook(loginResult.getAccessToken());
-
-                            fbdata.putExtra("Dict", allWord.getFirst());
-                            startActivity(fbdata);
-                            break;
-                        }
-                        case R.id.letter:
-                        {
                             if(firstClick == true)
                             {
                                 // ChosenWord.setText("-");
@@ -450,11 +448,7 @@ public class GuessWordGameFragment extends Fragment {
                             }
 
                         }
-                    }
-                }
             });
-
-
         }
 
 
