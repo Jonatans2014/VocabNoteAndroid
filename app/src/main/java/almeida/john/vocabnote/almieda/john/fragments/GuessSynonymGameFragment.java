@@ -1,15 +1,19 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,18 +47,26 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
     //Override
     public List<Classification> UserClass = new ArrayList<>();
-    public  List<Classification> getdata =  new ArrayList<>();
+
     public  List<WordsList> getWordList = new ArrayList<>();
     public LinkedList<String> allWord =  new LinkedList<String>();
-    public RecyclerView recyclerView;
+    public RecyclerView recyclerView,lifeRecyclerV;
     String[] ClassList ;
     String[] WordList;
     static int counter;
     String [] getSynonym;
+    int points;
+    GuessSynonymGameFragment.ContentAdapter adapter, lifeAdapter;
+
+
+    ImageView life1,life2,life3;
+
     int SynonymObjectSize = 1;
     ArrayList <String> getThreeWords = new ArrayList<>();
     TextView ChosenWord, choice1, choice2, choice3;
+    TextView pointstv;
     GamesAddon gamesAddon;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +79,30 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
 
 
+
+
         bindCategoryOrWordsToRecyclerView();
+
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.synoyngameRec);
+
+
+
+        pointstv = (TextView) view.findViewById(R.id.tvpoints);
+
+
+        adapter = new GuessSynonymGameFragment.ContentAdapter(recyclerView.getContext());
+
+
+
+
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        // Set padding for Tiles
+        int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
+        recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
 
 
@@ -90,6 +125,91 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
         return view;
 
     }
+
+
+
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView picture;
+        public TextView tvpoints;
+        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
+
+            // this code to be used to connect the fragments
+            super(inflater.inflate(R.layout.lifelayout, parent, false));
+            picture = (ImageView) itemView.findViewById(R.id.lifeImgV);
+            tvpoints = (TextView) itemView.findViewById(R.id.tvpoints);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Context context = v.getContext();
+//                    Intent intent = new Intent(context, DetailActivity.class);
+//                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+//                    context.startActivity(intent);
+                }
+            });
+        }
+    }
+
+    /**
+     * Adapter to display recycler view.
+     */
+    public  class ContentAdapter extends RecyclerView.Adapter<GuessSynonymGameFragment.ViewHolder> {
+        // Set numbers of Tiles in RecyclerView.
+        public  List<GamesAddon> getdata =  new ArrayList<>();
+
+        //
+//      //  private final String[] mPlaces;
+//        //private final Drawable[] mPlacePictures;
+        public ContentAdapter(Context context) {
+//            Resources resources = context.getResources();
+//            //mPlaces = resources.getStringArray(R.array.places);
+//            //TypedArray a = resources.obtainTypedArray(R.array.places_picture);
+//            mPlacePictures = new Drawable[a.length()];
+//            for (int i = 0; i < mPlacePictures.length; i++) {
+//                mPlacePictures[i] = a.getDrawable(i);
+//            }
+//            a.recycle();
+        }
+
+
+
+
+
+        @Override
+        public GuessSynonymGameFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new GuessSynonymGameFragment.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+        }
+
+        @Override
+        public void onBindViewHolder(final GuessSynonymGameFragment.ViewHolder holder, final int position) {
+            int points = 0;
+
+
+        }
+
+        @Override
+        public int getItemCount(
+
+
+        ) {
+            return gamesAddon.getLife();
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -184,10 +304,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
 
     //find a randdom word from linked list and parse it to dictionary entries
-
-
-
-
     //get the synonym of a word
 
     public void getRandomWordFromList()
@@ -208,6 +324,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
         System.out.println("Shuffling" + allWord);
 
+        pointstv.setText((Integer.toString(points)));
 
 //        if(mainWord == otherword)
 //        {
@@ -342,11 +459,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 //                                    String [] getAtonym = replaceNoneWordsAnto.split(",");
 
                                     System.out.println("replaceW"+replaceNoneWords);
-
-
-
-
-
                                 }
                             }
                         }
@@ -379,8 +491,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                     choice2.setText(getThreeWords.get(1));
                     choice3.setText(getThreeWords.get(2));
 
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -394,21 +504,37 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     @Override
     public void onClick(View view) {
 
-
+        System.out.println("actualt points  " +points);
         switch (view.getId())
         {
             case R.id.word1:
             {
 
+
+                //might need refactoring
                 if(choice1.getText().equals(getSynonym[2]))
                 {
+                    points = gamesAddon.addPoints();
+
+
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
                     getThreeWords.clear();
                     getRandomWordFromList();
                 }
                 else
                 {
+                    if(gamesAddon.getLife() <=0)
+                    {
+                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
+                    }
+
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
+
+                    gamesAddon.removeLife();
+                    System.out.println("this is life dog  " + gamesAddon.getLife());
+                    recyclerView.setAdapter(adapter);
+
+
                 }
                 break;
             }
@@ -417,20 +543,27 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
                 if(choice2.getText().equals(getSynonym[2]))
                 {
+
+                    points = gamesAddon.addPoints();
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
                     getThreeWords.clear();
                     getRandomWordFromList();
 
                     gamesAddon.addPoints();
-
                     System.out.println("This is points" + gamesAddon.getPoints());
                 }
                 else
                 {
+                    if(gamesAddon.getLife() == 0)
+                    {
+                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
+                    }
+
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
 
                     gamesAddon.removeLife();
                     System.out.println("this is life dog  " + gamesAddon.getLife());
+                    recyclerView.setAdapter(adapter);
                 }
 
                 break;
@@ -438,7 +571,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
             case R.id.word3:
             {
 
-
+                points = gamesAddon.addPoints();
                 if(choice3.getText().equals(getSynonym[2]))
                 {
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
@@ -447,7 +580,22 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 }
                 else
                 {
+
+
+                    if(gamesAddon.getLife() <= 0)
+                    {
+                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
+                    }
+
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
+
+
+                    gamesAddon.removeLife();
+
+
+                    System.out.println("this is life  " + gamesAddon.getLife());
+
+                    recyclerView.setAdapter(adapter);
                 }
                 break;
             }

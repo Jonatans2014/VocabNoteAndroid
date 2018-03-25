@@ -1,5 +1,6 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -42,16 +43,17 @@ public class GuessWordGameFragment extends Fragment {
     public LinkedList<String> allWord =    new LinkedList<String>();
 
 
-    public RecyclerView recyclerView;
+    public RecyclerView recyclerView, lifeRecyclerV;
 
     String[] ClassList ;
     String[] WordList;
     String[] splitWord;
     String dash;
-
+    GuessWordGameFragment.lifeAdapter lifeAdapter;
+    //GuessWordGameFragment.ContentAdapter adapter;
     ArrayList <String> getThreeWords = new ArrayList<>();
     TextView ChosenWord, choice1, choice2, choice3;
-
+    GamesAddon gamesAddon;
     String Dict;
 
     String Category;
@@ -64,18 +66,40 @@ public class GuessWordGameFragment extends Fragment {
 
         View drawer = inflater.inflate(R.layout.gamerecyclerview, container, false);
 
+
+
+
         dash = "";
         ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
-
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
 
 
+        lifeRecyclerV = (RecyclerView) drawer.findViewById(R.id.LIFE);
 
+        //Instance of GamesAddon
+        gamesAddon = new GamesAddon(3,0,0,0);
 
+        lifeAdapter = new GuessWordGameFragment.lifeAdapter(lifeRecyclerV.getContext());
+
+        //lifeAdapter = new GuessWordGameFragment.lifeAdapter(recyclerView.getContext());
+
+        lifeRecyclerV.setAdapter(lifeAdapter);
+        lifeRecyclerV.setHasFixedSize(true);
         // Set padding for Tiles
-        int tilePadding = getResources().getDimensionPixelSize(R.dimen.WordGamePadding);
+        int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        lifeRecyclerV.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+         lifeRecyclerV.setHasFixedSize(true);
+//        // Set padding for Tiles
+         lifeRecyclerV.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
+
+
+
+
+
+
+          recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
 
         bindCategoryOrWordsToRecyclerView();
@@ -85,13 +109,101 @@ public class GuessWordGameFragment extends Fragment {
 
 
 
-        // this has been repeated many times, it has to be refactored
+    public static class ViewHolderLife extends RecyclerView.ViewHolder {
+        public ImageView picture;
+        public TextView tvpoints;
+        public ViewHolderLife(LayoutInflater inflater, ViewGroup parent) {
+
+            // this code to be used to connect the fragments
+            super(inflater.inflate(R.layout.lifelayout, parent, false));
+            picture = (ImageView) itemView.findViewById(R.id.lifeImgV);
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Adapter to display recycler view.
+     */
+    public  class lifeAdapter extends RecyclerView.Adapter<GuessWordGameFragment.ViewHolderLife> {
+        // Set numbers of Tiles in RecyclerView.
+        public List<GamesAddon> getdata = new ArrayList<>();
+
+        //
+//      //  private final String[] mPlaces;
+//        //private final Drawable[] mPlacePictures;
+        public lifeAdapter(Context context) {
+//            Resources resources = context.getResources();
+//            //mPlaces = resources.getStringArray(R.array.places);
+//            //TypedArray a = resources.obtainTypedArray(R.array.places_picture);
+//            mPlacePictures = new Drawable[a.length()];
+//            for (int i = 0; i < mPlacePictures.length; i++) {
+//                mPlacePictures[i] = a.getDrawable(i);
+//            }
+//            a.recycle();
+        }
+
+
+
+
+        @Override
+        public GuessWordGameFragment.ViewHolderLife onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new GuessWordGameFragment.ViewHolderLife(LayoutInflater.from(parent.getContext()), parent);
+        }
+
+        @Override
+        public void onBindViewHolder(final GuessWordGameFragment.ViewHolderLife holder, final int position) {
+            int points = 0;
+
+
+        }
+
+        @Override
+        public int getItemCount(
+
+
+        ) {
+            return gamesAddon.getLife();
+        }
+
+
+
+
+    }
+   // this has been repeated many times, it has to be refactored
 
     public void bindCategoryOrWordsToRecyclerView()
     {
-
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 //Here we are using the GsonConverterFactory to directly convert json data to object
@@ -105,20 +217,8 @@ public class GuessWordGameFragment extends Fragment {
         call.enqueue(new Callback<List<UserInfo>>() {
             @Override
             public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
-
-
-
-
-
-
                 //List of objects
                 List<UserInfo> users =  response.body();
-
-
-
-
-
-
                 //Creating an String array for the ListView
 
                 //loop trough UserClass Variable and assign words to UserWords
@@ -301,11 +401,11 @@ public class GuessWordGameFragment extends Fragment {
                 public void onClick(View view) {
                   // Toast.makeText(getContext(),checkSplit.getLast(),Toast.LENGTH_SHORT).show();
 
-//                    if(firstClick == true)
-//                    {
-//                        ChosenWord.setText("-");
-//                        firstClick = false;
-//                    }
+                    if(firstClick == true)
+                    {
+                       // ChosenWord.setText("-");
+                        firstClick = false;
+                    }
                     if(selectedCategory.equals(checkSplit.getLast()))
                     {
                       //  Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();

@@ -7,7 +7,8 @@ package almeida.john.vocabnote.almieda.john.fragments;
 public class GamesAddon {
 
     private int life;
-    private static  int points;
+    private   int points;
+    private  static int overalpoints;
     private int sucess;
     private int failure;
 

@@ -1,8 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="almeida.john.vocabnote.almieda.john.fragments.GuessSynonymGameFragment">
+
+
+
+
+
+
+
 
 
     <Button
@@ -55,12 +63,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/mainWord"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="58dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginTop="66dp"
+        android:layout_toStartOf="@+id/word2"
         android:background="@drawable/button"
         android:text="@string/play_caps"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/synoyngameRec"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/tvpoints"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+
+
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="11dp"
+        android:layout_marginTop="13dp"
+        android:layout_toStartOf="@+id/mainWord"
+        android:background="@drawable/button"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvpoints"
+        android:layout_toStartOf="@+id/tvpoints"
+        android:text="Points:" />
+
+
 </RelativeLayout>
