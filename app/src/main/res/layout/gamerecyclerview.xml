@@ -36,5 +36,35 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"></android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Points:" />
+
+
+    <TextView
+        android:id="@+id/tvpoints"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+
+
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView6"
+        android:background="@drawable/button"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/helpV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/lamp" />
+
 
 </RelativeLayout>

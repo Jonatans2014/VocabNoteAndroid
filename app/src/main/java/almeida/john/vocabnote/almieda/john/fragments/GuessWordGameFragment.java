@@ -1,6 +1,7 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,7 +45,7 @@ public class GuessWordGameFragment extends Fragment {
 
 
     public RecyclerView recyclerView, lifeRecyclerV;
-
+    public ImageView helpIcon;
     String[] ClassList ;
     String[] WordList;
     String[] splitWord;
@@ -72,7 +73,7 @@ public class GuessWordGameFragment extends Fragment {
         dash = "";
         ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
-
+        helpIcon =  (ImageView) drawer.findViewById(R.id.helpV);
 
         lifeRecyclerV = (RecyclerView) drawer.findViewById(R.id.LIFE);
 
@@ -401,39 +402,55 @@ public class GuessWordGameFragment extends Fragment {
                 public void onClick(View view) {
                   // Toast.makeText(getContext(),checkSplit.getLast(),Toast.LENGTH_SHORT).show();
 
-                    if(firstClick == true)
-                    {
-                       // ChosenWord.setText("-");
-                        firstClick = false;
+
+                    switch (view.getId()) {
+                        case R.id.helpV: {
+
+
+
+
+                            //Fetch lists of users, classifications and Words.
+                            Intent fbdata = new Intent(getContext(), DicActivity.class);
+                            // getProfileInformationFacebook(loginResult.getAccessToken());
+
+                            fbdata.putExtra("Dict", allWord.getFirst());
+                            startActivity(fbdata);
+                            break;
+                        }
+                        case R.id.letter:
+                        {
+                            if(firstClick == true)
+                            {
+                                // ChosenWord.setText("-");
+                                firstClick = false;
+                            }
+                            if(selectedCategory.equals(checkSplit.getLast()))
+                            {
+                                //  Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
+
+
+
+                                ChosenWord.append(checkSplit.getLast());
+                                checkSplit.removeLast();
+
+                            }
+                            else
+                            {
+                                Toast.makeText(getContext(),"Incorrect letter",Toast.LENGTH_SHORT).show();
+                            }
+                            if(checkSplit.size() == 0)
+                            {
+                                Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
+
+
+                                Classifications.clear();
+                                getRandomWordFromList();
+
+                                System.out.println("hey hey heyy finished");
+                            }
+
+                        }
                     }
-                    if(selectedCategory.equals(checkSplit.getLast()))
-                    {
-                      //  Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
-
-
-
-                        ChosenWord.append(checkSplit.getLast());
-                        checkSplit.removeLast();
-
-                    }
-                    else
-                    {
-                        Toast.makeText(getContext(),"Incorrect letter",Toast.LENGTH_SHORT).show();
-                    }
-                    if(checkSplit.size() == 0)
-                    {
-                        Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
-
-
-                        Classifications.clear();
-                        getRandomWordFromList();
-
-                       System.out.println("hey hey heyy finished");
-                    }
-
-
-
-
                 }
             });
 
