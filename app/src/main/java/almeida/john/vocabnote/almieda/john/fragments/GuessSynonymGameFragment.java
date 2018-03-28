@@ -203,16 +203,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     }
 
 
-
-
-
-
-
-
-
-
-
-
     public void bindCategoryOrWordsToRecyclerView() {
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -347,7 +337,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     //dictionary Entries
     private String dictionaryEntries(String getWord) {
         final String language = "en";
-        final String word = allWord.getFirst();
+        final String word = getWord;
         final String word_id = word.toLowerCase(); //word id is case sensitive and lowercase is required
         return "https://od-api.oxforddictionaries.com:443/api/v1/entries/" + language + "/" + word_id + "/synonyms;antonyms";
     }

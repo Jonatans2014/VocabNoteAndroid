@@ -1,5 +1,13 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.widget.TextView;
+
+import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by John on 22/03/2018.
  */
@@ -13,13 +21,50 @@ public class GamesAddon {
     private int failure;
 
 
+    long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
+    int getTimer;
+    LinkedList<Integer> ListUserTimeGuessingWord = new LinkedList<Integer>();
+    Handler handler;
+
+    public static int getOveralpoints() {
+        return overalpoints;
+    }
+
+    public long getMillisecondTime() {
+        return MillisecondTime;
+    }
+
+    public long getStartTime() {
+        return StartTime;
+    }
+
+
+
+    public int getGetTimer() {
+        return getTimer;
+    }
+
+    public LinkedList<Integer> getListUserTimeGuessingWord() {
+        return ListUserTimeGuessingWord;
+    }
+
+
+
+    int Seconds, Minutes, MilliSeconds ;
+
+
+
 
     GamesAddon(int life, int points, int sucess, int failure)
     {
+
+        handler = new Handler() ;
         this.life= life ;
         this.points = points;
         this.failure = failure;
         this.sucess = sucess;
+
+        getTimer = 0;
     }
 
 
@@ -56,6 +101,81 @@ public class GamesAddon {
     }
 
 
+    public void startTimer()
+    {
+
+
+        StartTime = SystemClock.uptimeMillis();
+        handler.postDelayed(runnable, 0);
+    }
+
+
+    public void addTimertoLinkedListAndReset()
+    {
+        TimeBuff += MillisecondTime;
+
+        handler.removeCallbacks(runnable);
+
+
+        MillisecondTime = 0L ;
+        StartTime = 0L ;
+        TimeBuff = 0L ;
+        UpdateTime = 0L ;
+        Seconds = 0 ;
+        Minutes = 0 ;
+        MilliSeconds = 0 ;
+
+        //ListUserTimeGuessingWord.add(setTimer.getText().toString());
+
+
+       ListUserTimeGuessingWord.addFirst(getTimer);
+
+       getTimer = 0;
+
+
+        System.out.println("timer "+ ListUserTimeGuessingWord.getFirst());
+       // setTimer.setText("00:00");
+    }
+
+
+
+    public Runnable runnable = new Runnable() {
+
+
+        public void run() {
+
+            MillisecondTime = SystemClock.uptimeMillis() - StartTime;
+
+            UpdateTime = TimeBuff + MillisecondTime;
+
+            Seconds = (int) (UpdateTime / 1000);
+
+            Minutes = Seconds / 60;
+
+            //Seconds = Seconds % 60;
+
+            MilliSeconds = (int) (UpdateTime % 1000);
+
+
+
+            getTimer = Seconds;
+
+
+
+//            getTimer = "" + Minutes + ":"
+//                    + String.format("%02d", Seconds) + ":"
+//                    + String.format("%03d", MilliSeconds;
+
+//            setTimer.setText("" + Minutes + ":"
+//                   + String.format("%02d", Seconds) + ":"
+//                   + String.format("%03d", MilliSeconds));
+            handler.postDelayed(this, 0);
+        }
+
+    };
+
+
+
     public int removeLife()
     {
         life--;
@@ -73,6 +193,28 @@ public class GamesAddon {
         points += 25;
 
         return points;
+    }
+
+
+
+
+    //setTimer
+    public  void setTimer(final TextView timer)
+    {
+        new CountDownTimer(300000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timer.setText(""+String.format("%d:%d ",
+                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            public void onFinish() {
+                timer.setText("done!");
+            }
+        }.start();
+
     }
 }
 

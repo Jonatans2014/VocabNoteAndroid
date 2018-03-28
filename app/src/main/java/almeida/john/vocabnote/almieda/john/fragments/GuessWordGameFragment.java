@@ -3,6 +3,9 @@ package almeida.john.vocabnote.almieda.john.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,6 +47,17 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     public LinkedList<String> allWord =    new LinkedList<String>();
 
 
+
+
+
+    Button start, pause, reset, lap ;
+
+    long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
+
+    Handler handler;
+
+    int Seconds, Minutes, MilliSeconds ;
+
     public RecyclerView recyclerView, lifeRecyclerV;
     public ImageView helpIcon;
     String[] ClassList ;
@@ -53,9 +67,12 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     GuessWordGameFragment.lifeAdapter lifeAdapter;
     //GuessWordGameFragment.ContentAdapter adapter;
     ArrayList <String> getThreeWords = new ArrayList<>();
+    LinkedList<String>ListElementsArrayList = new LinkedList<>();
     TextView ChosenWord, choice1, choice2, choice3;
     GamesAddon gamesAddon;
     String Dict;
+    TextView setTimer;
+
 
     String Category;
 
@@ -67,10 +84,12 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         View drawer = inflater.inflate(R.layout.gamerecyclerview, container, false);
 
-
+       // handler = new Handler() ;
 
 
         dash = "";
+
+        setTimer = (TextView)drawer.findViewById(R.id.TVtimer);
         ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
         helpIcon =  (ImageView) drawer.findViewById(R.id.helpV);
@@ -93,7 +112,8 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
          lifeRecyclerV.setHasFixedSize(true);
 //        // Set padding for Tiles
-         lifeRecyclerV.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
+
+        lifeRecyclerV.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
 
@@ -101,10 +121,54 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         helpIcon.setOnClickListener(this);
 
         bindCategoryOrWordsToRecyclerView();
+//
+//        StartTime = SystemClock.uptimeMillis();
+//        handler.postDelayed(runnable, 0);
+
+        //reset.setEnabled(false);
+
+
+        //call timer
+            //gamesAddon.setTimer(setTimer);
+
+
+        gamesAddon.startTimer();
+
         return drawer;
     }
 
-    @Override
+
+
+
+//    public Runnable runnable = new Runnable() {
+//        public void run() {
+//
+//            MillisecondTime = SystemClock.uptimeMillis() - StartTime;
+//
+//            UpdateTime = TimeBuff + MillisecondTime;
+//
+//            Seconds = (int) (UpdateTime / 1000);
+//
+//            Minutes = Seconds / 60;
+//
+//            //Seconds = Seconds ;
+//
+//            MilliSeconds = (int) (UpdateTime % 1000);
+//
+//            setTimer.setText("" + Minutes + ":"
+//                    + String.format("%02d", Seconds) + ":"
+//                    + String.format("%03d", MilliSeconds));
+//
+//            handler.postDelayed(this, 0);
+//        }
+//
+//    };
+
+
+
+
+
+@Override
     public void onClick(View view) {
 
 
@@ -137,38 +201,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Adapter to display recycler view.
      */
@@ -417,6 +449,10 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                 @Override
                 public void onClick(View view) {
 
+
+
+                   // adapter.notifyDataSetChanged();
+
                             if(firstClick == true)
                             {
                                 // ChosenWord.setText("-");
@@ -438,6 +474,29 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                             }
                             if(checkSplit.size() == 0)
                             {
+
+//                                TimeBuff += MillisecondTime;
+//
+//                                handler.removeCallbacks(runnable);
+//
+//
+//                                MillisecondTime = 0L ;
+//                                StartTime = 0L ;
+//                                TimeBuff = 0L ;
+//                                UpdateTime = 0L ;
+//                                Seconds = 0 ;
+//                                Minutes = 0 ;
+//                                MilliSeconds = 0 ;
+//
+//                                //ListUserTimeGuessingWord.add(setTimer.getText().toString());
+//
+//
+//                                ListElementsArrayList.addFirst(setTimer.getText().toString());
+//                                System.out.println("timer "+ ListElementsArrayList.getFirst());
+//                                setTimer.setText("00:00");
+
+                                gamesAddon.addTimertoLinkedListAndReset();
+
                                 Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
 
 
@@ -445,6 +504,13 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                                 getRandomWordFromList();
 
                                 System.out.println("hey hey heyy finished");
+
+
+                                gamesAddon.startTimer();
+
+//
+//                                StartTime = SystemClock.uptimeMillis();
+//                                handler.postDelayed(runnable, 0);
                             }
 
                         }
