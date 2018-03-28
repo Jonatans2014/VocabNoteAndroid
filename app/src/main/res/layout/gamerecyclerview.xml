@@ -16,15 +16,14 @@
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"></android.support.v7.widget.RecyclerView>
+
     <TextView
         android:id="@+id/guess_letters"
         android:layout_width="wrap_content"
         android:layout_height="51dp"
         android:layout_above="@+id/rec"
-        android:layout_alignStart="@+id/rec"
+        android:layout_alignEnd="@+id/helpV"
         android:layout_marginBottom="14dp"
-        android:layout_marginStart="74dp"
-        android:text="here"
         android:textAlignment="center"
         android:textSize="30sp" />
 

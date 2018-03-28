@@ -12,6 +12,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Map;
+
 import almeida.john.vocabnote.R;
 
 
@@ -20,6 +22,8 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
 
     RadioButton easy,medium,hard;
     TextView text1;
+    String getLvl;
+    Map map;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,10 +40,16 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
         hard.setOnClickListener(this);
         text1.setOnClickListener(mCorkyListener);
 
+        getLvl = "easy";
+
         return view;
+//        Bundle bundle = getArguments();
+//        if (bundle != null)
+//        {
+//            level = bundle.getString("level");
+//        }
 
 
-      
     }
 
     // Create an anonymous implementation of OnClickListener
@@ -48,8 +58,20 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
             // do something when the button is clicked
             // Yes we will handle click here but which button clicked??? We don't know
 
+//            Fragment map = new Fragment ();
+//            final Bundle bundle = new Bundle();
+//            bundle.putString("Position",one);
+//            bundle.putString("ID:",two);
+//            map.setArguments(bundle);
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.item_detail_container, map).commit();
+
             GuessWordGameFragment nextFrag= new GuessWordGameFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
+            final Bundle bundle = new Bundle();
+            bundle.putString("level",getLvl);
+            nextFrag.setArguments(bundle);
+            getActivity()
+                    .getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, nextFrag)
                     .addToBackStack(null)
                     .commit();
@@ -79,6 +101,7 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
 
 
                     Toast.makeText(getContext(), "easy", Toast.LENGTH_SHORT).show();
+                    getLvl = "easy";
 
                 }
                 break;
@@ -88,7 +111,7 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
             case R.id.RBmedium: {
                 if (checked) {
                     Toast.makeText(getContext(), "medium", Toast.LENGTH_SHORT).show();
-
+                    getLvl = "medium";
                 }
 
                 break;
@@ -102,7 +125,7 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
                 {
 
                     Toast.makeText(getContext(),"hard",Toast.LENGTH_SHORT).show();
-
+                    getLvl = "hard";
                 }
                 break;
             }
