@@ -28,6 +28,14 @@
     <!--android:src="" />-->
 
     <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -35,6 +43,39 @@
         android:layout_below="@+id/tile_picture"
         android:layout_marginTop="167dp"
         android:gravity="bottom">
+
+
+
+
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="80dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/RBeasy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Easy" />
+
+            <RadioButton
+                android:id="@+id/RBmedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium" />
+
+
+            <RadioButton
+                android:id="@+id/RBhard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hard" />
+
+
+        </RadioGroup>
 
         <Button
             android:id="@+id/play"
@@ -78,7 +119,11 @@
             android:textStyle="bold" />
 
 
+
+
     </RelativeLayout>
+
+
 
 
 </FrameLayout>

@@ -36,14 +36,52 @@
         android:layout_marginTop="167dp"
         android:gravity="bottom">
 
+
+
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="80dp"
+            android:orientation="horizontal"
+            android:id="@+id/radioGroup"
+            >
+
+            <RadioButton
+                android:id="@+id/RBeasy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Easy"
+                android:onClick="onRadioButtonClicked"
+
+                />
+
+            <RadioButton
+                android:id="@+id/RBmedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium"
+                android:onClick="onRadioButtonClicked"/>
+
+
+            <RadioButton
+                android:id="@+id/RBhard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hard"
+                android:onClick="onRadioButtonClicked"/>
+
+
+        </RadioGroup>
+
         <Button
             android:id="@+id/play"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
 
-            android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/about"
-            android:layout_marginTop="38dp"
+            android:layout_below="@+id/radioGroup"
             android:background="@drawable/button"
             android:elevation="20dp"
             android:text="@string/play_caps"

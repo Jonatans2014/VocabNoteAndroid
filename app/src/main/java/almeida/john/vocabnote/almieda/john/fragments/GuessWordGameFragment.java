@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,6 +95,10 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
         helpIcon =  (ImageView) drawer.findViewById(R.id.helpV);
 
+
+
+
+
         lifeRecyclerV = (RecyclerView) drawer.findViewById(R.id.LIFE);
 
         //Instance of GamesAddon
@@ -129,13 +134,16 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
         //call timer
-            //gamesAddon.setTimer(setTimer);
-
+        gamesAddon.setTimer(setTimer);
 
         gamesAddon.startTimer();
 
         return drawer;
     }
+
+
+
+
 
 
 
@@ -171,7 +179,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 @Override
     public void onClick(View view) {
 
-
+    boolean checked = ((RadioButton) view).isChecked();
 
         switch (view.getId()) {
             case R.id.helpV: {
@@ -187,6 +195,43 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
             }
         }
+
+
+
+
+
+    // Check which radio button was clicked
+    switch(view.getId()) {
+        case R.id.RBeasy:
+            if (checked)
+            {
+
+
+                Toast.makeText(getContext(),"easy",Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+
+        case R.id.RBmedium:
+            if (checked)
+            {
+                Toast.makeText(getContext(),"medium",Toast.LENGTH_SHORT).show();
+               break;
+            }
+
+
+
+
+        case R.id.RBhard:
+        {
+            if(checked)
+            {
+
+                Toast.makeText(getContext(),"hard",Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
+    }
     }
 
 
@@ -436,13 +481,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
             final String selectedCategory = Classifications.get(position % Classifications.size());
-
-
-
             holder.description.setText(Classifications.get(position % Classifications.size()));
-
-
-
             holder.description.setOnClickListener(new View.OnClickListener() {
 
                 boolean firstClick = true;
@@ -508,18 +547,14 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
                                 gamesAddon.startTimer();
 
+
 //
 //                                StartTime = SystemClock.uptimeMillis();
 //                                handler.postDelayed(runnable, 0);
                             }
-
                         }
             });
         }
-
-
-
-
         @Override
         public int getItemCount() {
             return Classifications.size();
