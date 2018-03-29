@@ -184,7 +184,7 @@ public class DicActivity extends AppCompatActivity {
     }
     //in android calling network requests on the main thread forbidden by default
     //create class to do async job
-    private class CallbackTask extends AsyncTask<String, Integer, String> {
+    public class CallbackTask extends AsyncTask<String, Integer, String> {
 
         @Override
         protected String doInBackground(String... params) {
