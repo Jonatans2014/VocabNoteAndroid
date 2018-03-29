@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -103,7 +104,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     String Dict;
     String level;
     TextView setTimer;
-
+    ImageView mShowDialog;
 
     String Category;
 
@@ -116,50 +117,45 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         View drawer = inflater.inflate(R.layout.gamerecyclerview, container, false);
 
         // handler = new Handler() ;
-        new GuessWordGameFragment.CallbackTask().execute(dictionaryEntries());
+       // new GuessWordGameFragment.CallbackTask().execute(dictionaryEntries());
 
 
         dash = "";
 
 
 
-
-        ImageView mShowDialog = (ImageView) drawer.findViewById(R.id.helpV);
-
-        mShowDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-
-                View mView = getLayoutInflater().inflate(R.layout.dialog_login, null);
-
-
-
-
-                final TextView mEmail = (TextView) mView.findViewById(R.id.def);
-
-                mEmail.setText("this is definition");
+        mShowDialog = (ImageView) drawer.findViewById(R.id.helpV);
+//        ImageView mShowDialog = (ImageView) drawer.findViewById(R.id.helpV);
 //
-//                final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
-//                Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
-
-
-                mBuilder.setPositiveButton("Exit!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-                mBuilder.setView(mView);
-                final AlertDialog dialog = mBuilder.create();
-                dialog.show();
-
-            }
-        });
+//        mShowDialog.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+//
+//                View mView = getLayoutInflater().inflate(R.layout.dialog_login, null);
+//
+//                final TextView mEmail = (TextView) mView.findViewById(R.id.def);
+//
+//                mEmail.setText("this is definition");
+////
+////                final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
+////                Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
+//
+//
+//                mBuilder.setPositiveButton("Exit!", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+//
+//                mBuilder.setView(mView);
+//                final AlertDialog dialog = mBuilder.create();
+//                dialog.show();
+//
+//            }
+//        });
         setTimer = (TextView)drawer.findViewById(R.id.TVtimer);
         ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
@@ -208,7 +204,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
         //call timer
-        gamesAddon.setTimer(setTimer);
+        //gamesAddon.setTimer(setTimer);
 
         gamesAddon.startTimer();
 
@@ -219,6 +215,10 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         }
 
 
+        String input = setTimer.getText().toString();
+
+
+        setTimer();
 
 
         return drawer;
@@ -332,7 +332,51 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
 
+    //setTimer
+    public  void setTimer()
+    {
+        String getdone;
+        new CountDownTimer(20000, 1000) {
 
+            public void onTick(long millisUntilFinished) {
+                setTimer.setText(""+String.format("%d:%d ",
+                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            public void onFinish() {
+                setTimer.setText("0");
+                
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+                        View mView = getLayoutInflater().inflate(R.layout.dialog_login, null);
+
+                        final TextView mEmail = (TextView) mView.findViewById(R.id.def);
+
+                        mEmail.setText("this is definition");
+//
+//                final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
+//                Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
+
+
+                        mBuilder.setPositiveButton("Exit!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+
+                        mBuilder.setView(mView);
+                        final AlertDialog dialog = mBuilder.create();
+                        dialog.show();
+
+
+
+            }
+        }.start();
+
+    }
 
 
 

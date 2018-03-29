@@ -234,6 +234,7 @@ public class GamesAddon {
     //setTimer
     public  void setTimer(final TextView timer)
     {
+        String getdone;
         new CountDownTimer(20000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -244,7 +245,7 @@ public class GamesAddon {
             }
 
             public void onFinish() {
-                timer.setText("done!");
+                timer.setText("0");
             }
         }.start();
 
