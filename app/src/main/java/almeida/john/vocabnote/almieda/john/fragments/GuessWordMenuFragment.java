@@ -39,32 +39,16 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
         medium.setOnClickListener(this);
         hard.setOnClickListener(this);
         text1.setOnClickListener(mCorkyListener);
-
         getLvl = "easy";
 
+
+
         return view;
-//        Bundle bundle = getArguments();
-//        if (bundle != null)
-//        {
-//            level = bundle.getString("level");
-//        }
-
-
     }
 
     // Create an anonymous implementation of OnClickListener
     private View.OnClickListener mCorkyListener = new View.OnClickListener() {
         public void onClick(View v) {
-            // do something when the button is clicked
-            // Yes we will handle click here but which button clicked??? We don't know
-
-//            Fragment map = new Fragment ();
-//            final Bundle bundle = new Bundle();
-//            bundle.putString("Position",one);
-//            bundle.putString("ID:",two);
-//            map.setArguments(bundle);
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.item_detail_container, map).commit();
 
             GuessWordGameFragment nextFrag= new GuessWordGameFragment();
             final Bundle bundle = new Bundle();
@@ -85,15 +69,6 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
     public void onClick(View view) {
 
         boolean checked = ((RadioButton) view).isChecked();
-
-//        Intent fbdata = new Intent(getContext(), SynonymGamePlayActivity.class);
-//
-//        // getProfileInformationFacebook(loginResult.getAccessToken());
-//        startActivity(fbdata);
-
-
-
-
 
         switch (view.getId()){
             case R.id.RBeasy: {
@@ -117,8 +92,6 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
                 break;
             }
 
-
-
             case R.id.RBhard:
             {
                 if(checked)
@@ -129,13 +102,7 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
                 }
                 break;
             }
-
-
-
         }
-
     }
-
-
 }
 

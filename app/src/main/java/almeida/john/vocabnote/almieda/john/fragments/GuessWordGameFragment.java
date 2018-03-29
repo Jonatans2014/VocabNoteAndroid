@@ -65,11 +65,14 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     String[] WordList;
     String[] splitWord;
     String dash;
+    GuessWordGameFragment.ContentAdapter adapter;
     GuessWordGameFragment.lifeAdapter lifeAdapter;
     //GuessWordGameFragment.ContentAdapter adapter;
     ArrayList <String> getThreeWords = new ArrayList<>();
     LinkedList<String>ListElementsArrayList = new LinkedList<>();
     TextView ChosenWord, choice1, choice2, choice3;
+    ImageView addLife;
+    ImageView giveAletter;
     GamesAddon gamesAddon;
     String Dict;
     String level;
@@ -96,7 +99,8 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
         helpIcon =  (ImageView) drawer.findViewById(R.id.helpV);
 
-
+        addLife = (ImageView) drawer.findViewById(R.id.addLifeIV);
+        giveAletter = (ImageView) drawer.findViewById(R.id.letterIconIMV);
 
 
 
@@ -114,7 +118,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         // Set padding for Tiles
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
 
-        lifeRecyclerV.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        lifeRecyclerV.setLayoutManager(new GridLayoutManager(getActivity(), 4));
 
         lifeRecyclerV.setHasFixedSize(true);
 //        // Set padding for Tiles
@@ -125,6 +129,9 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
         helpIcon.setOnClickListener(this);
+        addLife.setOnClickListener(this);
+        giveAletter.setOnClickListener(this);
+
 
         bindCategoryOrWordsToRecyclerView();
 //
@@ -150,53 +157,26 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     @Override
     public void onClick(View view) {
 
-        boolean checked = ((RadioButton) view).isChecked();
-
-        switch (view.getId()) {
-            case R.id.helpV: {
-
-
-                //Fetch lists of users, classifications and Words.
-                Intent fbdata = new Intent(getContext(), DicActivity.class);
-                // getProfileInformationFacebook(loginResult.getAccessToken());
-
-                Dict = allWord.getFirst();
-                fbdata.putExtra("Dict", Dict);
-                startActivity(fbdata);
-
-            }
-        }
-
         // Check which radio button was clicked
         switch(view.getId()) {
-            case R.id.RBeasy:
-                if (checked)
-                {
+            case R.id.addLifeIV: {
 
 
-                    Toast.makeText(getContext(),"easy",Toast.LENGTH_SHORT).show();
-                    break;
-                }
+                gamesAddon.addLife();
+                recyclerView.setAdapter(adapter);
+                addLife.setVisibility(View.GONE);
 
+                break;
 
-            case R.id.RBmedium:
-                if (checked)
-                {
-                    Toast.makeText(getContext(),"medium",Toast.LENGTH_SHORT).show();
-                    break;
-                }
+            }
 
+            case R.id.letterIconIMV: {
+                ChosenWord.append(checkSplit.getLast());
+                checkSplit.removeLast();
 
+                giveAletter.setVisibility(View.GONE);
+                break;
 
-
-            case R.id.RBhard:
-            {
-                if(checked)
-                {
-
-                    Toast.makeText(getContext(),"hard",Toast.LENGTH_SHORT).show();
-                    break;
-                }
             }
         }
     }
@@ -387,7 +367,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
             ChosenWord.setText(dash);
         }
 
-        // level of the game 
+        // level of the game
 
         if(level.equals("easy") && splitWord.length <=4 )
         {
@@ -443,7 +423,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         Collections.shuffle(getSplit);
 
-        GuessWordGameFragment.ContentAdapter adapter = new GuessWordGameFragment.ContentAdapter(getSplit);
+        adapter = new GuessWordGameFragment.ContentAdapter(getSplit);
 
         recyclerView.setAdapter(adapter);
 
@@ -531,29 +511,16 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                     else
                     {
                         Toast.makeText(getContext(),"Incorrect letter",Toast.LENGTH_SHORT).show();
+
+
+                        gamesAddon.removeLife();
+
+                        System.out.println("this is life  " + gamesAddon.getLife());
+
+                        recyclerView.setAdapter(adapter);
                     }
                     if(checkSplit.size() == 0)
                     {
-
-//                                TimeBuff += MillisecondTime;
-//
-//                                handler.removeCallbacks(runnable);
-//
-//
-//                                MillisecondTime = 0L ;
-//                                StartTime = 0L ;
-//                                TimeBuff = 0L ;
-//                                UpdateTime = 0L ;
-//                                Seconds = 0 ;
-//                                Minutes = 0 ;
-//                                MilliSeconds = 0 ;
-//
-//                                //ListUserTimeGuessingWord.add(setTimer.getText().toString());
-//
-//
-//                                ListElementsArrayList.addFirst(setTimer.getText().toString());
-//                                System.out.println("timer "+ ListElementsArrayList.getFirst());
-//                                setTimer.setText("00:00");
 
                         gamesAddon.addTimertoLinkedListAndReset();
 
@@ -567,8 +534,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
                         gamesAddon.startTimer();
-
-
 //
 //                                StartTime = SystemClock.uptimeMillis();
 //                                handler.postDelayed(runnable, 0);

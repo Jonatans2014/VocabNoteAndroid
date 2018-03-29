@@ -16,6 +16,10 @@ public class GamesAddon {
 
     private int life;
     private   int points;
+    private int help1;
+    private int help2;
+    private int help3;
+
     private  static int overalpoints;
     private int sucess;
     private int failure;
@@ -64,6 +68,7 @@ public class GamesAddon {
         this.failure = failure;
         this.sucess = sucess;
 
+
         getTimer = 0;
     }
 
@@ -107,6 +112,23 @@ public class GamesAddon {
 
         StartTime = SystemClock.uptimeMillis();
         handler.postDelayed(runnable, 0);
+    }
+
+    public void DeductPointsAccordingtoHelp(String getHelpString)
+    {
+        if(getHelpString.equals("help1"))
+        {
+            points -= 50;
+        }
+        else if(getHelpString.equals("help2"))
+        {
+            points -= 25;
+
+        }
+        else
+        {
+            points -= 12;
+        }
     }
 
 
@@ -184,6 +206,17 @@ public class GamesAddon {
         {
             System.out.println("Game Over!");
         }
+
+        return life;
+    }
+
+
+
+
+    public int addLife()
+    {
+        life++;
+
 
         return life;
     }

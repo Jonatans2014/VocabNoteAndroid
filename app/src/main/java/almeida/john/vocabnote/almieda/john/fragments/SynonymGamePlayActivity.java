@@ -338,18 +338,10 @@ public class SynonymGamePlayActivity extends AppCompatActivity  implements View.
 
                                     System.out.println("replaceW"+replaceNoneWords);
 
-
-
-
-
                                 }
                             }
                         }
                     }
-
-
-
-
                     getThreeWords.add(getSynonym[2]);
                     getThreeWords.add(allWord.getLast());
                     // change this to the middle value
@@ -360,22 +352,16 @@ public class SynonymGamePlayActivity extends AppCompatActivity  implements View.
                         System.out.println("all three values" + getThreeWords.get(i) + " " +i);
 
                     }
-
                     Collections.shuffle(getThreeWords);
-
                     for(int i=0; i < getThreeWords.size(); i++ )
                     {
                         System.out.println("all three values Shuffled   " + getThreeWords.get(i) + " " +i);
 
                     }
-
                     //display words on buttons
                     choice1.setText(getThreeWords.get(0));
                     choice2.setText(getThreeWords.get(1));
                     choice3.setText(getThreeWords.get(2));
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
