@@ -167,22 +167,12 @@ public class GamesAddon {
         public void run() {
 
             MillisecondTime = SystemClock.uptimeMillis() - StartTime;
-
             UpdateTime = TimeBuff + MillisecondTime;
-
             Seconds = (int) (UpdateTime / 1000);
-
             Minutes = Seconds / 60;
-
             //Seconds = Seconds % 60;
-
             MilliSeconds = (int) (UpdateTime % 1000);
-
-
-
             getTimer = Seconds;
-
-
 
 //            getTimer = "" + Minutes + ":"
 //                    + String.format("%02d", Seconds) + ":"
@@ -221,16 +211,28 @@ public class GamesAddon {
         return life;
     }
 
-    public int addPoints()
+    public int addPoints(String getHelpString)
     {
-        points += 25;
+
+        if(getHelpString.equals("none"))
+        {
+            points += 100;
+        }
+        else if(getHelpString.equals("help1"))
+        {
+            points += 50;
+        }
+        else if(getHelpString.equals("help2"))
+        {
+            points += 25;
+        }
+        else if(getHelpString.equals("help3"))
+        {
+            points += 12;
+        }
 
         return points;
     }
-
-
-
-
     //setTimer
     public  void setTimer(final TextView timer)
     {

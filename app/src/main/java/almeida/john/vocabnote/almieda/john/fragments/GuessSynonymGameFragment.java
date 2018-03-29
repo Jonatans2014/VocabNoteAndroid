@@ -56,6 +56,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     static int counter;
     String [] getSynonym;
     int points;
+    public String getHelpString;
     GuessSynonymGameFragment.ContentAdapter adapter, lifeAdapter;
 
 
@@ -79,7 +80,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
 
 
-
+        getHelpString  = "none";
 
         bindCategoryOrWordsToRecyclerView();
 
@@ -504,7 +505,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 //might need refactoring
                 if(choice1.getText().equals(getSynonym[2]))
                 {
-                    points = gamesAddon.addPoints();
+                    points = gamesAddon.addPoints(getHelpString);
 
 
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
@@ -534,12 +535,12 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 if(choice2.getText().equals(getSynonym[2]))
                 {
 
-                    points = gamesAddon.addPoints();
+                    points = gamesAddon.addPoints(getHelpString);
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
                     getThreeWords.clear();
                     getRandomWordFromList();
 
-                    gamesAddon.addPoints();
+                    gamesAddon.addPoints(getHelpString);
                     System.out.println("This is points" + gamesAddon.getPoints());
                 }
                 else
@@ -561,7 +562,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
             case R.id.word3:
             {
 
-                points = gamesAddon.addPoints();
+                points = gamesAddon.addPoints(getHelpString);
                 if(choice3.getText().equals(getSynonym[2]))
                 {
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();

@@ -62,6 +62,9 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     public LinkedList<String> allWord =    new LinkedList<String>();
 
 
+    int points;
+    public String getHelpString;
+
     public List<DicInfo> getDicdata =  new ArrayList<>();
     int ListSize = 0;
     TextView Def;
@@ -105,7 +108,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     String level;
     TextView setTimer;
     ImageView mShowDialog;
-
+    TextView pointstv;
     String Category;
 
 
@@ -122,10 +125,10 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         dash = "";
 
+        pointstv = (TextView) drawer.findViewById(R.id.tvpoints);
 
-
+        getHelpString =  "help1";
         mShowDialog = (ImageView) drawer.findViewById(R.id.helpV);
-//        ImageView mShowDialog = (ImageView) drawer.findViewById(R.id.helpV);
 //
 //        mShowDialog.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -350,9 +353,9 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                 
                         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 
-                        View mView = getLayoutInflater().inflate(R.layout.dialog_login, null);
+                        View mView = getLayoutInflater().inflate(R.layout.gamestatts, null);
 
-                        final TextView mEmail = (TextView) mView.findViewById(R.id.def);
+                        final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
 
                         mEmail.setText("this is definition");
 //
@@ -377,23 +380,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         }.start();
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void onClick(View view) {
 
@@ -591,7 +577,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         splitWord = WordRchosen.split("(?!^)");
 
 
-
+        pointstv.setText((Integer.toString(points)));
 //        for(int i = 0; i <splitWord.length; i++)
 //        {
 //            System.out.println("Word Split  " + splitWord[i]);
@@ -766,7 +752,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
                         Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
 
-
+                        points = gamesAddon.addPoints(getHelpString);
                         Classifications.clear();
                         getRandomWordFromList();
 
