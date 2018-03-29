@@ -20,6 +20,8 @@ public class GamesAddon {
     private int help2;
     private int help3;
 
+    private int correct;
+    private int incorrect;
     private  static int overalpoints;
     private int sucess;
     private int failure;
@@ -68,7 +70,8 @@ public class GamesAddon {
         this.failure = failure;
         this.sucess = sucess;
 
-
+        correct = 0;
+        incorrect = 0;
         getTimer = 0;
     }
 
@@ -103,6 +106,20 @@ public class GamesAddon {
 
     public void setFailure(int failure) {
         this.failure = failure;
+    }
+
+
+    public int increaseIncorrect()
+    {
+        incorrect ++;
+
+        return incorrect;
+    }
+    public int increaseCorrect()
+    {
+        correct ++;
+
+        return correct;
     }
 
 

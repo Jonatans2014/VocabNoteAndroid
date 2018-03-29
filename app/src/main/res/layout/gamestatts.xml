@@ -89,12 +89,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/textView22"
-            android:layout_below="@+id/textView24"
+            android:layout_below="@+id/correctTV"
             android:layout_marginTop="24dp"
             android:text="Incorrect" />
 
         <TextView
-            android:id="@+id/textView24"
+            android:id="@+id/correctTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/textView22"
@@ -104,10 +104,10 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView25"
+            android:id="@+id/IncorrectTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView24"
+            android:layout_alignStart="@+id/correctTV"
             android:layout_alignTop="@+id/textView23"
             android:text="0"
             android:textSize="24sp" />

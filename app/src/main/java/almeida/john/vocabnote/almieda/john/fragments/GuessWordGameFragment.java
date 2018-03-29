@@ -78,7 +78,8 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     String getDialect;
     ImageView Pronunciation;
     String DictWord;
-
+    int getCorrect;
+    int getIncorrect;
 
 
     Button start, pause, reset, lap ;
@@ -356,9 +357,17 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                         View mView = getLayoutInflater().inflate(R.layout.gamestatts, null);
 
                         final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
+                        final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
+                        final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
+                        final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
 
-                        mEmail.setText("this is definition");
-//
+
+
+                         mEmail.setText("this is definition");
+                         mScore.setText((Integer.toString(points)));
+                         mCorrect.setText((Integer.toString(getCorrect)));
+                         mInCorrect.setText((Integer.toString(getIncorrect)));
+//                       mCorrect.setText
 //                final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
 //                Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
 
@@ -738,6 +747,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                     {
                         Toast.makeText(getContext(),"Incorrect letter",Toast.LENGTH_SHORT).show();
 
+                        getIncorrect =gamesAddon.increaseIncorrect();
 
                         gamesAddon.removeLife();
 
@@ -749,6 +759,8 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                     {
 
                         gamesAddon.addTimertoLinkedListAndReset();
+
+                       getCorrect= gamesAddon.increaseCorrect();
 
                         Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
 
