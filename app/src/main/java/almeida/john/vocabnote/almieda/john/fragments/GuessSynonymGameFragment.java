@@ -76,7 +76,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
 
         //Instance of GamesAddon
-         gamesAddon = new GamesAddon(3,0,0,0);
+         gamesAddon = new GamesAddon(3,0);
 
 
 

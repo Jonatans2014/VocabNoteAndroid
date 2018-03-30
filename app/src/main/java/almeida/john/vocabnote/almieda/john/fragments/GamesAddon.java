@@ -15,14 +15,12 @@ import java.util.concurrent.TimeUnit;
 public class GamesAddon {
 
     private int life;
-    private   int points;
+    private  int points;
     private int help1;
     private int help2;
     private int help3;
-
     private int correct;
     private int incorrect;
-    private  static int overalpoints;
     private int sucess;
     private int failure;
 
@@ -32,9 +30,7 @@ public class GamesAddon {
     LinkedList<Integer> ListUserTimeGuessingWord = new LinkedList<Integer>();
     Handler handler;
 
-    public static int getOveralpoints() {
-        return overalpoints;
-    }
+
 
     public long getMillisecondTime() {
         return MillisecondTime;
@@ -59,16 +55,13 @@ public class GamesAddon {
     int Seconds, Minutes, MilliSeconds ;
 
 
-
-
-    GamesAddon(int life, int points, int sucess, int failure)
+    GamesAddon(int life, int points)
     {
 
         handler = new Handler() ;
         this.life= life ;
         this.points = points;
-        this.failure = failure;
-        this.sucess = sucess;
+
 
         correct = 0;
         incorrect = 0;

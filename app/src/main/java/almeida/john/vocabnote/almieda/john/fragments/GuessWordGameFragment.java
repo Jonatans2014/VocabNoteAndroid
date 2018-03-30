@@ -197,7 +197,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         setTimer = (TextView)drawer.findViewById(R.id.TVtimer);
         ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
-        //helpIcon =  (ImageView) drawer.findViewById(R.id.helpV);
+        //helpIcon =  (ImageView) drawer.findVieonfwById(R.id.helpV);
 
         addLife = (ImageView) drawer.findViewById(R.id.addLifeIV);
         giveAletter = (ImageView) drawer.findViewById(R.id.letterIconIMV);
@@ -207,7 +207,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         lifeRecyclerV = (RecyclerView) drawer.findViewById(R.id.LIFE);
 
         //Instance of GamesAddon
-        gamesAddon = new GamesAddon(3,0,0,0);
+        gamesAddon = new GamesAddon(3,0);
 
         lifeAdapter = new GuessWordGameFragment.lifeAdapter(lifeRecyclerV.getContext());
 
@@ -396,6 +396,9 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                 editor.commit();
 
 
+
+
+
                 int  score = myScore.getInt("score", 0);
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
@@ -409,7 +412,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
 
-                         mEmail.setText("this is definition");
+                        // mEmail.setText("this is definition");
                          mScore.setText((Integer.toString(points)));
                          mCorrect.setText((Integer.toString(getCorrect)));
                          mInCorrect.setText((Integer.toString(getIncorrect)));
@@ -431,6 +434,14 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
+
+
+                                gamesAddon.startTimer();
+
+                                gamesAddon.setPoints(0);
+                                gamesAddon.setLife(3);
+                                //set visibility of help
+                                recyclerView.setAdapter(adapter);
                             }
                         });
 
