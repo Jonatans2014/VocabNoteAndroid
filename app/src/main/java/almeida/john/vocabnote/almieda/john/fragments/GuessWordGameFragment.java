@@ -3,6 +3,7 @@ package almeida.john.vocabnote.almieda.john.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -126,6 +127,19 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         dash = "";
 
+
+        //Context context = getActivity();
+//        SharedPreferences sharedPref = context.getSharedPreferences(
+//                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+
+        // MY_PREFS_NAME - a static String variable like:
+//public static final String MY_PREFS_NAME = "MyPrefsFile";
+       // SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+//        editor.putString("name", "Elena");
+//        editor.putInt("idName", 12);
+//        editor.apply();
         pointstv = (TextView) drawer.findViewById(R.id.tvpoints);
 
         getHelpString =  "help1";
@@ -160,6 +174,26 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 //
 //            }
 //        });
+
+
+
+
+
+
+
+
+
+       // SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+//        int defaultValue = getResources().getInteger(R.integer.saved_high_score_default_key);
+//        int highScore = sharedPref.getInt(getString(R.string.saved_high_score_key), defaultValue);
+
+        //Load score
+       // SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+
+
+       ///System.out.println("blablabliblablabla  " + score);
+
         setTimer = (TextView)drawer.findViewById(R.id.TVtimer);
         ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
         recyclerView = (RecyclerView) drawer.findViewById(R.id.rec);
@@ -351,8 +385,20 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
             public void onFinish() {
                 setTimer.setText("0");
-                
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+
+
+
+                //Save score
+                SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = myScore.edit();
+                editor.putInt("score", points);
+                editor.commit();
+
+
+                int  score = myScore.getInt("score", 0);
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 
                         View mView = getLayoutInflater().inflate(R.layout.gamestatts, null);
 
@@ -367,12 +413,21 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                          mScore.setText((Integer.toString(points)));
                          mCorrect.setText((Integer.toString(getCorrect)));
                          mInCorrect.setText((Integer.toString(getIncorrect)));
+
+
 //                       mCorrect.setText
-//                final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
-//                Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
+//                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
+//                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
 
 
-                        mBuilder.setPositiveButton("Exit!", new DialogInterface.OnClickListener() {
+                        mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+
+                        mBuilder.setPositiveButton("              Play Again!", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -723,11 +778,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                 boolean firstClick = true;
                 @Override
                 public void onClick(View view) {
-
-
-
                     // adapter.notifyDataSetChanged();
-
                     if(firstClick == true)
                     {
                         // ChosenWord.setText("-");
@@ -736,9 +787,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                     if(selectedCategory.equals(checkSplit.getLast()))
                     {
                         //  Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
-
-
-
                         ChosenWord.append(checkSplit.getLast());
                         checkSplit.removeLast();
 
@@ -757,20 +805,13 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                     }
                     if(checkSplit.size() == 0)
                     {
-
                         gamesAddon.addTimertoLinkedListAndReset();
-
-                       getCorrect= gamesAddon.increaseCorrect();
-
+                        getCorrect= gamesAddon.increaseCorrect();
                         Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
-
                         points = gamesAddon.addPoints(getHelpString);
                         Classifications.clear();
                         getRandomWordFromList();
-
                         System.out.println("hey hey heyy finished");
-
-
                         gamesAddon.startTimer();
 //
 //                                StartTime = SystemClock.uptimeMillis();
