@@ -68,8 +68,9 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
     AIRequest aiRequest;
     AIDataService aiDataService;
     Boolean flagFab = true;
-
+    LinkedList<ChatMessage> chat = new LinkedList<>();
     ImageView fab_img;
+    ContentAdapter adapter;
     LinkedList<String> msg = new LinkedList<>();
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -142,11 +143,14 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
         });
 
 
-        ContentAdapter adapter = new ContentAdapter(msg);
+
+         adapter = new ContentAdapter(chat);
         recyclerView.setHasFixedSize(true);
 //        // Set padding for Tiles
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
+
+
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
@@ -192,6 +196,11 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
                 if (!message.equals("")) {
 
                     ChatMessage chatMessage = new ChatMessage(message, "user");
+
+                    chat.addLast(chatMessage);
+
+                    recyclerView.setAdapter(adapter);
+
                    // ref.child("chat").push().setValue(chatMessage);
 
                     aiRequest.setQuery(message);
@@ -217,7 +226,9 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
                                 String reply = result.getFulfillment().getSpeech();
                                 ChatMessage chatMessage = new ChatMessage(reply, "bot");
 
+                                chat.addLast(chatMessage);
 
+                                recyclerView.setAdapter(adapter);
                                 //ref.child("chat").push().setValue(chatMessage);
 
                                 System.out.println("work work work work work " + result +"  " + reply );
@@ -252,13 +263,11 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
 
 
             sender = (TextView) itemView.findViewById(R.id.leftText);
-            //reciever = (TextView) itemView.findViewById(R.id.letter);
+            reciever = (TextView) itemView.findViewById(R.id.rightText);
 
 
         }
     }
-
-
 
 
     /**
@@ -267,37 +276,52 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
     public class ContentAdapter extends RecyclerView.Adapter<ChatBotFragment.ViewHolder> {
         // Set numbers of List in RecyclerView.
 
-        private LinkedList<String> Classifications;
-
-
-
-
+        private LinkedList<ChatMessage> Classifications;
         public List<Classification> senddata =  new ArrayList<>();
 
-        public ContentAdapter(LinkedList<String> getdata) {
+        public ContentAdapter(LinkedList<ChatMessage> getdata) {
 
             this.Classifications = getdata;
 
 
         }
-
-
-
-
-
         @Override
         public ChatBotFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ChatBotFragment.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
-
-
         }
 
         @Override
         public void onBindViewHolder(final ChatBotFragment.ViewHolder holder, int position) {
 
-            final String selectedCategory = Classifications.get(position % Classifications.size());
-            holder.sender.setText(Classifications.get(position % Classifications.size()));
-           // holder.reciever.setText(Classifications.get(position % Classifications.size()));
+
+            if (Classifications.get(position % Classifications.size()).getMsgUser().equals("user")) {
+
+                holder.sender.setText(Classifications.get(position % Classifications.size()).getMsgText());
+               // holder.rightText.setText(model.getMsgText());
+
+                holder.sender.setVisibility(View.VISIBLE);
+                holder.reciever.setVisibility(View.GONE);
+                }
+                else {
+
+                holder.reciever.setText(Classifications.get(position % Classifications.size()).getMsgText());
+                //holder.leftText.setText(model.getMsgText());
+
+                holder.sender.setVisibility(View.GONE);
+                holder.reciever.setVisibility(View.VISIBLE);
+                }
+
+//           // final String selectedCategory = Classifications.get(position % Classifications.size());
+//            if(Classifications.get(position % Classifications.size()).getMsgUser().equals("user"))
+//            {
+//
+//            }
+//            else
+//            {
+//                holder.reciever.setText(Classifications.get(position % Classifications.size()).getMsgText());
+//            }
+
+
         }
         @Override
         public int getItemCount() {
