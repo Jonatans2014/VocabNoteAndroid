@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import almeida.john.vocabnote.almieda.john.fragments.CardListVocabFragment;
+import almeida.john.vocabnote.almieda.john.fragments.ChatBotFragment;
 import almeida.john.vocabnote.almieda.john.fragments.GamesFragment;
 import almeida.john.vocabnote.almieda.john.fragments.WordFragment;
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         // Set Tabs inside Toolbar
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        tabs.addTab(tabs.newTab().setText("ChatBot"));
+        //tabs.addTab(tabs.newTab().setText("ChatBot"));
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CardListVocabFragment(), "Vocabulary");
         adapter.addFragment(new GamesFragment(), "Games");
-
+        adapter.addFragment(new ChatBotFragment(), "Chatbot");
 
         viewPager.setAdapter(adapter);
     }

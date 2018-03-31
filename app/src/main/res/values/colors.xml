@@ -6,4 +6,8 @@
     <color name="medium_grey">#9E9E9E</color>
     <color name="button_grey">#757575</color>
     <color name="colorAccent">#ff4081</color>
+
+    <color name="colorPrimary">#3f7fe9</color>
+    <color name="colorPrimaryDark">#0053b6</color>
+
 </resources>

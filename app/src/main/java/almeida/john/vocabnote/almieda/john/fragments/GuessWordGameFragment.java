@@ -388,18 +388,16 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
 
-
+                //shared prefff
                 //Save score
-                SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = myScore.edit();
-                editor.putInt("score", points);
-                editor.commit();
+//                SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = myScore.edit();
+//                editor.putInt("score", points);
+//                editor.commit();
 
 
 
-
-
-                int  score = myScore.getInt("score", 0);
+               // int  score = myScore.getInt("score", 0);
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 

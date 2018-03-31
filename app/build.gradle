@@ -26,6 +26,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    annotationProcessor 'org.apache.logging.log4j:log4j-core:2.2'
     compile 'com.facebook.android:facebook-login:[4,5)'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.jsoup:jsoup:1.10.2'
@@ -36,5 +38,12 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support:cardview-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'commons-io:commons-io:2.4'
+
+    compile 'ai.api:libai:1.4.8'
+    compile 'ai.api:sdk:2.0.7@aar'
+// api.ai SDK dependencies
+    compile 'com.android.support:appcompat-v7:26.1.0'
     testCompile 'junit:junit:4.12'
 }
