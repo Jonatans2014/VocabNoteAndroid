@@ -366,10 +366,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
 
-
-
-
-
     //setTimer
     public  void setTimer()
     {

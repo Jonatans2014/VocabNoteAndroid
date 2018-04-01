@@ -2,9 +2,6 @@ package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import almeida.john.vocabnote.R;
 
 
-public class GamesFragment extends Fragment {
-
+public class ChatbotGridFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +25,19 @@ public class GamesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-                R.layout.recycler_view, container, false);
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
+
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
+
+
+        ChatbotGridFragment.ContentAdapter adapter = new ChatbotGridFragment.ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+
         // Set padding for Tiles
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
         return recyclerView;
     }
 
@@ -48,7 +47,7 @@ public class GamesFragment extends Fragment {
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
 
             // this code to be used to connect the fragments
-            super(inflater.inflate(R.layout.fragment_games, parent, false));
+            super(inflater.inflate(R.layout.fragment_chatbot_grid, parent, false));
             picture = (ImageView) itemView.findViewById(R.id.tile_picture);
             name = (TextView) itemView.findViewById(R.id.tile_title);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -60,55 +59,39 @@ public class GamesFragment extends Fragment {
 //                    context.startActivity(intent);
                 }
             });
-        }
-    }
+        }}
 
     /**
      * Adapter to display recycler view.
      */
-    public  class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public  class ContentAdapter extends RecyclerView.Adapter<ChatbotGridFragment.ViewHolder> {
         // Set numbers of Tiles in RecyclerView.
         private static final int LENGTH = 2;
-//
-//      //  private final String[] mPlaces;
-//        //private final Drawable[] mPlacePictures;
+
         public ContentAdapter(Context context) {
-//            Resources resources = context.getResources();
-//            //mPlaces = resources.getStringArray(R.array.places);
-//            //TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-//            mPlacePictures = new Drawable[a.length()];
-//            for (int i = 0; i < mPlacePictures.length; i++) {
-//                mPlacePictures[i] = a.getDrawable(i);
-//            }
-//            a.recycle();
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+        public ChatbotGridFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ChatbotGridFragment.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, final int position) {
+        public void onBindViewHolder(final ChatbotGridFragment.ViewHolder holder, final int position) {
 
 //            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
 //            holder.name.setText(mPlaces[position % mPlaces.length]);
-
-
-
-
-
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
 
 
                     System.out.println(position);
 
                     Intent intent = new Intent(getContext(), SynonymGameActivity.class);
                     intent.putExtra("position", position);
-                    intent.putExtra("fragment", "gamesfrag");
+                    intent.putExtra("fragment", "chatbot");
                     startActivity(intent);
 
 
@@ -126,4 +109,3 @@ public class GamesFragment extends Fragment {
         }
     }
 }
-

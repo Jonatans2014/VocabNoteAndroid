@@ -71,6 +71,8 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
     LinkedList<ChatMessage> chat = new LinkedList<>();
     ImageView fab_img;
     ContentAdapter adapter;
+    String message;
+    String level;
     LinkedList<String> msg = new LinkedList<>();
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -94,7 +96,7 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
         // dialogflow declaration
 
 
-        final AIConfiguration config = new AIConfiguration("c96a55a373104d3b84f28ee97662131e",
+        final AIConfiguration config = new AIConfiguration("f4a9d1c62f0c46c4b73e728268e75bfc",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
@@ -144,14 +146,28 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
 
 
 
-         adapter = new ContentAdapter(chat);
+
+
+        Bundle bundle = getArguments();
+        if (bundle != null)
+        {
+            level = bundle.getString("level");
+        }
+
+
+
+        message = level;
+
+        System.out.println("hihihhii" + message);
+        getAiResponse();
+
+
+
+        adapter = new ContentAdapter(chat);
         recyclerView.setHasFixedSize(true);
 //        // Set padding for Tiles
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
-
-
-
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -160,6 +176,43 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
 
         return drawer;
 
+    }
+
+    public void getAiResponse()
+    {
+
+        aiRequest.setQuery(message);
+        new AsyncTask<AIRequest,Void,AIResponse>(){
+
+            @Override
+            protected AIResponse doInBackground(AIRequest... aiRequests) {
+                final AIRequest request = aiRequests[0];
+                try {
+                    final AIResponse response = aiDataService.request(aiRequest);
+                    return response;
+                } catch (AIServiceException e) {
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(AIResponse response) {
+                if (response != null) {
+
+                    Result result = response.getResult();
+
+
+                    String reply = result.getFulfillment().getSpeech();
+                    ChatMessage chatMessage = new ChatMessage(reply, "bot");
+
+                    chat.addLast(chatMessage);
+
+                    recyclerView.setAdapter(adapter);
+                    //ref.child("chat").push().setValue(chatMessage);
+
+                    System.out.println("work work work work work " + result +"  " + reply );
+                }
+            }
+        }.execute(aiRequest);
     }
     public void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
         final Animation anim_out = AnimationUtils.loadAnimation(c, R.anim.zoom_out);
@@ -191,7 +244,9 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
             case R.id.addBtn: {
 
 
-                String message = editText.getText().toString().trim();
+                 message = editText.getText().toString().trim();
+
+
 
                 if (!message.equals("")) {
 
@@ -203,45 +258,15 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
 
                    // ref.child("chat").push().setValue(chatMessage);
 
-                    aiRequest.setQuery(message);
-                    new AsyncTask<AIRequest,Void,AIResponse>(){
 
-                        @Override
-                        protected AIResponse doInBackground(AIRequest... aiRequests) {
-                            final AIRequest request = aiRequests[0];
-                            try {
-                                final AIResponse response = aiDataService.request(aiRequest);
-                                return response;
-                            } catch (AIServiceException e) {
-                            }
-                            return null;
-                        }
-                        @Override
-                        protected void onPostExecute(AIResponse response) {
-                            if (response != null) {
-
-                                Result result = response.getResult();
-
-
-                                String reply = result.getFulfillment().getSpeech();
-                                ChatMessage chatMessage = new ChatMessage(reply, "bot");
-
-                                chat.addLast(chatMessage);
-
-                                recyclerView.setAdapter(adapter);
-                                //ref.child("chat").push().setValue(chatMessage);
-
-                                System.out.println("work work work work work " + result +"  " + reply );
-                            }
-                        }
-                    }.execute(aiRequest);
+                    getAiResponse();
                 }
                 else {
                     aiService.startListening();
                 }
 
                 editText.setText("");
-
+                message = "";
 
 
                 break;

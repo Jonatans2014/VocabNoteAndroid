@@ -25,12 +25,6 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/translation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Portugues" />
-
-        <TextView
             android:id="@+id/tv_api_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

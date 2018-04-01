@@ -25,6 +25,7 @@ public class SynonymGameActivity extends AppCompatActivity  {
 
     TextView mainWord, text1, text2, text3;
     int intValue;
+    String getStringFromFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +48,13 @@ public class SynonymGameActivity extends AppCompatActivity  {
 
         Intent mIntent = getIntent();
         intValue = mIntent.getIntExtra("position", 0);
+        getStringFromFragment =  mIntent.getStringExtra("fragment");
 
 
 
-        System.out.println(intValue);
+
+
+        System.out.println("getgetgetget   "+getStringFromFragment);
 
         //CALL METHOD
         ChooseGameFragmentMenu();
@@ -64,12 +68,12 @@ public class SynonymGameActivity extends AppCompatActivity  {
     {
 
         // if getting position 0 go to the synonym game
-        if(intValue == 0){
+        if(intValue == 0 && getStringFromFragment.equals("gamesfrag")){
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container,new GuessSynonymMenuFragment()).commit();
 
-        }else
+        }else if(intValue == 1 && getStringFromFragment.equals("gamesfrag"))
         {
 
 
@@ -77,10 +81,53 @@ public class SynonymGameActivity extends AppCompatActivity  {
                     .replace(R.id.container,new GuessWordMenuFragment()).commit();
         }
 
+        else if(intValue == 0 && getStringFromFragment.equals("chatbot"))
+        {
+
+
+            ChatBotFragment nextFrag= new ChatBotFragment();
+            final Bundle bundle = new Bundle();
+            bundle.putString("level","Start-weather(1)");
+            nextFrag.setArguments(bundle);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, nextFrag)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        else {
+//
+//            //getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.container,new ChatBotFragment()).commit();
+//
+
+
+
+            ChatBotFragment nextFrag= new ChatBotFragment();
+            final Bundle bundle = new Bundle();
+            bundle.putString("level","Start-greetings");
+            nextFrag.setArguments(bundle);
+
+                    getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, nextFrag)
+                    .addToBackStack(null)
+                    .commit();
+
+
+
+        }
+
+
+
+    }
+
+
+
+
     }
 
 
 
 
 
-}
+
