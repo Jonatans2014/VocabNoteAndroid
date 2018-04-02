@@ -23,6 +23,7 @@ import almeida.john.vocabnote.almieda.john.fragments.CardListVocabFragment;
 import almeida.john.vocabnote.almieda.john.fragments.ChatBotFragment;
 import almeida.john.vocabnote.almieda.john.fragments.ChatbotGridFragment;
 import almeida.john.vocabnote.almieda.john.fragments.GamesFragment;
+import almeida.john.vocabnote.almieda.john.fragments.PeformanceAnalysisFragment;
 import almeida.john.vocabnote.almieda.john.fragments.WordFragment;
 
 
@@ -57,13 +58,13 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
     // Add Fragments to Tabs
+
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CardListVocabFragment(), "Vocabulary");
         adapter.addFragment(new GamesFragment(), "Games");
-        adapter.addFragment(new ChatbotGridFragment(), "Chatbot");
+        adapter.addFragment(new PeformanceAnalysisFragment(), "Chatbot");
 
         viewPager.setAdapter(adapter);
     }
@@ -138,16 +139,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+            System.out.println("whatsuppppppp");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

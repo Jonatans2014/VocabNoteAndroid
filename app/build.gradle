@@ -19,6 +19,10 @@ android {
     buildToolsVersion '27.0.3'
 }
 
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+
 dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:26.1.0'
@@ -40,6 +44,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.google.code.gson:gson:2.3'
     compile 'commons-io:commons-io:2.4'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
     compile 'ai.api:libai:1.4.8'
     compile 'ai.api:sdk:2.0.7@aar'

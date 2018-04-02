@@ -380,6 +380,9 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
             }
 
             public void onFinish() {
+
+
+                ///there's a bugg when we leave the page timer keeps running need to do something when going back.
                 setTimer.setText("0");
 
 
@@ -431,7 +434,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
                                 gamesAddon.startTimer();
-
                                 gamesAddon.setPoints(0);
                                 gamesAddon.setLife(3);
                                 //set visibility of help

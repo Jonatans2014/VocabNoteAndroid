@@ -96,10 +96,10 @@ public class SynonymGameActivity extends AppCompatActivity  {
                     .commit();
         }
         else {
-//
+
 //            //getSupportFragmentManager().beginTransaction()
 //                    .replace(R.id.container,new ChatBotFragment()).commit();
-//
+
 
 
 

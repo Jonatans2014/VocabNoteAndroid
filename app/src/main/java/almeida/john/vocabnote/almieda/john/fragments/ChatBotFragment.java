@@ -246,8 +246,6 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
 
                  message = editText.getText().toString().trim();
 
-
-
                 if (!message.equals("")) {
 
                     ChatMessage chatMessage = new ChatMessage(message, "user");
