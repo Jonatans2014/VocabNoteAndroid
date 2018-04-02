@@ -45,22 +45,24 @@ public class PeformanceAnalysisFragment extends Fragment {
 
 
         ArrayList<PieEntry> yvalues = new ArrayList<>();
-        yvalues.add(new PieEntry(34f,"US"));
-        yvalues.add(new PieEntry(23f,"UK"));
-        yvalues.add(new PieEntry(35f,"BR"));
-        yvalues.add(new PieEntry(34f,"iNDIA"));
-        yvalues.add(new PieEntry(40f,"cHINA"));
+        yvalues.add(new PieEntry(40f,"Correct"));
+        yvalues.add(new PieEntry(100f,"Incorrect"));
+
+
+
+        final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255,0,0)};
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        for(int c: MY_COLORS) colors.add(c);
+
 
 
         PieDataSet DataSet = new PieDataSet(yvalues,"Countries");
         DataSet.setSliceSpace(3f);
         DataSet.setSelectionShift(5f);
-        DataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-
-
+        DataSet.setColors(colors);
         PieData data = new PieData(DataSet);
-        data.setValueTextSize(10f);
-        data.setValueTextColor(Color.YELLOW);
+        data.setValueTextSize(20F);
+        data.setValueTextColor(Color.WHITE);
 
         piechart.setData(data);
 
