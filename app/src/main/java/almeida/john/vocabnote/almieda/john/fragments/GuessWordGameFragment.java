@@ -41,6 +41,8 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HttpsURLConnection;
 
 import almeida.john.vocabnote.Api;
+import almeida.john.vocabnote.LoginActivity;
+import almeida.john.vocabnote.MainActivity;
 import almeida.john.vocabnote.R;
 import almeida.john.vocabnote.UserInfo;
 import retrofit2.Call;
@@ -416,7 +418,12 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
                     System.out.println("this is the timer p/s   " +gamesAddon.getListUserTimeGuessingWord().get(i));
                 }
-                Avg = addSecondPS / gamesAddon.getListUserTimeGuessingWord().size();
+
+                if(addSecondPS > 0)
+                {
+                    Avg = addSecondPS / gamesAddon.getListUserTimeGuessingWord().size();
+                }
+
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 
@@ -445,6 +452,11 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
+                                //Fetch lists of users, classifications and Words.
+                                Intent fbdata = new Intent(getContext(), MainActivity.class);
+                                // getProfileInformationFacebook(loginResult.getAccessToken());
+                                startActivity(fbdata);
+
                             }
                         });
 
@@ -452,13 +464,16 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-
-
-                                gamesAddon.startTimer();
-                                gamesAddon.setPoints(0);
-                                gamesAddon.setLife(3);
-                                //set visibility of help
-                                recyclerView.setAdapter(adapter);
+                                //
+                                GuessWordGameFragment nextFrag= new GuessWordGameFragment();
+                                final Bundle bundle = new Bundle();
+                                bundle.putString("level","medium");
+                                nextFrag.setArguments(bundle);
+                                getActivity()
+                                        .getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.container, nextFrag)
+                                        .addToBackStack(null)
+                                        .commit();
                             }
                         });
 
