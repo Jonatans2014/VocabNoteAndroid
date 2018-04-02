@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -23,6 +24,11 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +69,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     public  LinkedList<String> getSplit =   new LinkedList<String>();
     public LinkedList<String> checkSplit = new LinkedList<>();
     public LinkedList<String> allWord =    new LinkedList<String>();
+    PieChart piechart;
     int addSecondPS =0;
 
     int highestScore =0;
@@ -427,25 +434,62 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 
-                        View mView = getLayoutInflater().inflate(R.layout.gamestatts, null);
+                        View mView = getLayoutInflater().inflate(R.layout.fragment_peformance_analysis, null);
 
                         final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
                         final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
                         final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
                         final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
                         final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
-
+                        piechart =  mView.findViewById(R.id.piechart);
 
 
                          mEmail.setText(String.valueOf(Avg));
                          mScore.setText((Integer.toString(points)));
-                         mCorrect.setText((Integer.toString(getCorrect)));
-                         mInCorrect.setText((Integer.toString(getIncorrect)));
+//                         mCorrect.setText((Integer.toString(getCorrect)));
+//                         mInCorrect.setText((Integer.toString(getIncorrect)));
                          HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
 
 //                       mCorrect.setText
 //                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
 //                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
+
+
+
+
+
+
+                piechart.setUsePercentValues(true);
+                piechart.getDescription().setEnabled(false);
+                piechart.setExtraOffsets(5,10,5,5);
+
+                piechart.setDragDecelerationFrictionCoef(0.95f);
+                piechart.setDrawHoleEnabled(true);
+                piechart.setHoleColor(Color.WHITE);
+                piechart.setTransparentCircleRadius(61f);
+
+
+                ArrayList<PieEntry> yvalues = new ArrayList<>();
+                yvalues.add(new PieEntry(getCorrect,"Correct"));
+                yvalues.add(new PieEntry(getIncorrect,"Incorrect"));
+
+
+
+                final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255,0,0)};
+                ArrayList<Integer> colors = new ArrayList<Integer>();
+                for(int c: MY_COLORS) colors.add(c);
+
+
+
+                PieDataSet DataSet = new PieDataSet(yvalues,"");
+                DataSet.setSliceSpace(3f);
+                DataSet.setSelectionShift(5f);
+                DataSet.setColors(colors);
+                PieData data = new PieData(DataSet);
+                data.setValueTextSize(20F);
+                data.setValueTextColor(Color.BLACK);
+
+                piechart.setData(data);
 
 
                         mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {

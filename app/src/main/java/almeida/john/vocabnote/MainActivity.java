@@ -143,6 +143,13 @@ public class MainActivity extends AppCompatActivity
 
 
 
+            PeformanceAnalysisFragment peformanceAnalysisFragment = new PeformanceAnalysisFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.drawer_layout,
+                            peformanceAnalysisFragment,
+                            peformanceAnalysisFragment.getTag()
+                    ).commit();
             System.out.println("whatsuppppppp");
         }
 
