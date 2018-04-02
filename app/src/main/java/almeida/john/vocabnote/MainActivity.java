@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CardListVocabFragment(), "Vocabulary");
         adapter.addFragment(new GamesFragment(), "Games");
-        adapter.addFragment(new PeformanceAnalysisFragment(), "Chatbot");
+        adapter.addFragment(new ChatbotGridFragment(), "Chatbot");
 
         viewPager.setAdapter(adapter);
     }
@@ -143,13 +143,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-            PeformanceAnalysisFragment peformanceAnalysisFragment = new PeformanceAnalysisFragment();
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.drawer_layout,
-                            peformanceAnalysisFragment,
-                            peformanceAnalysisFragment.getTag()
-                    ).commit();
             System.out.println("whatsuppppppp");
         }
 
