@@ -61,7 +61,10 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     public  LinkedList<String> getSplit =   new LinkedList<String>();
     public LinkedList<String> checkSplit = new LinkedList<>();
     public LinkedList<String> allWord =    new LinkedList<String>();
+    int addSecondPS =0;
 
+    int highestScore =0;
+    float Avg =0;
 
     int points;
     public String getHelpString;
@@ -382,10 +385,18 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
             public void onFinish() {
 
 
+
+
                 ///there's a bugg when we leave the page timer keeps running need to do something when going back.
                 setTimer.setText("0");
 
 
+                System.out.println("This is highestScore   " +gamesAddon.getHighestScore() );
+                // set highestscore to highest
+                if(gamesAddon.getHighestScore() < points)
+                {
+                    gamesAddon.setHighestScore(points);
+                }
 
                 //shared prefff
                 //Save score
@@ -397,23 +408,33 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
                // int  score = myScore.getInt("score", 0);
+                for(int i =0 ; i < gamesAddon.getListUserTimeGuessingWord().size(); i ++)
+                {
+
+                    addSecondPS += gamesAddon.getListUserTimeGuessingWord().get(i);
+
+
+                    System.out.println("this is the timer p/s   " +gamesAddon.getListUserTimeGuessingWord().get(i));
+                }
+                Avg = addSecondPS / gamesAddon.getListUserTimeGuessingWord().size();
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 
                         View mView = getLayoutInflater().inflate(R.layout.gamestatts, null);
 
                         final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
+                        final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
                         final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
                         final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
                         final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
 
 
 
-                        // mEmail.setText("this is definition");
+                         mEmail.setText(String.valueOf(Avg));
                          mScore.setText((Integer.toString(points)));
                          mCorrect.setText((Integer.toString(getCorrect)));
                          mInCorrect.setText((Integer.toString(getIncorrect)));
-
+                         HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
 
 //                       mCorrect.setText
 //                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
@@ -816,10 +837,16 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                         getCorrect= gamesAddon.increaseCorrect();
                         Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
                         points = gamesAddon.addPoints(getHelpString);
+
+
                         Classifications.clear();
                         getRandomWordFromList();
                         System.out.println("hey hey heyy finished");
                         gamesAddon.startTimer();
+
+
+
+
 //
 //                                StartTime = SystemClock.uptimeMillis();
 //                                handler.postDelayed(runnable, 0);

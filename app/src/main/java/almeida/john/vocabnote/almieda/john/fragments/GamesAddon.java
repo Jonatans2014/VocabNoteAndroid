@@ -16,6 +16,16 @@ public class GamesAddon {
 
     private int life;
     private  int points;
+
+    public int getHighestScore() {
+        return HighestScore;
+    }
+
+    public void setHighestScore(int highestScore) {
+        HighestScore = highestScore;
+    }
+
+    private  static int HighestScore;
     private int help1;
     private int help2;
     private int help3;
@@ -61,7 +71,6 @@ public class GamesAddon {
         handler = new Handler() ;
         this.life= life ;
         this.points = points;
-
 
         correct = 0;
         incorrect = 0;
