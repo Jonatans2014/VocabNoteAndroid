@@ -55,13 +55,13 @@ public class PeformanceAnalysisFragment extends Fragment {
 
 
 
-        PieDataSet DataSet = new PieDataSet(yvalues,"Countries");
+        PieDataSet DataSet = new PieDataSet(yvalues,"");
         DataSet.setSliceSpace(3f);
         DataSet.setSelectionShift(5f);
         DataSet.setColors(colors);
         PieData data = new PieData(DataSet);
         data.setValueTextSize(20F);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
 
         piechart.setData(data);
 
