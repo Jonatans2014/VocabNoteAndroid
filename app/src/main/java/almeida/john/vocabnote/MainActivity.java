@@ -1,6 +1,7 @@
 package almeida.john.vocabnote;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -23,6 +24,7 @@ import almeida.john.vocabnote.almieda.john.fragments.CardListVocabFragment;
 import almeida.john.vocabnote.almieda.john.fragments.ChatBotFragment;
 import almeida.john.vocabnote.almieda.john.fragments.ChatbotGridFragment;
 import almeida.john.vocabnote.almieda.john.fragments.GamesFragment;
+import almeida.john.vocabnote.almieda.john.fragments.LevelProgressActivity;
 import almeida.john.vocabnote.almieda.john.fragments.PeformanceAnalysisFragment;
 import almeida.john.vocabnote.almieda.john.fragments.WordFragment;
 
@@ -141,7 +143,10 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
 
 
-
+            //Fetch lists of users, classifications and Words.
+            Intent fbdata = new Intent(MainActivity.this, LevelProgressActivity.class);
+            // getProfileInformationFacebook(loginResult.getAccessToken());
+            startActivity(fbdata);
 
             System.out.println("whatsuppppppp");
         }

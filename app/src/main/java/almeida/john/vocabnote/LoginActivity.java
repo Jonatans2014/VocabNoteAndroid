@@ -148,14 +148,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
                // ClassWord = new String[UserWords.size()];
-
-
-
-
-
-
-
-
             }
 
             @Override

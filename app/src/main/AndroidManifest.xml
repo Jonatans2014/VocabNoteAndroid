@@ -56,7 +56,8 @@
         <activity
             android:name=".almieda.john.fragments.SynonymGamePlayActivity"
             android:label="@string/title_activity_synonym_game_play"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".almieda.john.fragments.LevelProgressActivity"></activity>
     </application>
 
 </manifest>

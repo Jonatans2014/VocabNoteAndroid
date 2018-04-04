@@ -19,9 +19,9 @@ android {
     buildToolsVersion '27.0.3'
 }
 
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
+repositories {
+    maven { url "https://jitpack.io" }
+}
 
 dependencies {
     //noinspection GradleCompatible
