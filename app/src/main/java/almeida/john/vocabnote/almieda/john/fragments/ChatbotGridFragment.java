@@ -2,6 +2,9 @@ package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -48,8 +51,8 @@ public class ChatbotGridFragment extends Fragment {
 
             // this code to be used to connect the fragments
             super(inflater.inflate(R.layout.fragment_chatbot_grid, parent, false));
-            picture = (ImageView) itemView.findViewById(R.id.tile_picture);
-            name = (TextView) itemView.findViewById(R.id.tile_title);
+            picture = (ImageView) itemView.findViewById(R.id.profile_image);
+          //  name = (TextView) itemView.findViewById(R.id.tile_title);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -67,8 +70,18 @@ public class ChatbotGridFragment extends Fragment {
     public  class ContentAdapter extends RecyclerView.Adapter<ChatbotGridFragment.ViewHolder> {
         // Set numbers of Tiles in RecyclerView.
         private static final int LENGTH = 2;
-
+        private final Drawable[] mPlacePictures;
+        //      //  private final String[] mPlaces;
+//        //private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
+            Resources resources = context.getResources();
+
+            TypedArray a = resources.obtainTypedArray(R.array.chatbotlevel1);
+            mPlacePictures = new Drawable[a.length()];
+            for (int i = 0; i < mPlacePictures.length; i++) {
+                mPlacePictures[i] = a.getDrawable(i);
+            }
+            a.recycle();
         }
 
         @Override
@@ -81,6 +94,9 @@ public class ChatbotGridFragment extends Fragment {
 
 //            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
 //            holder.name.setText(mPlaces[position % mPlaces.length]);
+
+            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

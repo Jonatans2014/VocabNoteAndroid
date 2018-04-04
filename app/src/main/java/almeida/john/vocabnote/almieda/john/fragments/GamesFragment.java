@@ -45,12 +45,14 @@ public class GamesFragment extends Fragment {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public TextView name;
+
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
 
             // this code to be used to connect the fragments
             super(inflater.inflate(R.layout.fragment_games, parent, false));
-            picture = (ImageView) itemView.findViewById(R.id.tile_picture);
-            name = (TextView) itemView.findViewById(R.id.tile_title);
+            picture = (ImageView) itemView.findViewById(R.id.profile_image);
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -69,18 +71,18 @@ public class GamesFragment extends Fragment {
     public  class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Tiles in RecyclerView.
         private static final int LENGTH = 2;
-//
+       private final Drawable[] mPlacePictures;
 //      //  private final String[] mPlaces;
 //        //private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
-//            Resources resources = context.getResources();
-//            //mPlaces = resources.getStringArray(R.array.places);
-//            //TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-//            mPlacePictures = new Drawable[a.length()];
-//            for (int i = 0; i < mPlacePictures.length; i++) {
-//                mPlacePictures[i] = a.getDrawable(i);
-//            }
-//            a.recycle();
+            Resources resources = context.getResources();
+
+            TypedArray a = resources.obtainTypedArray(R.array.gameslevel1);
+            mPlacePictures = new Drawable[a.length()];
+            for (int i = 0; i < mPlacePictures.length; i++) {
+                mPlacePictures[i] = a.getDrawable(i);
+            }
+            a.recycle();
         }
 
         @Override
@@ -91,9 +93,10 @@ public class GamesFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-//            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
+            // holder.picture.setImageDrawable();
 //            holder.name.setText(mPlaces[position % mPlaces.length]);
 
+            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
 
 
 
