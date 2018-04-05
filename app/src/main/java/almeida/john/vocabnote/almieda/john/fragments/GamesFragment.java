@@ -92,7 +92,7 @@ public class GamesFragment extends Fragment {
 
        System.out.println("this is overal  " +gamesAddon.getLvl2());
 
-            if(gamesAddon.getOverAllScore() == gamesAddon.getLvl2())
+            if(gamesAddon.getOverAllScore() >= gamesAddon.getLvl2())
             {
                 a = resources.obtainTypedArray(R.array.gameslevel2);
             }
