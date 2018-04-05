@@ -22,6 +22,8 @@ import almeida.john.vocabnote.R;
 
 public class GamesFragment extends Fragment {
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,14 @@ public class GamesFragment extends Fragment {
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+
+
+
         return recyclerView;
     }
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
@@ -73,12 +81,26 @@ public class GamesFragment extends Fragment {
         private static final int LENGTH = 2;
        private final Drawable[] mPlacePictures;
         private final String[] mPlaces;
+
+        GamesAddon gamesAddon = new GamesAddon();
 //        //private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
             Resources resources = context.getResources();
             mPlaces = resources.getStringArray(R.array.games);
+            TypedArray a;
 
-            TypedArray a = resources.obtainTypedArray(R.array.gameslevel1);
+
+       System.out.println("this is overal  " +gamesAddon.getLvl2());
+
+            if(gamesAddon.getOverAllScore() == gamesAddon.getLvl2())
+            {
+                a = resources.obtainTypedArray(R.array.gameslevel2);
+            }
+            else
+            {
+                 a = resources.obtainTypedArray(R.array.gameslevel1);
+            }
+
             mPlacePictures = new Drawable[a.length()];
             for (int i = 0; i < mPlacePictures.length; i++) {
                 mPlacePictures[i] = a.getDrawable(i);

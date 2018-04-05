@@ -38,6 +38,7 @@ public class GamesAddon {
     private int sucess;
     private int failure;
 
+    private int lvl2;
 
     long MillisecondTime, StartTime, TimeBuff, UpdateTime = 0L ;
     int getTimer;
@@ -79,6 +80,25 @@ public class GamesAddon {
         correct = 0;
         incorrect = 0;
         getTimer = 0;
+        lvl2 = 3000;
+    }
+
+
+    GamesAddon()
+    {
+
+        handler = new Handler() ;
+        this.life= 3 ;
+        this.points = 50;
+        correct = 0;
+        incorrect = 0;
+        getTimer = 0;
+        overAllScore =3000;
+        lvl2 = 3000;
+    }
+
+    public int getLvl2() {
+        return lvl2;
     }
 
     public static int getOverAllScore() {

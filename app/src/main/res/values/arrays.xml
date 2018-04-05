@@ -27,11 +27,28 @@
     </array>
 
 
+
+
+
+    <array name="gameslevel2">
+        <item>@drawable/synonym</item>
+        <item>@drawable/jumbledletters</item>
+
+    </array>
+
     <array name="chatbotlevel1">
         <item>@drawable/blonde</item>
         <item>@drawable/padlock</item>
 
     </array>
+
+
+    <array name="chatbotlevel2">
+        <item>@drawable/blonde</item>
+        <item>@drawable/weather</item>
+
+    </array>
+
 
     <string-array name="lessons">
         <item>Greetings!</item>

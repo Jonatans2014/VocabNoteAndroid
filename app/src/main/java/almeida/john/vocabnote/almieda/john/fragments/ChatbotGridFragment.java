@@ -73,6 +73,8 @@ public class ChatbotGridFragment extends Fragment {
         private static final int LENGTH = 2;
         private final Drawable[] mPlacePictures;
         private final String[] mPlaces ;
+        TypedArray a;
+        GamesAddon gamesAddon = new GamesAddon();
 
         //      //  private final String[] mPlaces;
 //        //private final Drawable[] mPlacePictures;
@@ -81,7 +83,16 @@ public class ChatbotGridFragment extends Fragment {
 
             mPlaces = resources.getStringArray(R.array.lessons);
 
-            TypedArray a = resources.obtainTypedArray(R.array.chatbotlevel1);
+
+            if(gamesAddon.getOverAllScore() == gamesAddon.getLvl2())
+            {
+                a = resources.obtainTypedArray(R.array.chatbotlevel2);
+            }
+            else
+            {
+                a = resources.obtainTypedArray(R.array.chatbotlevel1);
+            }
+            
             mPlacePictures = new Drawable[a.length()];
             for (int i = 0; i < mPlacePictures.length; i++) {
                 mPlacePictures[i] = a.getDrawable(i);
