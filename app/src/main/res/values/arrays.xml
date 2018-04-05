@@ -28,10 +28,21 @@
 
 
     <array name="chatbotlevel1">
-        <item>@drawable/synonym</item>
+        <item>@drawable/blonde</item>
         <item>@drawable/padlock</item>
 
     </array>
+
+    <string-array name="lessons">
+        <item>Greetings!</item>
+        <item>Weather</item>
+    </string-array>
+
+
+    <string-array name="games">
+        <item>Synonyms</item>
+        <item>JumbledLetters</item>
+    </string-array>
 
 
 </resources>

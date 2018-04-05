@@ -52,7 +52,8 @@ public class ChatbotGridFragment extends Fragment {
             // this code to be used to connect the fragments
             super(inflater.inflate(R.layout.fragment_chatbot_grid, parent, false));
             picture = (ImageView) itemView.findViewById(R.id.profile_image);
-          //  name = (TextView) itemView.findViewById(R.id.tile_title);
+            name = (TextView) itemView.findViewById(R.id.lesson);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,10 +72,14 @@ public class ChatbotGridFragment extends Fragment {
         // Set numbers of Tiles in RecyclerView.
         private static final int LENGTH = 2;
         private final Drawable[] mPlacePictures;
+        private final String[] mPlaces ;
+
         //      //  private final String[] mPlaces;
 //        //private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
             Resources resources = context.getResources();
+
+            mPlaces = resources.getStringArray(R.array.lessons);
 
             TypedArray a = resources.obtainTypedArray(R.array.chatbotlevel1);
             mPlacePictures = new Drawable[a.length()];
@@ -93,8 +98,7 @@ public class ChatbotGridFragment extends Fragment {
         public void onBindViewHolder(final ChatbotGridFragment.ViewHolder holder, final int position) {
 
 //            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
-//            holder.name.setText(mPlaces[position % mPlaces.length]);
-
+            holder.name.setText(mPlaces[position % mPlaces.length]);
             holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {

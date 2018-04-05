@@ -51,7 +51,7 @@ public class GamesFragment extends Fragment {
             // this code to be used to connect the fragments
             super(inflater.inflate(R.layout.fragment_games, parent, false));
             picture = (ImageView) itemView.findViewById(R.id.profile_image);
-
+            name = (TextView) itemView.findViewById(R.id.game);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -72,10 +72,11 @@ public class GamesFragment extends Fragment {
         // Set numbers of Tiles in RecyclerView.
         private static final int LENGTH = 2;
        private final Drawable[] mPlacePictures;
-//      //  private final String[] mPlaces;
+        private final String[] mPlaces;
 //        //private final Drawable[] mPlacePictures;
         public ContentAdapter(Context context) {
             Resources resources = context.getResources();
+            mPlaces = resources.getStringArray(R.array.games);
 
             TypedArray a = resources.obtainTypedArray(R.array.gameslevel1);
             mPlacePictures = new Drawable[a.length()];
@@ -94,8 +95,7 @@ public class GamesFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
             // holder.picture.setImageDrawable();
-//            holder.name.setText(mPlaces[position % mPlaces.length]);
-
+            holder.name.setText(mPlaces[position % mPlaces.length]);
             holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
 
 
