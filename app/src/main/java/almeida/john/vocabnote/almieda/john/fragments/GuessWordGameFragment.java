@@ -258,7 +258,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         gamesAddon.startTimer();
 
-                Bundle bundle = getArguments();
+        Bundle bundle = getArguments();
         if (bundle != null)
         {
             level = bundle.getString("level");
@@ -532,6 +532,9 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         }.start();
 
     }
+
+
+
     @Override
     public void onClick(View view) {
 
@@ -749,7 +752,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         if(level.equals("easy") && splitWord.length <=4 )
         {
-            setTimer.setText(level);
+            //setTimer.setText(level);
 
 
             for(int i = 0; i <splitWord.length; i++)
@@ -765,7 +768,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         else if(level.equals("medium") && splitWord.length <=5)
         {
 
-            setTimer.setText(level);
+            //setTimer.setText(level);
 
 
             for(int i = 0; i <splitWord.length; i++)
@@ -780,7 +783,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         }
        else if(level.equals("hard") && splitWord.length>5 )
         {
-            setTimer.setText(level);
+            //setTimer.setText(level);
 
 
             for(int i = 0; i <splitWord.length; i++)

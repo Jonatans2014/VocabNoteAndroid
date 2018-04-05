@@ -1,11 +1,15 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import android.os.AsyncTask;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,10 +40,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import almeida.john.vocabnote.Api;
+import almeida.john.vocabnote.MainActivity;
 import almeida.john.vocabnote.R;
 import almeida.john.vocabnote.UserInfo;
 import retrofit2.Call;
@@ -53,10 +65,16 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     public RecyclerView recyclerView,lifeRecyclerV;
     String[] ClassList ;
     String[] WordList;
+    PieChart piechart;
+    float Avg =0;
+    int addSecondPS =0;
     static int counter;
     String [] getSynonym;
     int points;
+    TextView setTimer;
     public String getHelpString;
+    int getCorrect;
+    int getIncorrect;
     GuessSynonymGameFragment.ContentAdapter adapter, lifeAdapter;
 
 
@@ -88,9 +106,10 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
         recyclerView = (RecyclerView) view.findViewById(R.id.synoyngameRec);
 
 
+        gamesAddon.startTimer();
 
         pointstv = (TextView) view.findViewById(R.id.tvpoints);
-
+        setTimer = (TextView) view.findViewById(R.id.TVtimer);
 
         adapter = new GuessSynonymGameFragment.ContentAdapter(recyclerView.getContext());
 
@@ -115,7 +134,11 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
         choice3 = (TextView) view.findViewById(R.id.word3);
 
 
+        //p/s
+        gamesAddon.startTimer();
 
+        //countdowntimer
+        setTimer();
         //set onClick Listener
         choice1.setOnClickListener(this);
         choice2.setOnClickListener(this);
@@ -124,6 +147,163 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
 
         return view;
+
+    }
+
+
+
+
+    //setTimer
+    public  void setTimer()
+    {
+        String getdone;
+        new CountDownTimer(20000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                setTimer.setText(""+String.format("%d:%d ",
+                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            public void onFinish() {
+
+
+
+
+                ///there's a bugg when we leave the page timer keeps running need to do something when going back.
+                setTimer.setText("0");
+
+
+                System.out.println("This is highestScore   " +gamesAddon.getHighestScore() );
+                // set highestscore to highest
+                if(gamesAddon.getHighestScore() < points)
+                {
+                    gamesAddon.setHighestScore(points);
+                }
+
+                //shared prefff
+                //Save score
+//                SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = myScore.edit();
+//                editor.putInt("score", points);
+//                editor.commit();
+
+
+
+                // int  score = myScore.getInt("score", 0);
+                for(int i =0 ; i < gamesAddon.getListUserTimeGuessingWord().size(); i ++)
+                {
+
+                    addSecondPS += gamesAddon.getListUserTimeGuessingWord().get(i);
+
+
+                    System.out.println("this is the timer p/s   " +gamesAddon.getListUserTimeGuessingWord().get(i));
+                }
+
+                if(addSecondPS > 0)
+                {
+                    Avg = addSecondPS / gamesAddon.getListUserTimeGuessingWord().size();
+                }
+
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+                View mView = getLayoutInflater().inflate(R.layout.fragment_peformance_analysis, null);
+
+                final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
+                final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
+                final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
+                final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
+                final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
+                piechart =  mView.findViewById(R.id.piechart);
+
+
+                mEmail.setText(String.valueOf(Avg));
+                mScore.setText((Integer.toString(points)));
+//                         mCorrect.setText((Integer.toString(getCorrect)));
+//                         mInCorrect.setText((Integer.toString(getIncorrect)));
+                HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
+
+                gamesAddon.setOverAllScore(points);
+
+//                       mCorrect.setText
+//                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
+//                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
+
+
+                System.out.println("this is points  " + gamesAddon.getOverAllScore());
+                piechart.setUsePercentValues(true);
+                piechart.getDescription().setEnabled(false);
+                piechart.setExtraOffsets(5,10,5,5);
+
+                piechart.setDragDecelerationFrictionCoef(0.95f);
+                piechart.setDrawHoleEnabled(true);
+                piechart.setHoleColor(Color.WHITE);
+                piechart.setTransparentCircleRadius(61f);
+
+
+                ArrayList<PieEntry> yvalues = new ArrayList<>();
+                yvalues.add(new PieEntry(getCorrect,"Correct"));
+                yvalues.add(new PieEntry(getIncorrect,"Incorrect"));
+
+
+
+                final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255,0,0)};
+                ArrayList<Integer> colors = new ArrayList<Integer>();
+                for(int c: MY_COLORS) colors.add(c);
+
+
+
+                PieDataSet DataSet = new PieDataSet(yvalues,"");
+                DataSet.setSliceSpace(3f);
+                DataSet.setSelectionShift(5f);
+                DataSet.setColors(colors);
+                PieData data = new PieData(DataSet);
+                data.setValueTextSize(20F);
+                data.setValueTextColor(Color.BLACK);
+
+                piechart.setData(data);
+
+
+                mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        //Fetch lists of users, classifications and Words.
+                        Intent fbdata = new Intent(getContext(), MainActivity.class);
+                        // getProfileInformationFacebook(loginResult.getAccessToken());
+                        startActivity(fbdata);
+
+                    }
+                });
+
+                mBuilder.setPositiveButton("              Play Again!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        //Might add lvls
+
+                        GuessSynonymGameFragment nextFrag= new GuessSynonymGameFragment();
+                        final Bundle bundle = new Bundle();
+                        bundle.putString("level","medium");
+                        nextFrag.setArguments(bundle);
+                        getActivity()
+                                .getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, nextFrag)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
+
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
+                dialog.show();
+
+
+
+            }
+        }.start();
 
     }
 
@@ -507,7 +687,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 {
                     points = gamesAddon.addPoints(getHelpString);
 
-
+                    getCorrect= gamesAddon.increaseCorrect();
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
                     getThreeWords.clear();
                     getRandomWordFromList();
@@ -521,6 +701,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
 
+                    getIncorrect =gamesAddon.increaseIncorrect();
                     gamesAddon.removeLife();
                     System.out.println("this is life dog  " + gamesAddon.getLife());
                     recyclerView.setAdapter(adapter);
@@ -541,6 +722,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                     getRandomWordFromList();
 
                     gamesAddon.addPoints(getHelpString);
+                    getCorrect= gamesAddon.increaseCorrect();
                     System.out.println("This is points" + gamesAddon.getPoints());
                 }
                 else
@@ -551,7 +733,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                     }
 
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
-
+                    getIncorrect =gamesAddon.increaseIncorrect();
                     gamesAddon.removeLife();
                     System.out.println("this is life dog  " + gamesAddon.getLife());
                     recyclerView.setAdapter(adapter);
@@ -565,6 +747,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 points = gamesAddon.addPoints(getHelpString);
                 if(choice3.getText().equals(getSynonym[2]))
                 {
+                    getCorrect= gamesAddon.increaseCorrect();
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
                     getThreeWords.clear();
                     getRandomWordFromList();
@@ -572,7 +755,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 else
                 {
 
-
+                    getIncorrect =gamesAddon.increaseIncorrect();
                     if(gamesAddon.getLife() <= 0)
                     {
                         Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
