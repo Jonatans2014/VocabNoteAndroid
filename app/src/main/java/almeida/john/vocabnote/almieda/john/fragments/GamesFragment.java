@@ -116,25 +116,38 @@ public class GamesFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
+            String selectedCategory;
+
             // holder.picture.setImageDrawable();
             holder.name.setText(mPlaces[position % mPlaces.length]);
             holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
-
-
-
-
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
 
-                    System.out.println(position);
+                        System.out.println(position);
+                        if(position == 0)
+                        {
+                            Intent intent = new Intent(getContext(), SynonymGameActivity.class);
+                            intent.putExtra("position", position);
+                            intent.putExtra("fragment", "gamesfrag");
+                            startActivity(intent);
 
-                    Intent intent = new Intent(getContext(), SynonymGameActivity.class);
-                    intent.putExtra("position", position);
-                    intent.putExtra("fragment", "gamesfrag");
-                    startActivity(intent);
+                        }else if(position == 1 && gamesAddon.getOverAllScore() >= gamesAddon.getLvl2())
+                        {
+                            Intent intent = new Intent(getContext(), SynonymGameActivity.class);
+                            intent.putExtra("position", position);
+                            intent.putExtra("fragment", "gamesfrag");
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(),"Please progress to level2 to unlock this conversation",Toast.LENGTH_SHORT).show();
+
+                        }
+
 
 
 
@@ -144,8 +157,6 @@ public class GamesFragment extends Fragment {
 
         @Override
         public int getItemCount(
-
-
         ) {
             return LENGTH;
         }

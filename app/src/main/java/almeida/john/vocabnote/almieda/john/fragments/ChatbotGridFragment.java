@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import almeida.john.vocabnote.R;
 
@@ -112,18 +113,39 @@ public class ChatbotGridFragment extends Fragment {
             holder.name.setText(mPlaces[position % mPlaces.length]);
             holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
 
+
+
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
 
 
-                    System.out.println(position);
+                    if(position == 0)
+                    {
 
-                    Intent intent = new Intent(getContext(), SynonymGameActivity.class);
-                    intent.putExtra("position", position);
-                    intent.putExtra("fragment", "chatbot");
-                    startActivity(intent);
+                        System.out.println(position);
+
+                        Intent intent = new Intent(getContext(), SynonymGameActivity.class);
+                        intent.putExtra("position", position);
+                        intent.putExtra("fragment", "chatbot");
+                        startActivity(intent);
+
+                    }else if(position == 1 && gamesAddon.getOverAllScore() >= gamesAddon.getLvl2())
+                    {
+                        System.out.println(position);
+
+                        Intent intent = new Intent(getContext(), SynonymGameActivity.class);
+                        intent.putExtra("position", position);
+                        intent.putExtra("fragment", "chatbot");
+                        startActivity(intent);
+                    }else
+                    {
+                        Toast.makeText(getContext(),"Please progress to level2 to unlock this conversation",Toast.LENGTH_SHORT).show();
+                    }
+
+
 
 
 

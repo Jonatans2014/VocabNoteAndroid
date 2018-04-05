@@ -91,8 +91,6 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
         msg.addLast("fine thanks");
 
 
-
-
         // dialogflow declaration
 
 
@@ -105,8 +103,6 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
 
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
-
-
 
 
         addBtn.setOnClickListener(this);
