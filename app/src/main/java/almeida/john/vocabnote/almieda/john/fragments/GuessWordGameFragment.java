@@ -450,6 +450,8 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 //                         mInCorrect.setText((Integer.toString(getIncorrect)));
                          HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
 
+                         gamesAddon.setOverAllScore(points);
+
 //                       mCorrect.setText
 //                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
 //                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
@@ -457,8 +459,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
 
-
-
+                System.out.println("this is points  " + gamesAddon.getOverAllScore());
                 piechart.setUsePercentValues(true);
                 piechart.getDescription().setEnabled(false);
                 piechart.setExtraOffsets(5,10,5,5);

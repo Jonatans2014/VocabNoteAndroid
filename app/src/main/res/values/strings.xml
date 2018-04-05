@@ -16,6 +16,7 @@
     <string name="title_activity_dic">DicActivity</string>
     <string name="title_activity_dict">DictActivity</string>
     <string name="title_activity_synonym_game">SynonymGameActivity</string>
+    <string name="maxScore">3000</string>
 
 
     <string name="instructions">

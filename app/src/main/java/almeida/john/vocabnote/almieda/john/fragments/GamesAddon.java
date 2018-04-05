@@ -26,6 +26,10 @@ public class GamesAddon {
     }
 
     private  static int HighestScore;
+
+
+
+    private static  int overAllScore;
     private int help1;
     private int help2;
     private int help3;
@@ -75,6 +79,14 @@ public class GamesAddon {
         correct = 0;
         incorrect = 0;
         getTimer = 0;
+    }
+
+    public static int getOverAllScore() {
+        return overAllScore;
+    }
+
+    public static void setOverAllScore(int overAllScore) {
+        GamesAddon.overAllScore += overAllScore;
     }
 
 

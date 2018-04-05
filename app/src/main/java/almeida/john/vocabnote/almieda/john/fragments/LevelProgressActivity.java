@@ -3,6 +3,8 @@ package almeida.john.vocabnote.almieda.john.fragments;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -21,6 +23,9 @@ public class LevelProgressActivity extends AppCompatActivity {
 
 
     PieChart piechart;
+    ProgressBar progressBar;
+    GamesAddon gamesAddon;
+    TextView currentScore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +36,13 @@ public class LevelProgressActivity extends AppCompatActivity {
 
 
         piechart =  findViewById(R.id.piechart);
+        progressBar =  findViewById(R.id.determinateBar);
+        currentScore = (TextView) findViewById(R.id.currentscore);
+
+
+        progressBar.setProgress(gamesAddon.getOverAllScore());
+
+        currentScore.setText(String.valueOf(gamesAddon.getOverAllScore()));
 
         piechart.setUsePercentValues(true);
         piechart.getDescription().setEnabled(false);
