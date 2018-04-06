@@ -25,6 +25,8 @@ public class SynonymGameActivity extends AppCompatActivity  {
 
     TextView mainWord, text1, text2, text3;
     int intValue;
+    String gamefrag =  "gamesfrag";
+    String chatbot  = "chatbotfrag";
     String getStringFromFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +70,12 @@ public class SynonymGameActivity extends AppCompatActivity  {
     {
 
         // if getting position 0 go to the synonym game
-        if(intValue == 0 && getStringFromFragment.equals("gamesfrag")){
+        if(intValue == 0 && getStringFromFragment.equals(gamefrag)){
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container,new GuessSynonymMenuFragment()).commit();
 
-        }else if(intValue == 1 && getStringFromFragment.equals("gamesfrag"))
+        }else if(intValue == 1 && getStringFromFragment.equals(gamefrag))
         {
 
 
@@ -81,19 +83,33 @@ public class SynonymGameActivity extends AppCompatActivity  {
                     .replace(R.id.container,new GuessWordMenuFragment()).commit();
         }
 
-        else if(intValue == 0 && getStringFromFragment.equals("chatbot"))
+        else if(intValue == 0 && getStringFromFragment.equals(chatbot))
         {
 
 
-            ChatBotFragment nextFrag= new ChatBotFragment();
+
+
+            ChatbotsmenuFragment nextFrag= new ChatbotsmenuFragment();
             final Bundle bundle = new Bundle();
-            bundle.putString("level","Start-weather(1)");
+            bundle.putString("level","Start-greetings");
             nextFrag.setArguments(bundle);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, nextFrag)
                     .addToBackStack(null)
                     .commit();
+
+
+            // do this on menuchatbot
+//            ChatBotFragment nextFrag= new ChatBotFragment();
+//            final Bundle bundle = new Bundle();
+//            bundle.putString("level","Start-weather(1)");
+//            nextFrag.setArguments(bundle);
+//
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.container, nextFrag)
+//                    .addToBackStack(null)
+//                    .commit();
         }
         else {
 
@@ -103,12 +119,12 @@ public class SynonymGameActivity extends AppCompatActivity  {
 
 
 
-            ChatBotFragment nextFrag= new ChatBotFragment();
+            ChatbotsmenuFragment nextFrag= new ChatbotsmenuFragment();
             final Bundle bundle = new Bundle();
-            bundle.putString("level","Start-greetings");
+            bundle.putString("level","Start-weather(1)");
             nextFrag.setArguments(bundle);
 
-                    getSupportFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, nextFrag)
                     .addToBackStack(null)
                     .commit();

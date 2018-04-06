@@ -21,6 +21,9 @@ import almeida.john.vocabnote.R;
 
 
 public class ChatbotGridFragment extends Fragment {
+
+    String Chatbotfrag =  "chatbotfrag";
+    String message;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,34 +124,25 @@ public class ChatbotGridFragment extends Fragment {
                 public void onClick(View view) {
 
 
-
                     if(position == 0)
                     {
-
-                        System.out.println(position);
-
                         Intent intent = new Intent(getContext(), SynonymGameActivity.class);
                         intent.putExtra("position", position);
-                        intent.putExtra("fragment", "chatbot");
+                        intent.putExtra("fragment", Chatbotfrag);
                         startActivity(intent);
 
                     }else if(position == 1 && gamesAddon.getOverAllScore() >= gamesAddon.getLvl2())
                     {
-                        System.out.println(position);
-
                         Intent intent = new Intent(getContext(), SynonymGameActivity.class);
                         intent.putExtra("position", position);
-                        intent.putExtra("fragment", "chatbot");
+                        intent.putExtra("fragment", Chatbotfrag);
                         startActivity(intent);
-                    }else
+                    }
+                    else
                     {
                         Toast.makeText(getContext(),"Please progress to level2 to unlock this conversation",Toast.LENGTH_SHORT).show();
+
                     }
-
-
-
-
-
                 }
             });
         }

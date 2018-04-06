@@ -94,7 +94,7 @@ public class GamesAddon {
         incorrect = 0;
         getTimer = 0;
 
-        lvl2 = 300;
+        lvl2 = 0;
     }
 
     public int getLvl2() {

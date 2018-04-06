@@ -22,7 +22,7 @@ import almeida.john.vocabnote.R;
 
 public class GamesFragment extends Fragment {
 
-
+    String gamefrag =  "gamesfrag";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,14 +132,14 @@ public class GamesFragment extends Fragment {
                         {
                             Intent intent = new Intent(getContext(), SynonymGameActivity.class);
                             intent.putExtra("position", position);
-                            intent.putExtra("fragment", "gamesfrag");
+                            intent.putExtra("fragment", gamefrag);
                             startActivity(intent);
 
                         }else if(position == 1 && gamesAddon.getOverAllScore() >= gamesAddon.getLvl2())
                         {
                             Intent intent = new Intent(getContext(), SynonymGameActivity.class);
                             intent.putExtra("position", position);
-                            intent.putExtra("fragment", "gamesfrag");
+                            intent.putExtra("fragment", gamefrag);
                             startActivity(intent);
                         }
                         else
