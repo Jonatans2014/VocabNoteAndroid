@@ -1,9 +1,12 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,6 +48,7 @@ public class CardListVocabFragment extends Fragment {
     public  RecyclerView recyclerView;
     String[] ClassList ;
     String[] WordList;
+    ContentAdapter adapter;
     boolean Category = true;
 
     @Override
@@ -133,7 +137,7 @@ public class CardListVocabFragment extends Fragment {
                 }
 
 
-                ContentAdapter adapter = new ContentAdapter(allClass);
+                 adapter = new ContentAdapter(allClass);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -200,7 +204,7 @@ public class CardListVocabFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
 
           selectedCategory = Classifications.get(position % Classifications.size());
 
@@ -210,6 +214,48 @@ public class CardListVocabFragment extends Fragment {
 
             //onLongClick
             holder.description.setOnClickListener(this);
+            holder.description.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    // TODO Auto-generated method stub
+
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(
+                            getContext());
+                    alert.setTitle("Alert!!");
+                    alert.setMessage("Are you sure to delete record");
+                    alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //do your work here
+
+                            Toast.makeText(getContext(), "Long Clicked", Toast.LENGTH_SHORT).show();
+                            Classifications.remove(selectedCategory);
+                            adapter.notifyDataSetChanged();
+
+                            dialog.dismiss();
+
+                        }
+                    });
+                    alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                        }
+                    });
+
+                    alert.show();
+
+
+                    return true;
+                }
+            });
+
+
+
 
         }
         @Override

@@ -908,8 +908,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                         gamesAddon.startTimer();
 
 
-
-
 //
 //                                StartTime = SystemClock.uptimeMillis();
 //                                handler.postDelayed(runnable, 0);

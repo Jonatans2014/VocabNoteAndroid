@@ -1,11 +1,13 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +21,10 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import almeida.john.vocabnote.Api;
@@ -45,7 +49,8 @@ public class WordActivity extends AppCompatActivity {
     public  List<WordsList> getWordList = new ArrayList<>();
     public  RecyclerView recyclerView;
     String[] ClassList ;
-    String[] WordList;
+    WordActivity.ContentAdapter adapter;
+    LinkedList<String> WordList = new LinkedList<String>();;
 
     String Dict;
 
@@ -149,12 +154,12 @@ public class WordActivity extends AppCompatActivity {
 
                 }
 
-                WordList = new String[getWordList.size()];
+
                 for(int i = 0; i <getWordList.size(); i++)
                 {
-                    WordList[i] = getWordList.get(i).getWord();
+                    WordList.addLast(getWordList.get(i).getWord());
 
-                    System.out.println("Words"+ WordList[i] );
+                    System.out.println("Words"+ WordList.getFirst() );
                 }
 
 
@@ -162,7 +167,7 @@ public class WordActivity extends AppCompatActivity {
 
 
 
-                WordActivity.ContentAdapter adapter = new WordActivity.ContentAdapter(WordList);
+                 adapter = new WordActivity.ContentAdapter(WordList);
                 mRecyclerView.setAdapter(adapter);
 
 
@@ -204,11 +209,11 @@ public class WordActivity extends AppCompatActivity {
     public class ContentAdapter extends RecyclerView.Adapter<WordActivity.ViewHolder> {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 18;
-        private  String[] Classifications;
+        private  LinkedList<String> Classifications;
 
         public List<Classification> senddata =  new ArrayList<>();
 
-        public ContentAdapter(String[] getdata) {
+        public ContentAdapter(LinkedList<String> getdata) {
 
             this.Classifications = getdata;
         }
@@ -221,11 +226,12 @@ public class WordActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(WordActivity.ViewHolder holder, int position) {
 
-            final String selectedCategory = Classifications[position % Classifications.length];
 
 
 
-            holder.description.setText(Classifications[position % Classifications.length]);
+            final String selectedCategory = Classifications.get(position % Classifications.size());
+            holder.description.setText(Classifications.get(position % Classifications.size()));
+
 
             holder.description.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -241,6 +247,49 @@ public class WordActivity extends AppCompatActivity {
                     startActivity(fbdata);
 
 
+                }
+            });
+
+
+
+
+            holder.description.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    // TODO Auto-generated method stub
+
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(
+                            WordActivity.this);
+                    alert.setTitle("Alert!!");
+                    alert.setMessage("Are you sure to delete record");
+                    alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //do your work here
+
+                            Toast.makeText(WordActivity.this, "Long Clicked", Toast.LENGTH_SHORT).show();
+                            Classifications.remove(selectedCategory);
+                            adapter.notifyDataSetChanged();
+
+                            dialog.dismiss();
+
+                        }
+                    });
+                    alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                        }
+                    });
+
+                    alert.show();
+
+
+                    return true;
                 }
             });
 
