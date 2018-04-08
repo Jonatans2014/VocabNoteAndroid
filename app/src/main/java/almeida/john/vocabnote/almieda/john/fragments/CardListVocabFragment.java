@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,22 +52,28 @@ public class CardListVocabFragment extends Fragment {
     String[] ClassList ;
     String[] WordList;
     ContentAdapter adapter;
+
+
     boolean Category = true;
+    FloatingActionButton fab;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
+
+
+        View drawer = inflater.inflate(R.layout.recycler_view, container, false);
 
 
 
+        recyclerView = (RecyclerView)  drawer.findViewById(R.id.recyclerV);
+
+        fab = (FloatingActionButton) drawer.findViewById(R.id.fab);
 
         bindCategoryOrWordsToRecyclerView();
-
-
-
-        return recyclerView;
+        return drawer;
 
 
     }
@@ -137,15 +146,12 @@ public class CardListVocabFragment extends Fragment {
                 }
 
 
-                 adapter = new ContentAdapter(allClass);
+                adapter = new ContentAdapter(allClass);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-
             }
-
             @Override
             public void onFailure(Call<List<UserInfo>> call, Throwable t) {
 
@@ -188,8 +194,9 @@ public class CardListVocabFragment extends Fragment {
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements View.OnClickListener {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 18;
-        private  LinkedList<String> Classifications;
+        public   LinkedList<String> Classifications;
          String selectedCategory;
+         Classification classification;
 
         public  List<Classification> senddata =  new ArrayList<>();
 
@@ -207,6 +214,39 @@ public class CardListVocabFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
           selectedCategory = Classifications.get(position % Classifications.size());
+
+
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+                    View mView = getLayoutInflater().inflate(R.layout.addword, null);
+
+                    final EditText Text = (EditText) mView.findViewById(R.id.addword);
+
+                    mBuilder.setPositiveButton("         Save!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            if(!Text.getText().toString().isEmpty())
+                            {
+
+                                Classifications.addFirst(Text.getText().toString());
+                                adapter.notifyDataSetChanged();
+
+                            }
+
+                        }
+                    });
+
+                    mBuilder.setView(mView);
+                    final AlertDialog dialog = mBuilder.create();
+                    dialog.show();
+                }
+            });
+
 
 
 

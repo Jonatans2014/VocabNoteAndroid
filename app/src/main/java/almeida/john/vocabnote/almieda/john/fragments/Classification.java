@@ -1,5 +1,6 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -10,6 +11,13 @@ public class Classification  {
 
     private String Classification;
     private List<WordsList> Word;
+
+    public static  LinkedList<String> AddClassifications;
+
+
+
+
+
 
     public Classification(String classification, List<WordsList> Word) {
         this.Classification = classification;

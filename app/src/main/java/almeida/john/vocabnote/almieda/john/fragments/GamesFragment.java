@@ -24,6 +24,8 @@ public class GamesFragment extends Fragment {
 
     String gamefrag =  "gamesfrag";
 
+    RecyclerView recyclerView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +34,16 @@ public class GamesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-                R.layout.recycler_view, container, false);
+
+        View drawer = inflater.inflate(R.layout.recycler_view, container, false);
+
+
+
+        recyclerView = (RecyclerView)  drawer.findViewById(R.id.recyclerV);
+
+
+
+
         ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
@@ -45,7 +55,7 @@ public class GamesFragment extends Fragment {
 
 
 
-        return recyclerView;
+        return drawer;
     }
 
 

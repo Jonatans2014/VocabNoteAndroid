@@ -24,6 +24,7 @@ public class ChatbotGridFragment extends Fragment {
 
     String Chatbotfrag =  "chatbotfrag";
     String message;
+    RecyclerView recyclerView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +34,14 @@ public class ChatbotGridFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.recycler_view, container, false);
 
+
+
+        View drawer = inflater.inflate(R.layout.recycler_view, container, false);
+
+
+
+        recyclerView = (RecyclerView)  drawer.findViewById(R.id.recyclerV);
 
         ChatbotGridFragment.ContentAdapter adapter = new ChatbotGridFragment.ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
@@ -45,7 +52,7 @@ public class ChatbotGridFragment extends Fragment {
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        return recyclerView;
+        return drawer;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
