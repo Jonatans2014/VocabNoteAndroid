@@ -43,6 +43,7 @@
     <string name="instructions_caps">INSTRUCTIONS</string>
     <string name="text_Words">Words</string>
     <string name="title_activity_synonym_game_play">SynonymGamePlayActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
 
 </resources>

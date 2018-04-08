@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
 
             android:layout_alignStart="@+id/def"
-            android:layout_below="@+id/textView3"
+            android:layout_below="@+id/helptxt"
             android:layout_marginTop="12dp"
             android:autoText="true"
             android:text="examp" />
@@ -66,7 +66,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/helptxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/textView7"

@@ -59,14 +59,18 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/helpV"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignEnd="@+id/tvpoints"
-        android:layout_below="@+id/rec"
-        android:layout_marginTop="16dp"
-        app:srcCompat="@drawable/lamp" />
+
+        android:layout_alignStart="@+id/rec"
+        android:layout_alignTop="@+id/addLifeIV"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/lamp"
+        app:border_color="#FFFFFF"
+        app:border_width="2dp" />
 
     <TextView
         android:id="@+id/TVtimer"
@@ -81,19 +85,17 @@
         android:id="@+id/addLifeIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignTop="@+id/helpV"
-        android:layout_marginStart="26dp"
-        android:layout_toEndOf="@+id/guess_letters"
+        android:layout_alignTop="@+id/letterIconIMV"
+        android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/heart" />
 
     <ImageView
         android:id="@+id/letterIconIMV"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_alignEnd="@+id/rec"
         android:layout_below="@+id/rec"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="11dp"
-        android:layout_toEndOf="@+id/addLifeIV"
+        android:layout_marginTop="14dp"
         app:srcCompat="@drawable/lettericon" />
 
 

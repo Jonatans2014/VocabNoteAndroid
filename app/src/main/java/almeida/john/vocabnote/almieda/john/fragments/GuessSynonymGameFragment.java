@@ -186,7 +186,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 //Save score
 //                SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
 //                SharedPreferences.Editor editor = myScore.edit();
-//                editor.putInt("score", points);
+//                editor.putInt("score", PointsTV);
 //                editor.commit();
 
 
@@ -232,7 +232,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 //                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
 
 
-                System.out.println("this is points  " + gamesAddon.getOverAllScore());
+                System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
                 piechart.setUsePercentValues(true);
                 piechart.getDescription().setEnabled(false);
                 piechart.setExtraOffsets(5,10,5,5);
@@ -675,7 +675,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     @Override
     public void onClick(View view) {
 
-        System.out.println("actualt points  " +points);
+        System.out.println("actualt PointsTV  " +points);
         switch (view.getId())
         {
             case R.id.word1:
@@ -685,7 +685,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 //might need refactoring
                 if(choice1.getText().equals(getSynonym[2]))
                 {
-                    points = gamesAddon.addPoints(getHelpString);
+                    points = gamesAddon.addPoints();
 
                     getCorrect= gamesAddon.increaseCorrect();
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
@@ -716,14 +716,14 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 if(choice2.getText().equals(getSynonym[2]))
                 {
 
-                    points = gamesAddon.addPoints(getHelpString);
+                    points = gamesAddon.addPoints();
                     Toast.makeText(getContext(), "Welldone Right Synonym", Toast.LENGTH_SHORT).show();
                     getThreeWords.clear();
                     getRandomWordFromList();
 
-                    gamesAddon.addPoints(getHelpString);
+                    gamesAddon.addPoints();
                     getCorrect= gamesAddon.increaseCorrect();
-                    System.out.println("This is points" + gamesAddon.getPoints());
+                    System.out.println("This is PointsTV" + gamesAddon.getPoints());
                 }
                 else
                 {
@@ -744,7 +744,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
             case R.id.word3:
             {
 
-                points = gamesAddon.addPoints(getHelpString);
+                points = gamesAddon.addPoints();
                 if(choice3.getText().equals(getSynonym[2]))
                 {
                     getCorrect= gamesAddon.increaseCorrect();

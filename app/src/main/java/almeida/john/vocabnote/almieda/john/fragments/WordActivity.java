@@ -2,7 +2,11 @@ package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,9 +23,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -51,7 +60,7 @@ public class WordActivity extends AppCompatActivity {
     String[] ClassList ;
     WordActivity.ContentAdapter adapter;
     LinkedList<String> WordList = new LinkedList<String>();;
-
+    FloatingActionButton fab;
     String Dict;
 
     String Category;
@@ -59,7 +68,7 @@ public class WordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_word);
+        setContentView(R.layout.content_word);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -72,8 +81,13 @@ public class WordActivity extends AppCompatActivity {
         Category  = getIntent().getStringExtra("Category");
         System.out.println(Category);
 
+       fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
 
     }
+
+
 
 
 
@@ -231,6 +245,47 @@ public class WordActivity extends AppCompatActivity {
 
             final String selectedCategory = Classifications.get(position % Classifications.size());
             holder.description.setText(Classifications.get(position % Classifications.size()));
+
+
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(WordActivity.this);
+
+                    View mView = getLayoutInflater().inflate(R.layout.addword, null);
+
+                    final EditText Text = (EditText) mView.findViewById(R.id.addword);
+
+
+
+
+                    mBuilder.setPositiveButton("         Save!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            if(!Text.getText().toString().isEmpty())
+                            {
+
+                                    Classifications.addFirst(Text.getText().toString());
+                                    adapter.notifyDataSetChanged();
+
+                            }
+
+                        }
+                    });
+
+                    mBuilder.setView(mView);
+                    final AlertDialog dialog = mBuilder.create();
+                    dialog.show();
+                }
+            });
+
+
+
+
+
+
 
 
             holder.description.setOnClickListener(new View.OnClickListener() {

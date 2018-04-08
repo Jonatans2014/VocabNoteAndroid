@@ -262,27 +262,17 @@ public class GamesAddon {
         return life;
     }
 
-    public int addPoints(String getHelpString)
+    public int addPoints( )
     {
 
-        if(getHelpString.equals("none"))
-        {
-            points += 100;
-        }
-        else if(getHelpString.equals("help1"))
-        {
-            points += 50;
-        }
-        else if(getHelpString.equals("help2"))
-        {
-            points += 25;
-        }
-        else if(getHelpString.equals("help3"))
-        {
-            points += 12;
-        }
-
+        points += 100;
         return points;
+    }
+
+    public  int removePoints()
+    {
+        points -= 100;
+        return  points;
     }
     //setTimer
     public  void setTimer(final TextView timer)

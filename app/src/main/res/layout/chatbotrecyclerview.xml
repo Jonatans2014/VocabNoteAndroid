@@ -71,14 +71,18 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignBottom="@+id/tvpoints"
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/helptxt"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignBottom="@+id/timer"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="11dp"
-        app:srcCompat="@drawable/lamp" />
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/lamp"
+        app:border_color="#FFFFFF"
+        app:border_width="2dp" />
+
 
     <TextView
         android:id="@+id/tvpoints"
@@ -103,11 +107,13 @@
         android:text="Score:" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvpoints"
         android:layout_alignBottom="@+id/tvpoints"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="94dp"
+        android:layout_toEndOf="@+id/tvpoints"
         android:text="10:00" />
 
 
