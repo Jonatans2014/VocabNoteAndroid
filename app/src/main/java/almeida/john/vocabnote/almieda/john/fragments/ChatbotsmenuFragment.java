@@ -29,7 +29,7 @@ public class ChatbotsmenuFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view  =  inflater.inflate(R.layout.fragment_guess_word_menu, container, false);
+        View view  =  inflater.inflate(R.layout.fragment_chatbotsmenu, container, false);
 
 
         text1 = (TextView) view.findViewById(R.id.play);

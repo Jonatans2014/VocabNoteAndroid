@@ -93,6 +93,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     String DictWord;
     int getCorrect;
     int getIncorrect;
+    String WordRchosen;
 
 
     Button start, pause, reset, lap ;
@@ -463,7 +464,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 //                         mCorrect.setText((Integer.toString(getCorrect)));
 //                         mInCorrect.setText((Integer.toString(getIncorrect)));
         HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
-
+        HigestScore.setText("1500");
         gamesAddon.setOverAllScore(points);
 
 //                       mCorrect.setText
@@ -722,7 +723,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     public void getRandomWordFromList()
     {
 
-        String WordRchosen;
+
 
         int min = 0;
         int max = allWord.size();
@@ -844,9 +845,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         private  LinkedList<String> Classifications;
 
-
-
-
         public  List<Classification> senddata =  new ArrayList<>();
 
         public ContentAdapter(LinkedList<String> getdata) {
@@ -904,6 +902,12 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                     }
                     if(checkSplit.size() == 0)
                     {
+
+
+
+
+                        showWord();
+
                         gamesAddon.addTimertoLinkedListAndReset();
                         getCorrect= gamesAddon.increaseCorrect();
                         Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
@@ -927,5 +931,31 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         public int getItemCount() {
             return Classifications.size();
         }
+    }
+
+
+
+    public void  showWord()
+    {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+        View mView = getLayoutInflater().inflate(R.layout.dialogjumbledword, null);
+
+        final TextView word = (TextView) mView.findViewById(R.id.wordTV);
+
+
+        word.setText(WordRchosen);
+        mBuilder.setNegativeButton("Continue!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.dismiss();
+
+            }
+        });
+
+        mBuilder.setView(mView);
+        final AlertDialog dialog = mBuilder.create();
+        dialog.show();
     }
 }

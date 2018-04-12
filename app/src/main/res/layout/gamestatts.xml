@@ -23,15 +23,15 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="21dp"
-
-            android:text="Words Guessed correctly AVG P/S"
+            android:layout_marginTop="71dp"
+            android:text="AVG of words guessed correctly P/S"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/wordTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/textView8"
@@ -60,8 +60,8 @@
             android:id="@+id/TVscore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView12"
-            android:layout_below="@+id/textView12"
+            android:layout_alignStart="@+id/wordTV"
+            android:layout_below="@+id/wordTV"
             android:layout_marginTop="15dp"
             android:text="0"
             android:textSize="24sp" />
@@ -81,7 +81,7 @@
             android:id="@+id/textView22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView12"
+            android:layout_alignEnd="@+id/wordTV"
             android:layout_below="@+id/TVscore"
             android:layout_marginTop="101dp"
             android:text="Correct" />

@@ -1,6 +1,5 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -113,7 +112,7 @@ public class DicActivity extends AppCompatActivity {
             description = (TextView) itemView.findViewById(R.id.def);
             example  = (TextView) itemView.findViewById(R.id.examp);
 
-            word = (TextView) itemView.findViewById(R.id.word);
+            word = (TextView) itemView.findViewById(R.id.wordTV);
 
             pronunciation = (ImageView) itemView.findViewById(R.id.Pronunciation);
 
@@ -272,8 +271,8 @@ public class DicActivity extends AppCompatActivity {
                                 def = d.optString("definitions");
 
                                 //get rid of none words and the name text:
-                                String replaceNoneWordsExample =example.replaceAll("[^\\w-]+", " ");
-                                String replaceNoneWordsDefinition =def.replaceAll("[^\\w-]+", " ");
+                                String replaceNoneWordsExample =example.replaceAll("\"\\\"\"", " ");
+                                String replaceNoneWordsDefinition =def.replaceAll("\"\\\"\" ", " ");
 
                                 DicInfo dicInfo = new DicInfo(replaceNoneWordsDefinition,replaceNoneWordsExample,getDialect);
                                 getDicdata.add(dicInfo);

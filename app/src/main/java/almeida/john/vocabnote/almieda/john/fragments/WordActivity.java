@@ -2,43 +2,26 @@ package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import almeida.john.vocabnote.Api;
-import almeida.john.vocabnote.LoginActivity;
-import almeida.john.vocabnote.MainActivity;
 import almeida.john.vocabnote.R;
 import almeida.john.vocabnote.UserInfo;
 import retrofit2.Call;
@@ -181,7 +164,7 @@ public class WordActivity extends AppCompatActivity {
 
 
 
-                 adapter = new WordActivity.ContentAdapter(WordList);
+                adapter = new WordActivity.ContentAdapter(WordList);
                 mRecyclerView.setAdapter(adapter);
 
 
@@ -211,7 +194,7 @@ public class WordActivity extends AppCompatActivity {
             super(inflater.inflate(R.layout.cardword_row, parent, false));
 
 
-            description = (TextView) itemView.findViewById(R.id.word);
+            description = (TextView) itemView.findViewById(R.id.wordTV);
 
 
         }
@@ -351,12 +334,6 @@ public class WordActivity extends AppCompatActivity {
 
         }
 
-
-
-
-
-
-
         @Override
         public int getItemCount() {
             return LENGTH;
@@ -364,75 +341,6 @@ public class WordActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-    static class Adapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public Adapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-
-        MenuItem search = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
-        search(searchView);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void search(SearchView searchView) {
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-//                if (mAdapter != null) mAdapter.getFilter().filter(newText);
-                return true;
-            }
-        });
-    }
 
 
 }

@@ -8,7 +8,7 @@
         android:id="@+id/tile_picture"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tile_height"
-        android:background="@drawable/synonym"
+        android:background="@drawable/jumbledletters"
         android:scaleType="centerCrop" />
 
     <ImageView

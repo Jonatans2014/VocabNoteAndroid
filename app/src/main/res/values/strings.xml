@@ -1,21 +1,22 @@
 <resources>
     <string name="app_name">"VocabNote"</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Log out</string>
 
 
     <string name="facebook_app_id">1057757051029932</string>
     <string name="fb_login_protocol_scheme">fb1057757051029932</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Vocabnote</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_word">WordActivity</string>
-    <string name="title_activity_dic">DicActivity</string>
-    <string name="title_activity_dict">DictActivity</string>
-    <string name="title_activity_synonym_game">SynonymGameActivity</string>
+    <string name="title_activity_word">Vocabnote</string>
+    <string name="title_activity_dic">Dictionary</string>
+    <string name="title_activity_dict">Dictionary</string>
+    <string name="title_activity_synonym_game">VocabNote</string>
+
     <string name="maxScore">3000</string>
 
 

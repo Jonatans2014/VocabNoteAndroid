@@ -122,7 +122,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
         // Set padding for Tiles
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
 
 
 

@@ -1,9 +1,11 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -11,10 +13,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,7 +68,7 @@ import ai.api.model.Result;
  * Created by John on 27/11/2017.
  */
 
-public class ChatBotFragment extends Fragment implements AIListener ,View.OnClickListener{
+public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
 
     PieChart piechart;
@@ -127,18 +131,25 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
         // dialogflow declaration
 
 
+
+
+
+
         final AIConfiguration config = new AIConfiguration("f4a9d1c62f0c46c4b73e728268e75bfc",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
         aiService = AIService.getService(getContext(), config);
-        aiService.setListener(this);
+
 
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
 
 
         addBtn.setOnClickListener(this);
+
+
+
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -206,6 +217,7 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
         return drawer;
 
     }
+
 
     public void getAiResponse()
     {
@@ -463,6 +475,8 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
             case R.id.addBtn: {
 
 
+
+
                  message = editText.getText().toString().trim();
 
                 if (!message.equals("")) {
@@ -478,9 +492,7 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
 
                     getAiResponse();
                 }
-                else {
-                    aiService.startListening();
-                }
+
 
                 editText.setText("");
                 message = "";
@@ -632,36 +644,6 @@ public class ChatBotFragment extends Fragment implements AIListener ,View.OnClic
         public int getItemCount() {
             return Classifications.size();
         }
-    }
-
-    @Override
-    public void onResult(AIResponse result) {
-
-    }
-
-    @Override
-    public void onError(AIError error) {
-
-    }
-
-    @Override
-    public void onAudioLevel(float level) {
-
-    }
-
-    @Override
-    public void onListeningStarted() {
-
-    }
-
-    @Override
-    public void onListeningCanceled() {
-
-    }
-
-    @Override
-    public void onListeningFinished() {
-
     }
 
 

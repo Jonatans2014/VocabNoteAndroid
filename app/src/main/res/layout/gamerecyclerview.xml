@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Points:"
+        android:text="Score:"
         android:textSize="18sp" />
 
 
@@ -66,8 +66,9 @@
         android:layout_height="30dp"
 
         android:layout_alignStart="@+id/rec"
-        android:layout_alignTop="@+id/addLifeIV"
-        android:layout_marginStart="20dp"
+        android:layout_below="@+id/rec"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/lamp"
         app:border_color="#FFFFFF"
         app:border_width="2dp" />
@@ -85,17 +86,16 @@
         android:id="@+id/addLifeIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignTop="@+id/letterIconIMV"
-        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@+id/TVtimer"
+        android:layout_alignTop="@+id/helpV"
         app:srcCompat="@drawable/heart" />
 
     <ImageView
         android:id="@+id/letterIconIMV"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignEnd="@+id/rec"
-        android:layout_below="@+id/rec"
-        android:layout_marginTop="14dp"
+        android:layout_alignTop="@+id/addLifeIV"
+        android:layout_toStartOf="@+id/LIFE"
         app:srcCompat="@drawable/lettericon" />
 
 
