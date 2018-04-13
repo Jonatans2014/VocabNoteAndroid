@@ -80,7 +80,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
 
-            android:layout_alignStart="@+id/about"
+            android:layout_alignStart="@+id/memo"
             android:layout_below="@+id/radioGroup"
             android:background="@drawable/button"
             android:elevation="20dp"
@@ -89,7 +89,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/about"
+            android:id="@+id/memo"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/play"
@@ -106,7 +106,7 @@
             android:id="@+id/instr"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/about"
+            android:layout_below="@+id/memo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
             android:background="@drawable/button"

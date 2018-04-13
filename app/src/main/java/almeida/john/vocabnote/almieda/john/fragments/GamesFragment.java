@@ -2,6 +2,7 @@ package almeida.john.vocabnote.almieda.john.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -19,12 +20,17 @@ import android.widget.Toast;
 
 import almeida.john.vocabnote.R;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class GamesFragment extends Fragment {
 
     String gamefrag =  "gamesfrag";
 
     RecyclerView recyclerView;
+
+    public  static final  String SHARED_PREFS = "sharedprefs";
+    public String Text =" TEXT";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,6 @@ public class GamesFragment extends Fragment {
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
 
 
 

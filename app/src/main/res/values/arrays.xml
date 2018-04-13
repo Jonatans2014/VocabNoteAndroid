@@ -21,39 +21,129 @@
 
 
 
+    <string name="weather">
+
+                \nA: It\'s an ugly day today.
+
+                \nB: I know. I think it may rain.
+
+                \nA: It\'s the middle of summer, it shouldn\'t rain today.
+
+                \nB: That would be weird.
+
+                \nA: Yeah, especially since it\'s ninety degrees outside.
+
+                \nB: I know, it would be horrible if it rained and it was hot outside.
+
+                \nA: Yes, it would be.
+
+                \nB: I really wish it wasn\'t so hot every day.
+
+                \nA: Me too. I can\'t wait until winter.
+
+                \nB: I like winter too, but sometimes it gets too cold.
+
+                \nA: I\'d rather be cold than hot.
+
+                \nB: Me too.
+
+
+                2
+                 Repeat
+
+                \nA: It doesn\'t look very nice outside today.
+
+                \nB: You\'re right. I think it\'s going to rain later.
+
+                \nA: In the middle of the summer, it shouldn\'t be raining.
+
+                \nB: That wouldn\'t seem right.
+
+                \nA: Considering that it\'s over ninety degrees outside, that would be weird.
+
+                \nB: Exactly, it wouldn\'t be nice if it started raining. It\'s too hot.
+
+                \nA: I know, you're absolutely right.
+
+                \nB: I wish it would cool off one day.
+
+                \nA: That's how I feel, I want winter to come soon.
+
+                \nB: I enjoy the winter, but it gets really cold sometimes.
+
+                \nA: I know what you mean, but I'd rather be cold than hot.
+
+                \nB: That's exactly how I feel.
+
+
+                3
+                 Repeat
+
+                \nA: I wish it was a nicer day today.
+
+                \nB: That is true. I hope it doesn't rain.
+
+                \nA: It wouldn't rain in the middle of the summer.
+
+                \nB: It wouldn't seem right if it started raining right now.
+
+                \nA: It would be weird if it started raining in ninety degree weather.
+
+                \nB: Any rain right now would be pointless.
+
+                \nA: That's right, it really would be.
+
+                \nB: I want it to cool down some.
+
+                \nA: I know what you mean, I can't wait until it's winter.
+
+                \nB: Winter is great. I wish it didn't get so cold sometimes though.
+
+                \nA: I would rather deal with the winter than the summer.
+
+                \nB: I feel the same way.
+
+
+
+
+
+
+
+    </string>
+
     <string name="greetings">
 
-            A: Hi, how are you doing?
+             \nA:Hi, how are you doing?
 
              \nB: I\'m fine. How about yourself?
 
              \nA: I\'m pretty good. Thanks for asking.
 
-            \n B: No problem. So how have you been?
+             \nB: No problem. So how have you been?
 
-            \n A: I\'ve been great. What about you?
+             \nA: I\'ve been great. What about you?
 
              \nB: I\'ve been good. I\'m in school right now.
 
-            \n A: What school do you go to?
+             \nA: What school do you go to?
 
-            \n B: I go to PCC.
+             \nB: I go to PCC.
         
              \nA: Do you like it there?
              \nB: It\'s okay. It\'s a really big campus.
 
-            \n A: Good luck with school.
+             \nA: Good luck with school.
 
              \nB: Thank you very much.
 
 
-             \n2Repeat
+             \n2.Repeat
 
-            \n A: How\'s it going?
+             \nA: How\'s it going?
 
              \nB: I\'m doing well. How about you?
 
-            \n A: Never better, thanks.
+             \nA: Never better, thanks.
 
              \nB: So how have you been lately?
 
@@ -63,39 +153,39 @@
 
              \nA: Which school do you attend?
 
-            \n B: I\'m attending PCC right now.
+             \nB: I\'m attending PCC right now.
 
              \nA: Are you enjoying it there?
 
-            \n B: It\'s not bad. There are a lot of people there.
+             \nB: It\'s not bad. There are a lot of people there.
 
              \nA: Good luck with that.
 
              \nB: Thanks.
 
 
-
-            \n A: How\'s it going?
+             \n3.Repeat
+             \nA: How\'s it going?
 
              \nB: I\'m doing well. How about you?
 
-            \n A: Never better, thanks.
+             \nA: Never better, thanks.
 
-            \n B: So how have you been lately?
+             \nB: So how have you been lately?
 
-            \n A: I've actually been pretty good. You?
+             \nA: I've actually been pretty good. You?
 
              \nB: I'm actually in school right now.
 
-            \n A: Which school do you attend?
+             \nA: Which school do you attend?
 
              \nB: I'm attending PCC right now.
 
              \nA: Are you enjoying it there?
 
-            \n B: It's not bad. There are a lot of people there.
+             \nB: It's not bad. There are a lot of people there.
 
-            \n A: Good luck with that.
+             \nA: Good luck with that.
 
              \nB: Thanks.
 

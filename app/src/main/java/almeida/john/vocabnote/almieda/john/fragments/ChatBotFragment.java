@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -63,6 +64,9 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 
+import static almeida.john.vocabnote.almieda.john.fragments.GuessWordGameFragment.MY_PREFS_NAME;
+import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * Created by John on 27/11/2017.
@@ -73,7 +77,7 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
     PieChart piechart;
     AIService aiService;
-
+    int counter;
     public RecyclerView recyclerView;
     EditText editText;
     RelativeLayout addBtn;
@@ -99,7 +103,7 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
     ImageView helptxtUser;
     RecyclerView  txtRecyclerV;
 
-
+    boolean getdismiss;
     GamesAddon gamesAddon = new GamesAddon();
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -126,19 +130,31 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
         setTimer();
 
-        // dialogflow declaration
+        counter = 3;
+
+        getdismiss = false;
+
+
+
+        // dialogflow declarationCreate an instance of AIConfiguration, specifying the access token, language, and recognition engine.
         final AIConfiguration config = new AIConfiguration("f4a9d1c62f0c46c4b73e728268e75bfc",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
+
+        //use ai configuration object to get  reference to ai service
         aiService = AIService.getService(getContext(), config);
+
+
         aiDataService = new AIDataService(config);
+
+        // set instance of AIrequest to get each request from dialogflow api
         aiRequest = new AIRequest();
 
 
+
+        //Set OnClick listener
         addBtn.setOnClickListener(this);
-
-
 
         Bundle bundle = getArguments();
         if (bundle != null)
@@ -150,11 +166,8 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
         message = level;
 
-        System.out.println("hihihhii" + message);
+
         getAiResponse();
-
-
-
         adapter = new ContentAdapter(chat);
         recyclerView.setHasFixedSize(true);
 //        // Set padding for Tiles
@@ -173,7 +186,6 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
     public void getAiResponse()
     {
-
         aiRequest.setQuery(message);
         new AsyncTask<AIRequest,Void,AIResponse>(){
 
@@ -190,13 +202,7 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
             @Override
             protected void onPostExecute(AIResponse response) {
                 if (response != null) {
-
-
-
                     Result result = response.getResult();
-
-
-
                     String reply = result.getFulfillment().getSpeech();
                      chatbotMessage = new ChatMessage(reply, "bot");
 
@@ -223,15 +229,14 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
                     PointsTV.setText(String.valueOf(points));
                     firstQuestion = true;
 
-
-
                 }
-
-
             }
-
-
         }.execute(aiRequest);
+    }
+
+    //setTimer
+    public  void setDialogHelpTimer()
+    {
 
 
 
@@ -305,78 +310,97 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
     {
         try
         {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 
-        View mView = getLayoutInflater().inflate(R.layout.fragment_peformance_analysis, null);
+            View mView = getLayoutInflater().inflate(R.layout.fragment_peformance_analysis, null);
 
-        final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
-        final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
-        final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
-        final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
-        final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
-        piechart =  mView.findViewById(R.id.piechart);
+            final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
+            final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
+            piechart =  mView.findViewById(R.id.piechart);
 
 
-        mEmail.setText(String.valueOf(Avg));
-        mScore.setText((Integer.toString(points)));
-//                         mCorrect.setText((Integer.toString(getCorrect)));
-//                         mInCorrect.setText((Integer.toString(getIncorrect)));
+
+            mScore.setText((Integer.toString(points)));
+
+
+
+
+            if(gamesAddon.getHighestScore() < points)
+            {
+                    gamesAddon.setHighestScore(points);
+            }
+
+
+            //add overallHighestScore from all the games.
+            if(gamesAddon.getHighestScore() > gamesAddon.getOverAllHighestScore())
+            {
+                gamesAddon.setOverAllHighestScore(gamesAddon.getHighestScore());
+            }
+
+
+
         HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
 
-        gamesAddon.setOverAllScore(points);
-
-//                       mCorrect.setText
-//                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
-//                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
+            gamesAddon.setOverAllScore(points);
+            gamesAddon.setOverallIncorret(getIncorrect);
+            gamesAddon.setOverallCorrect(getCorrect);
 
 
 
-
-        System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
-        piechart.setUsePercentValues(true);
-        piechart.getDescription().setEnabled(false);
-        piechart.setExtraOffsets(5,10,5,5);
-
-        piechart.setDragDecelerationFrictionCoef(0.95f);
-        piechart.setDrawHoleEnabled(true);
-        piechart.setHoleColor(Color.WHITE);
-        piechart.setTransparentCircleRadius(61f);
+            //add overallsocre, correct and incorrect values to sharedPerefences
+            SharedPreferences.Editor editor = getContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.putInt("OverallScore",gamesAddon.getOverAllScore());
+            editor.putInt("OverallIncorret", gamesAddon.getOverallIncorret());
+            editor.putInt("Overallcorret", gamesAddon.getOverallCorrect());
+            editor.putInt("OverallHighestScore", gamesAddon.getOverAllHighestScore());
+            editor.apply();
 
 
-        ArrayList<PieEntry> yvalues = new ArrayList<>();
-        yvalues.add(new PieEntry(getCorrect,"Correct"));
-        yvalues.add(new PieEntry(getIncorrect,"Incorrect"));
+            System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
+            piechart.setUsePercentValues(true);
+            piechart.getDescription().setEnabled(false);
+            piechart.setExtraOffsets(5,10,5,5);
+
+            piechart.setDragDecelerationFrictionCoef(0.95f);
+            piechart.setDrawHoleEnabled(true);
+            piechart.setHoleColor(Color.WHITE);
+            piechart.setTransparentCircleRadius(61f);
+
+
+            ArrayList<PieEntry> yvalues = new ArrayList<>();
+            yvalues.add(new PieEntry(getCorrect,"Correct"));
+            yvalues.add(new PieEntry(getIncorrect,"Incorrect"));
 
 
 
-        final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255,0,0)};
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-        for(int c: MY_COLORS) colors.add(c);
+            final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255,0,0)};
+            ArrayList<Integer> colors = new ArrayList<Integer>();
+            for(int c: MY_COLORS) colors.add(c);
 
 
 
-        PieDataSet DataSet = new PieDataSet(yvalues,"");
-        DataSet.setSliceSpace(3f);
-        DataSet.setSelectionShift(5f);
-        DataSet.setColors(colors);
-        PieData data = new PieData(DataSet);
-        data.setValueTextSize(20F);
-        data.setValueTextColor(Color.BLACK);
+            PieDataSet DataSet = new PieDataSet(yvalues,"");
+            DataSet.setSliceSpace(3f);
+            DataSet.setSelectionShift(5f);
+            DataSet.setColors(colors);
+            PieData data = new PieData(DataSet);
+            data.setValueTextSize(20F);
+            data.setValueTextColor(Color.BLACK);
 
-        piechart.setData(data);
+            piechart.setData(data);
 
 
-        mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
-                //Fetch lists of users, classifications and Words.
-                Intent fbdata = new Intent(getContext(), MainActivity.class);
-                // getProfileInformationFacebook(loginResult.getAccessToken());
-                startActivity(fbdata);
+                    //Fetch lists of users, classifications and Words.
+                    Intent fbdata = new Intent(getContext(), MainActivity.class);
+                    // getProfileInformationFacebook(loginResult.getAccessToken());
+                    startActivity(fbdata);
 
-            }
-        });
+                }
+            });
 
         mBuilder.setPositiveButton("              Play Again!", new DialogInterface.OnClickListener() {
             @Override
@@ -454,6 +478,15 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
             case R.id.helptxt:
             {
 
+
+                counter --;
+                if(counter <1)
+                {
+                    helptxtUser.setVisibility(View.GONE);
+                }
+
+                System.out.println("counter "+counter);
+
                 alertDialog();
                 break;
             }
@@ -464,37 +497,58 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
     public void alertDialog()
     {
 
-        String  getext;
+
+        String  getext = null;
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 
         View mView = getLayoutInflater().inflate(R.layout.helptext, null);
 
         TextView text = (TextView) mView.findViewById(R.id.helptxt);
+        final TextView timer =  (TextView) mView.findViewById(R.id.timer);
+
+
+
+        final CountDownTimer countDownDialogTimer = new CountDownTimer(20000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timer.setText(""+String.format("%d:%d ",
+                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            public void onFinish() {
+
+                getdismiss = true;
+            }
+        }.start();
+
+
+
 
         Resources resources = this.getResources();
 
-        getext = resources.getString(R.string.greetings);
+        if(level.equals("Start-greetings"))
+        {
+            getext = resources.getString(R.string.greetings);
+        }
+        else
+        {
+            getext = resources.getString(R.string.weather);
+        }
 
-        System.out.println(getext);
+
+        //System.out.println(getext);
 
         text.setText(getext);
 
-        mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
 
-                //Fetch lists of users, classifications and Words.
-                Intent fbdata = new Intent(getContext(), MainActivity.class);
-                // getProfileInformationFacebook(loginResult.getAccessToken());
-                startActivity(fbdata);
-
-            }
-        });
 
         mBuilder.setPositiveButton("             Continue!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                countDownDialogTimer.cancel();
                 dialogInterface.dismiss();
             }
         });

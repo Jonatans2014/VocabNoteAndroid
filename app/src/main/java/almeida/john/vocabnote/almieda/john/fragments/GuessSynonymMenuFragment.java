@@ -1,6 +1,5 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +25,7 @@ public class GuessSynonymMenuFragment extends Fragment implements View.OnClickLi
 
         TextView play = (TextView) view.findViewById(R.id.play);
         TextView Instruction = (TextView) view.findViewById(R.id.instra);
-        TextView about = (TextView) view.findViewById(R.id.about);
+        TextView about = (TextView) view.findViewById(R.id.memo);
 
 
 
@@ -74,7 +73,7 @@ public class GuessSynonymMenuFragment extends Fragment implements View.OnClickLi
                 break;
             }
 
-            case R.id.about:
+            case R.id.memo:
             {
 
                 alertDialogAboutGame();

@@ -27,7 +27,7 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
 
 
         play = (TextView) view.findViewById(R.id.play);
-        about = (TextView) view.findViewById(R.id.about);
+        about = (TextView) view.findViewById(R.id.memo);
         instructions = (TextView) view.findViewById(R.id.instr);
 
 

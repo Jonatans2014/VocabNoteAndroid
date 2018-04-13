@@ -17,22 +17,13 @@ public class GamesAddon {
     private int life;
     private  int points;
 
-    public int getHighestScore() {
-        return HighestScore;
-    }
-
-    public void setHighestScore(int highestScore) {
-        HighestScore = highestScore;
-    }
 
     private  static int HighestScore;
-
-
-
     private static  int overAllScore;
-    private int help1;
-    private int help2;
-    private int help3;
+    private  static  int overAllHighestScore;
+    private  static  int overallCorrect;
+    private  static  int overallIncorret;
+
     private int correct;
     private int incorrect;
     private int sucess;
@@ -46,22 +37,6 @@ public class GamesAddon {
     LinkedList<Integer> ListUserTimeGuessingWord = new LinkedList<Integer>();
     Handler handler;
 
-
-
-    public long getMillisecondTime() {
-        return MillisecondTime;
-    }
-
-    public long getStartTime() {
-        return StartTime;
-    }
-
-
-
-    public int getGetTimer() {
-        return getTimer;
-    }
-
     public LinkedList<Integer> getListUserTimeGuessingWord() {
         return ListUserTimeGuessingWord;
     }
@@ -69,8 +44,6 @@ public class GamesAddon {
 
 
     int Seconds, Minutes, MilliSeconds ;
-
-
 
 
     GamesAddon()
@@ -82,9 +55,42 @@ public class GamesAddon {
         correct = 0;
         incorrect = 0;
         getTimer = 0;
-        overAllScore = 2000;
+        overAllScore = 0;
         lvl2 = 0;
         addOrRemovepoints = 50;
+    }
+
+
+    public static int getOverAllHighestScore() {
+        return overAllHighestScore;
+    }
+
+    public static void setOverAllHighestScore(int overAllHighestScore) {
+        GamesAddon.overAllHighestScore = overAllHighestScore;
+    }
+
+    public int getHighestScore() {
+        return HighestScore;
+    }
+
+    public void setHighestScore(int highestScore) {
+        HighestScore = highestScore;
+    }
+
+    public static int getOverallCorrect() {
+        return overallCorrect;
+    }
+
+    public static void setOverallCorrect(int overallCorrect) {
+        GamesAddon.overallCorrect += overallCorrect;
+    }
+
+    public static int getOverallIncorret() {
+        return overallIncorret;
+    }
+
+    public static void setOverallIncorret(int overallIncorret) {
+        GamesAddon.overallIncorret += overallIncorret;
     }
 
     public int getLvl2() {
@@ -155,23 +161,6 @@ public class GamesAddon {
         handler.postDelayed(runnable, 0);
     }
 
-    public void DeductPointsAccordingtoHelp(String getHelpString)
-    {
-        if(getHelpString.equals("help1"))
-        {
-            points -= 50;
-        }
-        else if(getHelpString.equals("help2"))
-        {
-            points -= 25;
-
-        }
-        else
-        {
-            points -= 12;
-        }
-    }
-
 
     public void addTimertoLinkedListAndReset()
     {
@@ -214,14 +203,6 @@ public class GamesAddon {
             //Seconds = Seconds % 60;
             MilliSeconds = (int) (UpdateTime % 1000);
             getTimer = Seconds;
-
-//            getTimer = "" + Minutes + ":"
-//                    + String.format("%02d", Seconds) + ":"
-//                    + String.format("%03d", MilliSeconds;
-
-//            setTimer.setText("" + Minutes + ":"
-//                   + String.format("%02d", Seconds) + ":"
-//                   + String.format("%03d", MilliSeconds));
             handler.postDelayed(this, 0);
         }
 
@@ -259,25 +240,7 @@ public class GamesAddon {
         points -= addOrRemovepoints;
         return  points;
     }
-    //setTimer
-    public  void setTimer(final TextView timer)
-    {
-        String getdone;
-        new CountDownTimer(20000, 1000) {
 
-            public void onTick(long millisUntilFinished) {
-                timer.setText(""+String.format("%d:%d ",
-                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
-
-            public void onFinish() {
-                timer.setText("0");
-            }
-        }.start();
-
-    }
 }
 
 

@@ -3,6 +3,7 @@ package almeida.john.vocabnote.almieda.john.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -50,6 +51,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class GuessWordGameFragment extends Fragment implements  View.OnClickListener{
@@ -120,7 +123,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     ImageView helpIV;
     TextView pointstv;
     String Category;
-
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,71 +133,18 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         View drawer = inflater.inflate(R.layout.gamerecyclerview, container, false);
 
         dash = "";
-        //Context context = getActivity();
-//        SharedPreferences sharedPref = context.getSharedPreferences(
-//                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-
-        // MY_PREFS_NAME - a static String variable like:
-//public static final String MY_PREFS_NAME = "MyPrefsFile";
-       // SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-
-//        editor.putString("name", "Elena");
-//        editor.putInt("idName", 12);
-//        editor.apply();
         pointstv = (TextView) drawer.findViewById(R.id.tvpoints);
 
         getHelpString =  "help1";
         helpIV = (ImageView) drawer.findViewById(R.id.helpV);
-//
-//        helpIV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-//
-//                View mView = getLayoutInflater().inflate(R.layout.dialog_login, null);
-//
-//                final TextView mEmail = (TextView) mView.findViewById(R.id.def);
-//
-//                mEmail.setText("this is definition");
-////
-////                final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
-////                Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
-//
-//
-//                mBuilder.setPositiveButton("Exit!", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                    }
-//                });
-//
-//                mBuilder.setView(mView);
-//                final AlertDialog dialog = mBuilder.create();
-//                dialog.show();
-//
-//            }
-//        });
 
 
 
 
 
+// Save the changes in SharedPreferences
 
-
-
-
-       // SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        int defaultValue = getResources().getInteger(R.integer.saved_high_score_default_key);
-//        int highScore = sharedPref.getInt(getString(R.string.saved_high_score_key), defaultValue);
-
-        //Load score
-       // SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
-
-
-
-       ///System.out.println("blablabliblablabla  " + score);
 
         setTimer = (TextView)drawer.findViewById(R.id.TVtimer);
         ChosenWord = (TextView) drawer.findViewById(R.id.guess_letters) ;
@@ -254,10 +204,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         {
             level = bundle.getString("level");
         }
-
-
-        String input = setTimer.getText().toString();
-
 
         setTimer();
 
@@ -383,8 +329,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
     public void alertDialog(String def)
     {
-
-        String  getext;
+        // commit changes
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         View mView = getLayoutInflater().inflate(R.layout.helptext, null);
@@ -436,22 +381,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                 setTimer.setText("0");
 
 
-                System.out.println("This is highestScore   " +gamesAddon.getHighestScore() );
-                // set highestscore to highest
-                if(gamesAddon.getHighestScore() < points)
-                {
-                    gamesAddon.setHighestScore(points);
-                }
-
-                //shared prefff
-                //Save score
-//                SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = myScore.edit();
-//                editor.putInt("score", PointsTV);
-//                editor.commit();
-
-
-
                // int  score = myScore.getInt("score", 0);
                 for(int i =0 ; i < gamesAddon.getListUserTimeGuessingWord().size(); i ++)
                 {
@@ -500,22 +429,54 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         piechart =  mView.findViewById(R.id.piechart);
 
 
-        mEmail.setText(String.valueOf(Avg));
-        mScore.setText((Integer.toString(points)));
-//                         mCorrect.setText((Integer.toString(getCorrect)));
-//                         mInCorrect.setText((Integer.toString(getIncorrect)));
+            System.out.println("This is highestScore   " +gamesAddon.getHighestScore() );
+            // set highestscore to highest
+            if(gamesAddon.getHighestScore() < points)
+            {
+                gamesAddon.setHighestScore(points);
+            }
+
+
+            //add overallHighestScore from all the games.
+            if(gamesAddon.getHighestScore() > gamesAddon.getOverAllHighestScore())
+            {
+                gamesAddon.setOverAllHighestScore(gamesAddon.getHighestScore());
+            }
+
+
+            mEmail.setText(String.valueOf(Avg));
+            mScore.setText((Integer.toString(points)));
+
         HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
-        HigestScore.setText("1500");
         gamesAddon.setOverAllScore(points);
-
-//                       mCorrect.setText
-//                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
-//                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
+        gamesAddon.setOverallIncorret(getIncorrect);
+        gamesAddon.setOverallCorrect(getCorrect);
 
 
 
+        System.out.println("points " +gamesAddon.getOverAllScore() );
+        System.out.println("correct " +  gamesAddon.getOverAllScore());
 
-        System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
+
+            //add overallsocre, correct and incorrect values to sharedPerefences
+            SharedPreferences.Editor editor = getContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.putInt("OverallScore",gamesAddon.getOverAllScore());
+            editor.putInt("OverallIncorret", gamesAddon.getOverallIncorret());
+            editor.putInt("Overallcorret", gamesAddon.getOverallCorrect());
+            editor.putInt("OverallHighestScore", gamesAddon.getOverAllHighestScore());
+            editor.apply();
+
+
+
+            SharedPreferences prefs = getContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE); // getting Integer
+            int pageNumber=prefs.getInt("OverallScore", 0);
+
+
+
+            System.out.println("WORKS  " + pageNumber);
+
+
+            System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
         piechart.setUsePercentValues(true);
         piechart.getDescription().setEnabled(false);
         piechart.setExtraOffsets(5,10,5,5);
@@ -650,22 +611,9 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         // Set numbers of Tiles in RecyclerView.
         public List<GamesAddon> getdata = new ArrayList<>();
 
-        //
-//      //  private final String[] mPlaces;
-//        //private final Drawable[] mPlacePictures;
         public lifeAdapter(Context context) {
-//            Resources resources = context.getResources();
-//            //mPlaces = resources.getStringArray(R.array.places);
-//            //TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-//            mPlacePictures = new Drawable[a.length()];
-//            for (int i = 0; i < mPlacePictures.length; i++) {
-//                mPlacePictures[i] = a.getDrawable(i);
-//            }
-//            a.recycle();
+
         }
-
-
-
 
         @Override
         public GuessWordGameFragment.ViewHolderLife onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -728,8 +676,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                 //  System.out.println(UserWords);
 
                 // WordList is now working try the same with another fragment
-
-
                 //Log.e("getClass", UserWords.toString());
                 WordList = new String[getWordList.size()];
                 //looping through all the heroes and inserting the names inside the string array
@@ -748,20 +694,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                         allWord.addFirst(getWordList.get(j).getWord());
 
                     }
-
-                    //System.out.println( "this is userclass"+UserClass.get(i).getWord().toString());
-
                 }
-
-
-//                System.out.println("this is linkedlist"+allWord.size());
-//
-//                // GET ALL WORDS IN THE LINKED LIST
-//                   for(int i=0; i < allWord.size(); i++)
-//                   {
-//                       System.out.println("this is values of linkedlist"+allWord.get(i));
-//                   }
-
                 getRandomWordFromList();
 
             }
@@ -960,8 +893,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                     {
 
 
-
-
                         showWord();
 
                         gamesAddon.addTimertoLinkedListAndReset();
@@ -976,9 +907,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                         gamesAddon.startTimer();
 
 
-//
-//                                StartTime = SystemClock.uptimeMillis();
-//                                handler.postDelayed(runnable, 0);
                     }
                 }
             });

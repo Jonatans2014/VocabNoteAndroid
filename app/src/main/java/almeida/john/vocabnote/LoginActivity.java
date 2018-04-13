@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
   //  List<WordsList> UserWords = new ArrayList<>();
 
     String[] ClassList ;
-    String[] ClassWord ;
+
     ArrayList<String> namesArray = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,12 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             else {
                                 fbName ="";
-                            }if(object.has("gender")){
-                                fbGend = object.getString("gender");
-                            }else {fbGend = "";}
-                              fbPropic = "https://graph.facebook.com/\"+ fbId +\"/picture?type=small";
-
-
+                            }
 
 
 
@@ -205,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email,gender");
+        parameters.putString("fields", "id,name,email");
         request.setParameters(parameters);
         request.executeAsync();
     }

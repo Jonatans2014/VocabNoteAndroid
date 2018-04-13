@@ -28,6 +28,16 @@
 
     </string>
 
+
+
+    <string name="chatbotinstructions">
+        1. You are supposed to memorize the given conversation
+        \n.2 There are three ways which you can respond (The responses mean the same thing)
+        \n3. if you get the responses right you will get point otherwise you will lose points
+        \n4. on the top right corner, there are a lamp buton which you can tap on it to get help, you have three attempt to get help however you lose points.
+
+    </string>
+
     <string name="jblbout_textsynonymgame">
         1. Jumbledletters is a game in wich users have to guess each letter of a word in the right order.
 

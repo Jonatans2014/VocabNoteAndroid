@@ -93,22 +93,16 @@ public class CardListVocabFragment extends Fragment {
                 List<UserInfo> users =  response.body();
 
 
-
                 //Creating an String array for the ListView
-
                 //loop trough UserClass Variable and assign words to UserWords
                 for(int i = 0; i < users.size(); i ++)
                 {
 
                     UserClass = users.get(i).getClassification();
 
-
                     getWordList  = UserClass.get(0).getWord();
                 }
 
-                //  System.out.println(UserWords);
-
-                // WordList is now working try the same with another fragment
 
                 ClassList = new String[UserClass.size()];
                 WordList = new String[getWordList.size()];
@@ -127,23 +121,13 @@ public class CardListVocabFragment extends Fragment {
                     WordList[i] = getWordList.get(i).getWord();
                 }
 
-                for(int i = 0; i <getWordList.size(); i++)
-                {
-//                        WordList[j] = getWordList.get(j).getWord();
-//
-//                        System.out.println("Words"+ WordList[j] );
 
 
-                }
-
-
+                // add all categories to adapater and set recycler view
                 adapter = new ContentAdapter(allClass);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
-
             }
 
             @Override
@@ -191,7 +175,7 @@ public class CardListVocabFragment extends Fragment {
         private  LinkedList<String> Classifications;
         String selectedCategory;
 
-        public  List<Classification> senddata =  new ArrayList<>();
+
 
         public ContentAdapter(LinkedList<String> getdata) {
 
@@ -206,10 +190,8 @@ public class CardListVocabFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
+            //display data on the screen
             selectedCategory = Classifications.get(position % Classifications.size());
-
-
-
             holder.description.setText(Classifications.get(position % Classifications.size()));
 
             //onLongClick
@@ -218,7 +200,6 @@ public class CardListVocabFragment extends Fragment {
                 @Override
                 public boolean onLongClick(View view) {
                     // TODO Auto-generated method stub
-
 
                     AlertDialog.Builder alert = new AlertDialog.Builder(
                             getContext());
@@ -265,20 +246,15 @@ public class CardListVocabFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-
-
             Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
 
             String category = selectedCategory;
             //Fetch lists of users, classifications and Words.
-            Intent fbdata = new Intent(getActivity(), WordActivity.class);
+            Intent cattoWord = new Intent(getActivity(), WordActivity.class);
 
-            fbdata.putExtra("Category", category);
+            cattoWord.putExtra("Category", category);
             // getProfileInformationFacebook(loginResult.getAccessToken());
-            startActivity(fbdata);
-
+            startActivity(cattoWord);
         }
-
-
     }
 }

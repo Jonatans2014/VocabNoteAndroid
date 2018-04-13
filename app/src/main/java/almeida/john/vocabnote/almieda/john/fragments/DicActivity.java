@@ -210,71 +210,57 @@ public class DicActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-
-
-
-
-
             try {
                 JSONObject js = new JSONObject(result);
+
+                //access results objects
                 JSONArray results = js.getJSONArray("results");
-
-
-
 
                 for(int i = 0; i<results.length(); i++){
                     JSONObject lentries = results.getJSONObject(i);
                     JSONArray la = lentries.getJSONArray("lexicalEntries");
-
-
-
-
-
-
+                    // access lexialEntries objects
                     for(int j=0;j<la.length();j++){
                         JSONObject entries = la.getJSONObject(j);
+                        //acess entries objects
                         JSONArray e = entries.getJSONArray("entries");
-
                         JSONArray pronunciation= entries.getJSONArray("pronunciations");
 
                         for(int p =0; p<pronunciation.length(); p++)
                         {
                             JSONObject pronunObj = pronunciation.getJSONObject(p);
-
+                            // retireve audiofile
                              getDialect = pronunObj.optString("audioFile");
 
                            // System.out.println("this is file "+getDialect);
                         }
 
-
+                        //
                          lexicalCategory =  entries.optString("lexicalCategory");
-
                         for(int k=0;k<e.length();k++){
                             JSONObject senses = e.getJSONObject(k);
+
+                            //access senses object
                             JSONArray s = senses.getJSONArray("senses");
 
                             for(int h = 0; h < s.length(); h++)
                             {
                                 JSONObject d = s.getJSONObject(h);
+                                // retrieve examples
                                 example =  d.optString("examples");
-
+                                // retrieve definition
                                 def = d.optString("definitions");
-
 
                                 //get rid of none words and the name text:
                                 String replaceNoneWordsExample =example.replaceAll("\\[|\\]|\\\"|\\[", " ");
                                 String replaceNoneWordsDefinition =def.replaceAll(" \\[|\\]|\\\"|\\[", " ");
-
                                 DicInfo dicInfo = new DicInfo(replaceNoneWordsDefinition,replaceNoneWordsExample,getDialect);
                                 getDicdata.add(dicInfo);
-
                                // lexicalCategory
 
                             }
 
-
                         }
-
 
                     }
                 }

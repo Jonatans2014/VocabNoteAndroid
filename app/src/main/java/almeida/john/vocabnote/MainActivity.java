@@ -3,6 +3,7 @@ package almeida.john.vocabnote;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -42,21 +43,21 @@ public class MainActivity extends AppCompatActivity
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Setting ViewPager for each Tabs
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+
+
         // Set Tabs inside Toolbar
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        //tabs.addTab(tabs.newTab().setText("ChatBot"));
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
 
 
 
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity
             // getProfileInformationFacebook(loginResult.getAccessToken());
             startActivity(fbdata);
 
-            System.out.println("whatsuppppppp");
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

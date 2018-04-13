@@ -3,6 +3,7 @@ package almeida.john.vocabnote.almieda.john.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -53,6 +54,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static almeida.john.vocabnote.almieda.john.fragments.GuessWordGameFragment.MY_PREFS_NAME;
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class GuessSynonymGameFragment extends Fragment  implements View.OnClickListener{
@@ -169,14 +173,45 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
             mEmail.setText(String.valueOf(Avg));
             mScore.setText((Integer.toString(points)));
-//                         mCorrect.setText((Integer.toString(getCorrect)));
-//                         mInCorrect.setText((Integer.toString(getIncorrect)));
+
+            // set highestscore to highest
+            if(gamesAddon.getHighestScore() < points)
+            {
+                gamesAddon.setHighestScore(points);
+            }
+
+            //add overallHighestScore from all the games.
+            if(gamesAddon.getHighestScore() > gamesAddon.getOverAllHighestScore())
+            {
+                gamesAddon.setOverAllHighestScore(gamesAddon.getHighestScore());
+            }
+
             HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
 
             gamesAddon.setOverAllScore(points);
+            gamesAddon.setOverallIncorret(getIncorrect);
+            gamesAddon.setOverallCorrect(getCorrect);
+
+
+
+
+            //add overallsocre, correct and incorrect values to sharedPerefences
+            SharedPreferences.Editor editor = getContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.putInt("OverallScore",gamesAddon.getOverAllScore());
+            editor.putInt("OverallIncorret", gamesAddon.getOverallIncorret());
+            editor.putInt("Overallcorret", gamesAddon.getOverallCorrect());
+            editor.putInt("OverallHighestScore", gamesAddon.getOverAllHighestScore());
+            editor.apply();
+
+            SharedPreferences prefs = getContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE); // getting Integer
+            int pageNumber=prefs.getInt("OverallScore", 0);
+
+            System.out.println("WORKS ssssss  " + pageNumber);
 
 
             System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
+
+            // set piechart
             piechart.setUsePercentValues(true);
             piechart.getDescription().setEnabled(false);
             piechart.setExtraOffsets(5, 10, 5, 5);
@@ -186,7 +221,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
             piechart.setHoleColor(Color.WHITE);
             piechart.setTransparentCircleRadius(61f);
 
-
+            // enter values of word guess correctly and incorrectly to piechart
             ArrayList<PieEntry> yvalues = new ArrayList<>();
             yvalues.add(new PieEntry(getCorrect, "Correct"));
             yvalues.add(new PieEntry(getIncorrect, "Incorrect"));
@@ -196,7 +231,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
             ArrayList<Integer> colors = new ArrayList<Integer>();
             for (int c : MY_COLORS) colors.add(c);
 
-
+            // set collor
             PieDataSet DataSet = new PieDataSet(yvalues, "");
             DataSet.setSliceSpace(3f);
             DataSet.setSelectionShift(5f);
@@ -205,6 +240,8 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
             data.setValueTextSize(20F);
             data.setValueTextColor(Color.BLACK);
 
+
+            //bind piechart to data.
             piechart.setData(data);
 
 
@@ -258,7 +295,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
         String getdone;
 
         try {
-            new CountDownTimer(20000, 1000) {
+            new CountDownTimer(320000, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     setTimer.setText("" + String.format("%d:%d ",
@@ -280,14 +317,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                         gamesAddon.setHighestScore(points);
                     }
 
-                    //shared prefff
-                    //Save score
-//                SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = myScore.edit();
-//                editor.putInt("score", PointsTV);
-//                editor.commit();
-
-
                     // int  score = myScore.getInt("score", 0);
                     for (int i = 0; i < gamesAddon.getListUserTimeGuessingWord().size(); i++) {
 
@@ -301,21 +330,10 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                         Avg = addSecondPS / gamesAddon.getListUserTimeGuessingWord().size();
                     }
 
-
                     if(gamesAddon.getLife() >0)
                     {
                         alertDialog();
                     }
-
-
-
-
-
-//                       mCorrect.setText
-//                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
-//                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
-
-
 
                 }
             }.start();
@@ -464,14 +482,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 }
 
 
-//                System.out.println("this is linkedlist"+allWord.size());
-//
-//                // GET ALL WORDS IN THE LINKED LIST
-//                   for(int i=0; i < allWord.size(); i++)
-//                   {
-//                       System.out.println("this is values of linkedlist"+allWord.get(i));
-//                   }
-
                 getRandomWordFromList();
 
             }
@@ -511,16 +521,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
         System.out.println("Shuffling" + allWord);
 
         pointstv.setText((Integer.toString(points)));
-
-//        if(mainWord == otherword)
-//        {
-//            otherword =  r.nextInt(max - min) + min;
-//        }
-//        allWord.size();
-
-
-//        System.out.println("this is values of linkedlist in get random"+  allWord.get(mainWord) + " plus " + "Random Number" + mainWord + "other word" + otherword);
-
 
         new GuessSynonymGameFragment.CallbackTask().execute(dictionaryEntries(allWord.getFirst()));
 
@@ -592,17 +592,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
             {
 
                 ChosenWord.setText(allWord.getFirst());
-
-
-
-//
-//                ArrayList<Integer> number = new ArrayList<Integer>();
-//                for (int i = 0; i <=2; ++i) number.add(i);
-//
-//                Collections.shuffle(number);
-
-
-
                 try {
                     JSONObject js = new JSONObject(result);
                     JSONArray results = js.getJSONArray("results");
@@ -619,9 +608,6 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
                                 for(int h = 0; h < SynonymObjectSize; h++)
                                 {
-
-
-
                                     System.out.println(h);
 
                                     JSONObject d = s.getJSONObject(h);
@@ -633,17 +619,11 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
                                     String getSyn = de.getString(0);
 //                                    String getAnt = anto.getString(0);
-//                                    System.out.println(getAnt);
-
-
+//
                                     // replace none words with ,
                                     String replaceNoneWords =getSyn.replaceAll("[^\\w-]+", ",");
 
-//                                    String replaceNoneWordsAnto =getAnt.replaceAll("[^\\p{L}\\p{Nd}]+", ",");
-
                                     getSynonym = replaceNoneWords.split(",");
-//                                    String [] getAtonym = replaceNoneWordsAnto.split(",");
-
                                     System.out.println("replaceW"+replaceNoneWords);
                                 }
                             }
