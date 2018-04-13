@@ -40,7 +40,7 @@
         \nVersion 2.5
     </string>
     <string name="play_caps">PLAY</string>
-    <string name="about_caps">ABOUT</string>
+    <string name="about_caps">MEMORIZE TEXT</string>
     <string name="instructions_caps">INSTRUCTIONS</string>
     <string name="text_Words">Words</string>
     <string name="title_activity_synonym_game_play">SynonymGamePlayActivity</string>

@@ -74,16 +74,6 @@ public class DicActivity extends AppCompatActivity {
 
         ClassList = new String[2];
 
-
-        ClassList[0] = "hey";
-        ClassList[1] = "hey";
-
-       // word.setText("hehey");
-
-
-
-
-
         new CallbackTask().execute(dictionaryEntries());
 
         // use this setting to improve performance if you know that changes
@@ -270,9 +260,10 @@ public class DicActivity extends AppCompatActivity {
 
                                 def = d.optString("definitions");
 
+
                                 //get rid of none words and the name text:
-                                String replaceNoneWordsExample =example.replaceAll("\"\\\"\"", " ");
-                                String replaceNoneWordsDefinition =def.replaceAll("\"\\\"\" ", " ");
+                                String replaceNoneWordsExample =example.replaceAll("\\[|\\]|\\\"|\\[", " ");
+                                String replaceNoneWordsDefinition =def.replaceAll(" \\[|\\]|\\\"|\\[", " ");
 
                                 DicInfo dicInfo = new DicInfo(replaceNoneWordsDefinition,replaceNoneWordsExample,getDialect);
                                 getDicdata.add(dicInfo);

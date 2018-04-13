@@ -68,10 +68,7 @@ public class ChatbotGridFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Context context = v.getContext();
-//                    Intent intent = new Intent(context, DetailActivity.class);
-//                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
-//                    context.startActivity(intent);
+
                 }
             });
         }}
@@ -87,8 +84,7 @@ public class ChatbotGridFragment extends Fragment {
         TypedArray a;
         GamesAddon gamesAddon = new GamesAddon();
 
-        //      //  private final String[] mPlaces;
-//        //private final Drawable[] mPlacePictures;
+
         public ContentAdapter(Context context) {
             Resources resources = context.getResources();
 

@@ -104,11 +104,6 @@ public class DictionaryFragment extends Fragment {
 
             String example = null;
 
-
-
-
-
-
             try {
                 JSONObject js = new JSONObject(result);
                 JSONArray results = js.getJSONArray("results");

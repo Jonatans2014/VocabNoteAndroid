@@ -93,7 +93,7 @@ public class GamesAddon {
         correct = 0;
         incorrect = 0;
         getTimer = 0;
-
+        overAllScore = 2000;
         lvl2 = 0;
     }
 

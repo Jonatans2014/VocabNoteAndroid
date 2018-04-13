@@ -145,8 +145,107 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
         choice3.setOnClickListener(this);
 
 
-
+        
         return view;
+
+    }
+
+
+    public  void alertDialog()
+    {
+
+        try {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+            View mView = getLayoutInflater().inflate(R.layout.fragment_peformance_analysis, null);
+
+            final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
+            final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
+            final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
+            final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
+            final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
+            piechart = mView.findViewById(R.id.piechart);
+
+
+            mEmail.setText(String.valueOf(Avg));
+            mScore.setText((Integer.toString(points)));
+//                         mCorrect.setText((Integer.toString(getCorrect)));
+//                         mInCorrect.setText((Integer.toString(getIncorrect)));
+            HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
+
+            gamesAddon.setOverAllScore(points);
+
+
+            System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
+            piechart.setUsePercentValues(true);
+            piechart.getDescription().setEnabled(false);
+            piechart.setExtraOffsets(5, 10, 5, 5);
+
+            piechart.setDragDecelerationFrictionCoef(0.95f);
+            piechart.setDrawHoleEnabled(true);
+            piechart.setHoleColor(Color.WHITE);
+            piechart.setTransparentCircleRadius(61f);
+
+
+            ArrayList<PieEntry> yvalues = new ArrayList<>();
+            yvalues.add(new PieEntry(getCorrect, "Correct"));
+            yvalues.add(new PieEntry(getIncorrect, "Incorrect"));
+
+
+            final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255, 0, 0)};
+            ArrayList<Integer> colors = new ArrayList<Integer>();
+            for (int c : MY_COLORS) colors.add(c);
+
+
+            PieDataSet DataSet = new PieDataSet(yvalues, "");
+            DataSet.setSliceSpace(3f);
+            DataSet.setSelectionShift(5f);
+            DataSet.setColors(colors);
+            PieData data = new PieData(DataSet);
+            data.setValueTextSize(20F);
+            data.setValueTextColor(Color.BLACK);
+
+            piechart.setData(data);
+
+
+            mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    //Fetch lists of users, classifications and Words.
+                    Intent fbdata = new Intent(getContext(), MainActivity.class);
+                    // getProfileInformationFacebook(loginResult.getAccessToken());
+                    startActivity(fbdata);
+
+                }
+            });
+
+            mBuilder.setPositiveButton("              Play Again!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    //Might add lvls
+
+                    GuessSynonymGameFragment nextFrag = new GuessSynonymGameFragment();
+                    final Bundle bundle = new Bundle();
+                    bundle.putString("level", "medium");
+                    nextFrag.setArguments(bundle);
+                    getActivity()
+                            .getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, nextFrag)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+
+            mBuilder.setView(mView);
+            final AlertDialog dialog = mBuilder.create();
+            dialog.show();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -157,153 +256,70 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     public  void setTimer()
     {
         String getdone;
-        new CountDownTimer(20000, 1000) {
 
-            public void onTick(long millisUntilFinished) {
-                setTimer.setText(""+String.format("%d:%d ",
-                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
+        try {
+            new CountDownTimer(20000, 1000) {
 
-            public void onFinish() {
-
-
-
-
-                ///there's a bugg when we leave the page timer keeps running need to do something when going back.
-                setTimer.setText("0");
-
-
-                System.out.println("This is highestScore   " +gamesAddon.getHighestScore() );
-                // set highestscore to highest
-                if(gamesAddon.getHighestScore() < points)
-                {
-                    gamesAddon.setHighestScore(points);
+                public void onTick(long millisUntilFinished) {
+                    setTimer.setText("" + String.format("%d:%d ",
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
                 }
 
-                //shared prefff
-                //Save score
+                public void onFinish() {
+
+
+                    ///there's a bugg when we leave the page timer keeps running need to do something when going back.
+                    setTimer.setText("0");
+
+
+                    System.out.println("This is highestScore   " + gamesAddon.getHighestScore());
+                    // set highestscore to highest
+                    if (gamesAddon.getHighestScore() < points) {
+                        gamesAddon.setHighestScore(points);
+                    }
+
+                    //shared prefff
+                    //Save score
 //                SharedPreferences myScore = getActivity().getPreferences(Context.MODE_PRIVATE);
 //                SharedPreferences.Editor editor = myScore.edit();
 //                editor.putInt("score", PointsTV);
 //                editor.commit();
 
 
+                    // int  score = myScore.getInt("score", 0);
+                    for (int i = 0; i < gamesAddon.getListUserTimeGuessingWord().size(); i++) {
 
-                // int  score = myScore.getInt("score", 0);
-                for(int i =0 ; i < gamesAddon.getListUserTimeGuessingWord().size(); i ++)
-                {
-
-                    addSecondPS += gamesAddon.getListUserTimeGuessingWord().get(i);
+                        addSecondPS += gamesAddon.getListUserTimeGuessingWord().get(i);
 
 
-                    System.out.println("this is the timer p/s   " +gamesAddon.getListUserTimeGuessingWord().get(i));
-                }
+                        System.out.println("this is the timer p/s   " + gamesAddon.getListUserTimeGuessingWord().get(i));
+                    }
 
-                if(addSecondPS > 0)
-                {
-                    Avg = addSecondPS / gamesAddon.getListUserTimeGuessingWord().size();
-                }
+                    if (addSecondPS > 0) {
+                        Avg = addSecondPS / gamesAddon.getListUserTimeGuessingWord().size();
+                    }
 
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-
-                View mView = getLayoutInflater().inflate(R.layout.fragment_peformance_analysis, null);
-
-                final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
-                final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
-                final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
-                final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
-                final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
-                piechart =  mView.findViewById(R.id.piechart);
+                    alertDialog();
 
 
-                mEmail.setText(String.valueOf(Avg));
-                mScore.setText((Integer.toString(points)));
-//                         mCorrect.setText((Integer.toString(getCorrect)));
-//                         mInCorrect.setText((Integer.toString(getIncorrect)));
-                HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
-
-                gamesAddon.setOverAllScore(points);
 
 //                       mCorrect.setText
 //                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
 //                       Button mLogin = (Button) mView.findViewById(R.id.btnLogin);
 
 
-                System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
-                piechart.setUsePercentValues(true);
-                piechart.getDescription().setEnabled(false);
-                piechart.setExtraOffsets(5,10,5,5);
 
-                piechart.setDragDecelerationFrictionCoef(0.95f);
-                piechart.setDrawHoleEnabled(true);
-                piechart.setHoleColor(Color.WHITE);
-                piechart.setTransparentCircleRadius(61f);
+                }
+            }.start();
+        }
 
 
-                ArrayList<PieEntry> yvalues = new ArrayList<>();
-                yvalues.add(new PieEntry(getCorrect,"Correct"));
-                yvalues.add(new PieEntry(getIncorrect,"Incorrect"));
-
-
-
-                final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255,0,0)};
-                ArrayList<Integer> colors = new ArrayList<Integer>();
-                for(int c: MY_COLORS) colors.add(c);
-
-
-
-                PieDataSet DataSet = new PieDataSet(yvalues,"");
-                DataSet.setSliceSpace(3f);
-                DataSet.setSelectionShift(5f);
-                DataSet.setColors(colors);
-                PieData data = new PieData(DataSet);
-                data.setValueTextSize(20F);
-                data.setValueTextColor(Color.BLACK);
-
-                piechart.setData(data);
-
-
-                mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        //Fetch lists of users, classifications and Words.
-                        Intent fbdata = new Intent(getContext(), MainActivity.class);
-                        // getProfileInformationFacebook(loginResult.getAccessToken());
-                        startActivity(fbdata);
-
-                    }
-                });
-
-                mBuilder.setPositiveButton("              Play Again!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        //Might add lvls
-
-                        GuessSynonymGameFragment nextFrag= new GuessSynonymGameFragment();
-                        final Bundle bundle = new Bundle();
-                        bundle.putString("level","medium");
-                        nextFrag.setArguments(bundle);
-                        getActivity()
-                                .getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, nextFrag)
-                                .addToBackStack(null)
-                                .commit();
-                    }
-                });
-
-                mBuilder.setView(mView);
-                final AlertDialog dialog = mBuilder.create();
-                dialog.show();
-
-
-
-            }
-        }.start();
+              catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
     }
 

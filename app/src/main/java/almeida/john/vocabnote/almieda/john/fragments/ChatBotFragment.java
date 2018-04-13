@@ -73,8 +73,7 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
     PieChart piechart;
     AIService aiService;
-    TextView t;
-    Button activate;
+
     public RecyclerView recyclerView;
     EditText editText;
     RelativeLayout addBtn;
@@ -87,7 +86,7 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
     ContentAdapter adapter;
     String message;
     String level;
-    String botmsg;
+
     TextView setTimer;
     int points;
     Boolean firstQuestion = false;
@@ -102,7 +101,7 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
 
     GamesAddon gamesAddon = new GamesAddon();
-    LinkedList<String> msg = new LinkedList<>();
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,69 +121,22 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
 
 
-        final ImageView fab_img = (ImageView) drawer.findViewById(R.id.fab_img);
 
 
 
         setTimer();
 
         // dialogflow declaration
-
-
-
-
-
-
         final AIConfiguration config = new AIConfiguration("f4a9d1c62f0c46c4b73e728268e75bfc",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
         aiService = AIService.getService(getContext(), config);
-
-
         aiDataService = new AIDataService(config);
         aiRequest = new AIRequest();
 
 
         addBtn.setOnClickListener(this);
-
-
-
-
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                Bitmap img = BitmapFactory.decodeResource(getResources(),R.drawable.ic_send_white_24dp);
-                Bitmap img1 = BitmapFactory.decodeResource(getResources(),R.drawable.ic_mic_white_24dp);
-
-
-                if (s.toString().trim().length()!=0 && flagFab){
-                    ImageViewAnimatedChange(getContext(),fab_img,img);
-                    flagFab=false;
-
-                }
-                else if (s.toString().trim().length()==0){
-                    ImageViewAnimatedChange(getContext(),fab_img,img1);
-                    flagFab=true;
-
-                }
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
 
 
 
@@ -269,6 +221,7 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
                     }
 
                     PointsTV.setText(String.valueOf(points));
+                    firstQuestion = true;
 
 
 
@@ -281,28 +234,9 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
         }.execute(aiRequest);
 
 
-        firstQuestion = true;
+
     }
-    public void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
-        final Animation anim_out = AnimationUtils.loadAnimation(c, R.anim.zoom_out);
-        final Animation anim_in  = AnimationUtils.loadAnimation(c, R.anim.zoom_in);
-        anim_out.setAnimationListener(new Animation.AnimationListener()
-        {
-            @Override public void onAnimationStart(Animation animation) {}
-            @Override public void onAnimationRepeat(Animation animation) {}
-            @Override public void onAnimationEnd(Animation animation)
-            {
-                v.setImageBitmap(new_image);
-                anim_in.setAnimationListener(new Animation.AnimationListener() {
-                    @Override public void onAnimationStart(Animation animation) {}
-                    @Override public void onAnimationRepeat(Animation animation) {}
-                    @Override public void onAnimationEnd(Animation animation) {}
-                });
-                v.startAnimation(anim_in);
-            }
-        });
-        v.startAnimation(anim_out);
-    }
+
 
 
 
@@ -358,25 +292,38 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
                 }
 
 
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-
-                View mView = getLayoutInflater().inflate(R.layout.fragment_peformance_analysis, null);
-
-                final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
-                final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
-                final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
-                final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
-                final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
-                piechart =  mView.findViewById(R.id.piechart);
+                dialogAlert();
 
 
-                mEmail.setText(String.valueOf(Avg));
-                mScore.setText((Integer.toString(points)));
+
+            }
+        }.start();
+
+    }
+
+    public void dialogAlert()
+    {
+        try
+        {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+        View mView = getLayoutInflater().inflate(R.layout.fragment_peformance_analysis, null);
+
+        final TextView mEmail = (TextView) mView.findViewById(R.id.avgScore);
+        final TextView HigestScore = (TextView) mView.findViewById(R.id.highestScore);
+        final TextView mScore = (TextView) mView.findViewById(R.id.TVscore);
+        final TextView mCorrect = (TextView) mView.findViewById(R.id.correctTV);
+        final TextView mInCorrect = (TextView) mView.findViewById(R.id.IncorrectTV);
+        piechart =  mView.findViewById(R.id.piechart);
+
+
+        mEmail.setText(String.valueOf(Avg));
+        mScore.setText((Integer.toString(points)));
 //                         mCorrect.setText((Integer.toString(getCorrect)));
 //                         mInCorrect.setText((Integer.toString(getIncorrect)));
-                HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
+        HigestScore.setText((Integer.toString(gamesAddon.getHighestScore())));
 
-                gamesAddon.setOverAllScore(points);
+        gamesAddon.setOverAllScore(points);
 
 //                       mCorrect.setText
 //                       final EditText mPassword = (EditText) mView.findViewById(R.id.etPassword);
@@ -385,74 +332,75 @@ public class ChatBotFragment extends Fragment implements View.OnClickListener{
 
 
 
-                System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
-                piechart.setUsePercentValues(true);
-                piechart.getDescription().setEnabled(false);
-                piechart.setExtraOffsets(5,10,5,5);
+        System.out.println("this is PointsTV  " + gamesAddon.getOverAllScore());
+        piechart.setUsePercentValues(true);
+        piechart.getDescription().setEnabled(false);
+        piechart.setExtraOffsets(5,10,5,5);
 
-                piechart.setDragDecelerationFrictionCoef(0.95f);
-                piechart.setDrawHoleEnabled(true);
-                piechart.setHoleColor(Color.WHITE);
-                piechart.setTransparentCircleRadius(61f);
-
-
-                ArrayList<PieEntry> yvalues = new ArrayList<>();
-                yvalues.add(new PieEntry(getCorrect,"Correct"));
-                yvalues.add(new PieEntry(getIncorrect,"Incorrect"));
+        piechart.setDragDecelerationFrictionCoef(0.95f);
+        piechart.setDrawHoleEnabled(true);
+        piechart.setHoleColor(Color.WHITE);
+        piechart.setTransparentCircleRadius(61f);
 
 
-
-                final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255,0,0)};
-                ArrayList<Integer> colors = new ArrayList<Integer>();
-                for(int c: MY_COLORS) colors.add(c);
+        ArrayList<PieEntry> yvalues = new ArrayList<>();
+        yvalues.add(new PieEntry(getCorrect,"Correct"));
+        yvalues.add(new PieEntry(getIncorrect,"Incorrect"));
 
 
 
-                PieDataSet DataSet = new PieDataSet(yvalues,"");
-                DataSet.setSliceSpace(3f);
-                DataSet.setSelectionShift(5f);
-                DataSet.setColors(colors);
-                PieData data = new PieData(DataSet);
-                data.setValueTextSize(20F);
-                data.setValueTextColor(Color.BLACK);
-
-                piechart.setData(data);
+        final int[] MY_COLORS = {Color.rgb(65, 244, 199), Color.rgb(255,0,0)};
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        for(int c: MY_COLORS) colors.add(c);
 
 
-                mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                        //Fetch lists of users, classifications and Words.
-                        Intent fbdata = new Intent(getContext(), MainActivity.class);
-                        // getProfileInformationFacebook(loginResult.getAccessToken());
-                        startActivity(fbdata);
+        PieDataSet DataSet = new PieDataSet(yvalues,"");
+        DataSet.setSliceSpace(3f);
+        DataSet.setSelectionShift(5f);
+        DataSet.setColors(colors);
+        PieData data = new PieData(DataSet);
+        data.setValueTextSize(20F);
+        data.setValueTextColor(Color.BLACK);
 
-                    }
-                });
+        piechart.setData(data);
 
-                mBuilder.setPositiveButton("              Play Again!", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //
-                        ChatBotFragment nextFrag= new ChatBotFragment();
-                        final Bundle bundle = new Bundle();
-                        bundle.putString("level",level);
-                        nextFrag.setArguments(bundle);
-                        getActivity()
-                                .getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, nextFrag)
-                                .addToBackStack(null)
-                                .commit();
-                    }
-                });
 
-                mBuilder.setView(mView);
-                final AlertDialog dialog = mBuilder.create();
-                dialog.show();
+        mBuilder.setNegativeButton("Exit!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                //Fetch lists of users, classifications and Words.
+                Intent fbdata = new Intent(getContext(), MainActivity.class);
+                // getProfileInformationFacebook(loginResult.getAccessToken());
+                startActivity(fbdata);
+
             }
-        }.start();
+        });
 
+        mBuilder.setPositiveButton("              Play Again!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //
+                ChatBotFragment nextFrag= new ChatBotFragment();
+                final Bundle bundle = new Bundle();
+                bundle.putString("level",level);
+                nextFrag.setArguments(bundle);
+                getActivity()
+                        .getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, nextFrag)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        mBuilder.setView(mView);
+        final AlertDialog dialog = mBuilder.create();
+        dialog.show();}
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 

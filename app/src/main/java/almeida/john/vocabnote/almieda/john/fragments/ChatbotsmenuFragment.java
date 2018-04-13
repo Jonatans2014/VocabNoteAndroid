@@ -18,11 +18,9 @@ import almeida.john.vocabnote.R;
 public class ChatbotsmenuFragment extends Fragment {
 
 
-    RadioButton easy,medium,hard;
+
     TextView text1,about,innstruction;
     String getLvl;
-    String[] message;
-    Map map;
     String level;
     @Override
 

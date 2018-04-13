@@ -71,6 +71,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     public LinkedList<String> allWord =    new LinkedList<String>();
     PieChart piechart;
     int addSecondPS =0;
+    public CountDownTimer yourCountDownTimer;
 
     int highestScore =0;
     float Avg =0;
@@ -383,7 +384,11 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     public  void setTimer()
     {
         String getdone;
-        new CountDownTimer(20000, 1000) {
+
+
+
+        try {
+         yourCountDownTimer=  new CountDownTimer(20000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 setTimer.setText(""+String.format("%d:%d ",
@@ -436,7 +441,11 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
             }
-        }.start();
+        }.start();}
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -446,6 +455,8 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
     public void alertDialog()
     {
+
+        try{
 
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
 
@@ -539,7 +550,11 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         mBuilder.setView(mView);
         final AlertDialog dialog = mBuilder.create();
-        dialog.show();
+        dialog.show();}
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -742,15 +757,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
         pointstv.setText((Integer.toString(points)));
-//        for(int i = 0; i <splitWord.length; i++)
-//        {
-//            System.out.println("Word Split  " + splitWord[i]);
-//
-//            getSplit.addFirst(splitWord[i]);
-//
-//            checkSplit.addFirst(splitWord[i]);
-//        }
-//
 
 
         for(int i = 0; i < splitWord.length; i++) {
@@ -761,7 +767,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         if(level.equals("easy") && splitWord.length <=4 )
         {
-            //setTimer.setText(level);
 
 
             for(int i = 0; i <splitWord.length; i++)
@@ -777,7 +782,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         else if(level.equals("medium") && splitWord.length <=5)
         {
 
-            //setTimer.setText(level);
+
 
 
             for(int i = 0; i <splitWord.length; i++)
@@ -792,7 +797,6 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         }
        else if(level.equals("hard") && splitWord.length>5 )
         {
-            //setTimer.setText(level);
 
 
             for(int i = 0; i <splitWord.length; i++)
