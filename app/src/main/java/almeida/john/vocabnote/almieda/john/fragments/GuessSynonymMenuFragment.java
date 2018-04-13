@@ -1,34 +1,14 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.os.Bundle;
-import android.service.carrier.CarrierService;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import almeida.john.vocabnote.MainActivity;
-import almeida.john.vocabnote.R;
 
 import almeida.john.vocabnote.R;
 
@@ -44,10 +24,16 @@ public class GuessSynonymMenuFragment extends Fragment implements View.OnClickLi
         View view  =  inflater.inflate(R.layout.fragment_guess_synonym_menu, container, false);
 
 
-        TextView text1 = (TextView) view.findViewById(R.id.play);
+        TextView play = (TextView) view.findViewById(R.id.play);
+        TextView Instruction = (TextView) view.findViewById(R.id.instra);
+        TextView about = (TextView) view.findViewById(R.id.about);
 
 
-        text1.setOnClickListener(this);
+
+
+        play.setOnClickListener(this);
+        Instruction.setOnClickListener(this);
+        about.setOnClickListener(this);
         return view;
 
 
@@ -67,13 +53,86 @@ public class GuessSynonymMenuFragment extends Fragment implements View.OnClickLi
 //        startActivity(fbdata);
 
 
-        GuessSynonymGameFragment nextFrag= new GuessSynonymGameFragment();
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, nextFrag)
-                .addToBackStack(null)
-                .commit();
+        switch (view.getId()) {
+            case R.id.play: {
+
+                GuessSynonymGameFragment nextFrag= new GuessSynonymGameFragment();
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, nextFrag)
+                        .addToBackStack(null)
+                        .commit();
+
+                break;
+            }
+            case R.id.instra:
+            {
+
+                alertDialogInstruction();
+                System.out.println(" hey hey ");
+                break;
+            }
+
+            case R.id.about:
+            {
+
+                alertDialogAboutGame();
+                break;
+            }
+
+        }
+
 
 
     }
+
+
+
+    public void alertDialogAboutGame()
+    {
+
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+
+        // set title
+        alertDialogBuilder.setTitle("About");
+
+        // set dialog message
+        alertDialogBuilder.setMessage(R.string.synonymabout_textsynonymgame);
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
+
+
+
+    public void alertDialogInstruction()
+    {
+
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getContext());
+
+        // set title
+        alertDialogBuilder.setTitle("Instructions");
+
+        // set dialog message
+        alertDialogBuilder.setMessage(R.string.synonyminstructions);
+
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+
+
+
+        // show it
+        alertDialog.show();
+    }
+
 }

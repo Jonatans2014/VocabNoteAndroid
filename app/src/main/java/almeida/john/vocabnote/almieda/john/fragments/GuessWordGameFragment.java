@@ -3,25 +3,21 @@ package almeida.john.vocabnote.almieda.john.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +34,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +42,6 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HttpsURLConnection;
 
 import almeida.john.vocabnote.Api;
-import almeida.john.vocabnote.LoginActivity;
 import almeida.john.vocabnote.MainActivity;
 import almeida.john.vocabnote.R;
 import almeida.john.vocabnote.UserInfo;
@@ -123,7 +117,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     String Dict;
     String level;
     TextView setTimer;
-    ImageView mShowDialog;
+    ImageView helpIV;
     TextView pointstv;
     String Category;
 
@@ -135,13 +129,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
         View drawer = inflater.inflate(R.layout.gamerecyclerview, container, false);
 
-        // handler = new Handler() ;
-       // new GuessWordGameFragment.CallbackTask().execute(dictionaryEntries());
-
-
         dash = "";
-
-
         //Context context = getActivity();
 //        SharedPreferences sharedPref = context.getSharedPreferences(
 //                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -157,9 +145,9 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         pointstv = (TextView) drawer.findViewById(R.id.tvpoints);
 
         getHelpString =  "help1";
-        mShowDialog = (ImageView) drawer.findViewById(R.id.helpV);
+        helpIV = (ImageView) drawer.findViewById(R.id.helpV);
 //
-//        mShowDialog.setOnClickListener(new View.OnClickListener() {
+//        helpIV.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //
@@ -221,7 +209,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         lifeRecyclerV = (RecyclerView) drawer.findViewById(R.id.LIFE);
 
         //Instance of GamesAddon
-        gamesAddon = new GamesAddon(3,0);
+        gamesAddon = new GamesAddon();
 
         lifeAdapter = new GuessWordGameFragment.lifeAdapter(lifeRecyclerV.getContext());
 
@@ -245,6 +233,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 //        helpIcon.setOnClickListener(this);
         addLife.setOnClickListener(this);
         giveAletter.setOnClickListener(this);
+        helpIV.setOnClickListener(this);
 
 
         bindCategoryOrWordsToRecyclerView();
@@ -280,7 +269,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
     private String dictionaryEntries() {
         final String language = "en";
-        final String word = "head";
+        final String word = WordRchosen;
         final String word_id = word.toLowerCase(); //word id is case sensitive and lowercase is required
         return "https://od-api.oxforddictionaries.com:443/api/v1/entries/" + language + "/" + word_id ;
     }
@@ -365,19 +354,60 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
 
 
                                 System.out.println("it worked hehhehehehee" + getDicdata.get(0).getDefinitions());
+
+
                                 // lexicalCategory
 
                             }
+
                         }
+
+
                     }
                 }
-            } catch (JSONException e) {
+
+
+                alertDialog(getDicdata.get(0).getDefinitions());
+            }
+
+
+
+
+            catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
     }
 
+
+    public void alertDialog(String def)
+    {
+
+        String  getext;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        View mView = getLayoutInflater().inflate(R.layout.helptext, null);
+
+        TextView text = (TextView) mView.findViewById(R.id.helptxt);
+
+
+        text.setText(def);
+        builder.setTitle("Definition");
+
+        builder.setPositiveButton("             Continue!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.setView(mView);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 
 
     //setTimer
@@ -562,6 +592,10 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
     @Override
     public void onClick(View view) {
 
+        points = gamesAddon.removePoints();
+
+        pointstv.setText((Integer.toString(points)));
+
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.addLifeIV: {
@@ -571,17 +605,28 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                 recyclerView.setAdapter(adapter);
                 addLife.setVisibility(View.GONE);
 
+                gamesAddon.removePoints();
+
                 break;
 
             }
 
             case R.id.letterIconIMV: {
+
+                gamesAddon.removePoints();
                 ChosenWord.append(checkSplit.getLast());
                 checkSplit.removeLast();
 
                 giveAletter.setVisibility(View.GONE);
                 break;
 
+            }
+            case R.id.helpV:
+            {
+
+                new GuessWordGameFragment.CallbackTask().execute(dictionaryEntries());
+
+                break;
             }
         }
     }
@@ -756,7 +801,7 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
         splitWord = WordRchosen.split("(?!^)");
 
 
-        pointstv.setText((Integer.toString(points)));
+
 
 
         for(int i = 0; i < splitWord.length; i++) {
@@ -894,13 +939,20 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                     }
                     else
                     {
-                        Toast.makeText(getContext(),"Incorrect letter",Toast.LENGTH_SHORT).show();
+
+                        if(gamesAddon.getLife() ==1)
+                        {
+
+                            alertDialog();
+                        }
+
+
 
                         getIncorrect =gamesAddon.increaseIncorrect();
 
                         gamesAddon.removeLife();
 
-                        System.out.println("this is life  " + gamesAddon.getLife());
+
 
                         recyclerView.setAdapter(adapter);
                     }
@@ -916,11 +968,11 @@ public class GuessWordGameFragment extends Fragment implements  View.OnClickList
                         getCorrect= gamesAddon.increaseCorrect();
                         Toast.makeText(getContext(),"Welll Done",Toast.LENGTH_SHORT).show();
                         points = gamesAddon.addPoints();
-
+                        pointstv.setText((Integer.toString(points)));
 
                         Classifications.clear();
                         getRandomWordFromList();
-                        System.out.println("hey hey heyy finished");
+
                         gamesAddon.startTimer();
 
 

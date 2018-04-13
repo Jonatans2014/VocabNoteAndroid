@@ -1,18 +1,14 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Map;
 
 import almeida.john.vocabnote.R;
 
@@ -21,16 +17,21 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
 
 
     RadioButton easy,medium,hard;
-    TextView text1;
+    TextView play,about,instructions;
     String getLvl;
-    Map map;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view  =  inflater.inflate(R.layout.fragment_guess_word_menu, container, false);
 
 
-        text1 = (TextView) view.findViewById(R.id.play);
+        play = (TextView) view.findViewById(R.id.play);
+        about = (TextView) view.findViewById(R.id.about);
+        instructions = (TextView) view.findViewById(R.id.instr);
+
+
+
         easy = (RadioButton) view.findViewById(R.id.RBeasy) ;
         medium = (RadioButton) view.findViewById(R.id.RBmedium);
         hard = (RadioButton) view.findViewById(R.id.RBhard);
@@ -38,7 +39,10 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
         easy.setOnClickListener(this);
         medium.setOnClickListener(this);
         hard.setOnClickListener(this);
-        text1.setOnClickListener(mCorkyListener);
+
+        play.setOnClickListener(playListener);
+        about.setOnClickListener(aboutListener);
+        instructions.setOnClickListener(instrListener);
         getLvl = "easy";
 
 
@@ -46,8 +50,49 @@ public class GuessWordMenuFragment extends Fragment implements  View.OnClickList
         return view;
     }
 
+
     // Create an anonymous implementation of OnClickListener
-    private View.OnClickListener mCorkyListener = new View.OnClickListener() {
+    private View.OnClickListener aboutListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    getContext());
+
+            // set title
+            alertDialogBuilder.setTitle("About");
+
+            // set dialog message
+            alertDialogBuilder.setMessage(R.string.jblbout_textsynonymgame);
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+        }
+    };
+    // Create an anonymous implementation of OnClickListener
+    private View.OnClickListener instrListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    getContext());
+
+            // set title
+            alertDialogBuilder.setTitle("Instructions");
+
+            // set dialog message
+            alertDialogBuilder.setMessage(R.string.jblettersinstructions);
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+        }
+    };
+
+    // Create an anonymous implementation of OnClickListener
+    private View.OnClickListener playListener = new View.OnClickListener() {
         public void onClick(View v) {
 
             GuessWordGameFragment nextFrag= new GuessWordGameFragment();

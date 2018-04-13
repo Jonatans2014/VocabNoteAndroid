@@ -36,13 +36,13 @@ public class SynonymGameActivity extends AppCompatActivity  {
         setSupportActionBar(toolbar);
 
 
-//        text1 = (TextView) findViewById(R.id.play);
+//        play = (TextView) findViewById(R.id.play);
 //        mainWord = (TextView) findViewById(R.id.word2);
 //        text2 = (TextView) findViewById(R.id.word3);
 //        text3 = (TextView) findViewById(R.id.word1);
 //
 //
-//        text1.setOnClickListener(this);
+//        play.setOnClickListener(this);
 
 
 

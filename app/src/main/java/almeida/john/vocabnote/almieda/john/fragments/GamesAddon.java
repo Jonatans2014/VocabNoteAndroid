@@ -37,6 +37,7 @@ public class GamesAddon {
     private int incorrect;
     private int sucess;
     private int failure;
+    private  int addOrRemovepoints;
 
     private int lvl2;
 
@@ -70,18 +71,6 @@ public class GamesAddon {
     int Seconds, Minutes, MilliSeconds ;
 
 
-    GamesAddon(int life, int points)
-    {
-
-        handler = new Handler() ;
-        this.life= life ;
-        this.points = points;
-
-        correct = 0;
-        incorrect = 0;
-        getTimer = 0;
-        lvl2 = 3000;
-    }
 
 
     GamesAddon()
@@ -89,12 +78,13 @@ public class GamesAddon {
 
         handler = new Handler() ;
         this.life= 3 ;
-        this.points = 50;
+        this.points = 0;
         correct = 0;
         incorrect = 0;
         getTimer = 0;
         overAllScore = 2000;
         lvl2 = 0;
+        addOrRemovepoints = 50;
     }
 
     public int getLvl2() {
@@ -243,11 +233,6 @@ public class GamesAddon {
     {
         life--;
 
-        if(life == 0)
-        {
-            System.out.println("Game Over!");
-        }
-
         return life;
     }
 
@@ -265,13 +250,13 @@ public class GamesAddon {
     public int addPoints( )
     {
 
-        points += 100;
+        points += addOrRemovepoints;
         return points;
     }
 
     public  int removePoints()
     {
-        points -= 100;
+        points -= addOrRemovepoints;
         return  points;
     }
     //setTimer

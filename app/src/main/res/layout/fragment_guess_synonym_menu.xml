@@ -74,7 +74,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/instr"
+            android:id="@+id/instra"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/about"

@@ -94,7 +94,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
 
         //Instance of GamesAddon
-         gamesAddon = new GamesAddon(3,0);
+         gamesAddon = new GamesAddon();
 
 
 
@@ -301,7 +301,13 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                         Avg = addSecondPS / gamesAddon.getListUserTimeGuessingWord().size();
                     }
 
-                    alertDialog();
+
+                    if(gamesAddon.getLife() >0)
+                    {
+                        alertDialog();
+                    }
+
+
 
 
 
@@ -339,10 +345,7 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Context context = v.getContext();
-//                    Intent intent = new Intent(context, DetailActivity.class);
-//                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
-//                    context.startActivity(intent);
+
                 }
             });
         }
@@ -380,14 +383,10 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
 
         @Override
         public void onBindViewHolder(final GuessSynonymGameFragment.ViewHolder holder, final int position) {
-            int points = 0;
-
-
         }
 
         @Override
         public int getItemCount(
-
 
         ) {
             return gamesAddon.getLife();
@@ -692,6 +691,12 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
     public void onClick(View view) {
 
         System.out.println("actualt PointsTV  " +points);
+
+        if(gamesAddon.getLife() ==1)
+        {
+            Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
+            alertDialog();
+        }
         switch (view.getId())
         {
             case R.id.word1:
@@ -710,11 +715,12 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 }
                 else
                 {
-                    if(gamesAddon.getLife() <=0)
-                    {
-                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
-                    }
 
+//                    if(gamesAddon.getLife() ==1)
+//                    {
+//                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
+//                        alertDialogInstruction();
+//                    }
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
 
                     getIncorrect =gamesAddon.increaseIncorrect();
@@ -743,11 +749,12 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 }
                 else
                 {
-                    if(gamesAddon.getLife() == 0)
-                    {
-                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
-                    }
 
+//                    if(gamesAddon.getLife() ==1)
+//                    {
+//                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
+//                        alertDialogInstruction();
+//                    }
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
                     getIncorrect =gamesAddon.increaseIncorrect();
                     gamesAddon.removeLife();
@@ -772,10 +779,11 @@ public class GuessSynonymGameFragment extends Fragment  implements View.OnClickL
                 {
 
                     getIncorrect =gamesAddon.increaseIncorrect();
-                    if(gamesAddon.getLife() <= 0)
-                    {
-                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
-                    }
+//                    if(gamesAddon.getLife() ==1)
+//                    {
+//                        Toast.makeText(getContext(), "Incorrect, GameOver", Toast.LENGTH_SHORT).show();
+//                        alertDialogInstruction();
+//                    }
 
                     Toast.makeText(getContext(), "Incorrect", Toast.LENGTH_SHORT).show();
 
