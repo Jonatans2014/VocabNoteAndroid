@@ -43,7 +43,7 @@ public class WordActivity extends AppCompatActivity {
     String[] ClassList ;
     WordActivity.ContentAdapter adapter;
     LinkedList<String> WordList = new LinkedList<String>();;
-    FloatingActionButton fab;
+    FloatingActionButton addWord;
     String Dict;
 
     String Category;
@@ -64,7 +64,7 @@ public class WordActivity extends AppCompatActivity {
         Category  = getIntent().getStringExtra("Category");
         System.out.println(Category);
 
-       fab = (FloatingActionButton) findViewById(R.id.fab);
+       addWord = (FloatingActionButton) findViewById(R.id.fab);
 
 
 
@@ -205,7 +205,7 @@ public class WordActivity extends AppCompatActivity {
      */
     public class ContentAdapter extends RecyclerView.Adapter<WordActivity.ViewHolder> {
         // Set numbers of List in RecyclerView.
-        private static final int LENGTH = 18;
+
         private  LinkedList<String> Classifications;
 
         public List<Classification> senddata =  new ArrayList<>();
@@ -231,7 +231,7 @@ public class WordActivity extends AppCompatActivity {
 
 
 
-            fab.setOnClickListener(new View.OnClickListener() {
+            addWord.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder mBuilder = new AlertDialog.Builder(WordActivity.this);
@@ -336,7 +336,7 @@ public class WordActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return Classifications.size();
         }
     }
 

@@ -1,10 +1,10 @@
 package almeida.john.vocabnote.almieda.john.fragments;
 
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,19 +50,19 @@ public class CardListVocabFragment extends Fragment {
     String[] WordList;
     ContentAdapter adapter;
     boolean Category = true;
-
+    FloatingActionButton addCat;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-        final View drawer = inflater.inflate(R.layout.recycler_view, container, false);
+        final View drawer = inflater.inflate(R.layout.recycler_viewtowordandcat, container, false);
 
         recyclerView = (RecyclerView) drawer.findViewById(R.id.recyclerV);
 
         bindCategoryOrWordsToRecyclerView();
 
-
+        addCat = (FloatingActionButton) drawer.findViewById(R.id.fab);
 
         return drawer;
 
@@ -169,11 +169,11 @@ public class CardListVocabFragment extends Fragment {
     /**
      * Adapter to display recycler view.
      */
-    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements View.OnClickListener {
+    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder>  {
         // Set numbers of List in RecyclerView.
         private static final int LENGTH = 18;
         private  LinkedList<String> Classifications;
-        String selectedCategory;
+
 
 
 
@@ -191,11 +191,67 @@ public class CardListVocabFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
             //display data on the screen
-            selectedCategory = Classifications.get(position % Classifications.size());
+            final String selectedCategory = Classifications.get(position % Classifications.size());
             holder.description.setText(Classifications.get(position % Classifications.size()));
 
+
+
+
+
+            // set add icon onclilistener
+            addCat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+
+                    View mView = getLayoutInflater().inflate(R.layout.addword, null);
+
+                    final EditText Text = (EditText) mView.findViewById(R.id.addword);
+
+
+
+                    //alert dialgo to enter word
+                    mBuilder.setPositiveButton("         Save!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            if(!Text.getText().toString().isEmpty())
+                            {
+
+                                Classifications.addFirst(Text.getText().toString());
+                                adapter.notifyDataSetChanged();
+
+                            }
+
+                        }
+                    });
+
+                    mBuilder.setView(mView);
+                    final AlertDialog dialog = mBuilder.create();
+                    dialog.show();
+                }
+            });
             //onLongClick
-            holder.description.setOnClickListener(this);
+            //setOnclickListener
+            holder.description.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
+
+                    String category = selectedCategory;
+                    //Fetch lists of users, classifications and Words.
+                    Intent cattoWord = new Intent(getActivity(), WordActivity.class);
+
+                    cattoWord.putExtra("Category", category);
+                    // getProfileInformationFacebook(loginResult.getAccessToken());
+                    startActivity(cattoWord);
+
+
+                }
+            });
+            //set on longClickListener
             holder.description.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -244,17 +300,6 @@ public class CardListVocabFragment extends Fragment {
             return Classifications.size();
         }
 
-        @Override
-        public void onClick(View view) {
-            Toast.makeText(getContext(),selectedCategory,Toast.LENGTH_SHORT).show();
 
-            String category = selectedCategory;
-            //Fetch lists of users, classifications and Words.
-            Intent cattoWord = new Intent(getActivity(), WordActivity.class);
-
-            cattoWord.putExtra("Category", category);
-            // getProfileInformationFacebook(loginResult.getAccessToken());
-            startActivity(cattoWord);
-        }
     }
 }

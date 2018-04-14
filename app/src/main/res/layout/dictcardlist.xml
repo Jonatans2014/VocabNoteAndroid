@@ -25,7 +25,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:autoText="true"
-            android:text="def" />
+            android:text="Not Found" />
 
         <TextView
             android:id="@+id/examp"
@@ -36,7 +36,7 @@
             android:layout_below="@+id/helptxt"
             android:layout_marginTop="12dp"
             android:autoText="true"
-            android:text="examp" />
+            android:text="Not Found" />
 
         <TextView
             android:id="@+id/wordTV"

@@ -142,7 +142,7 @@ public class DicActivity extends AppCompatActivity {
             holder.pronunciation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   Toast.makeText(getApplication(),"vai dar pt",Toast.LENGTH_SHORT).show();
+
 
                     MediaPlayer mp = new MediaPlayer();
                     try {
@@ -265,15 +265,6 @@ public class DicActivity extends AppCompatActivity {
                     }
                 }
 
-//                for(int i =0; i < getDicdata.size(); i++)
-//                {
-//                    System.out.println("this is all def"+getDicdata.get(i).getDefinitions());
-//                    System.out.println(getDicdata.get(i).getExample());
-//
-//
-//                    Def.append(getDicdata.get(i).getDefinitions());
-//                    Example.append(getDicdata.get(i).getExample());
-//                }
 
                 DicActivity.ContentAdapter adapter = new DicActivity.ContentAdapter(getDicdata);
                 recyclerView.setAdapter(adapter);
@@ -282,6 +273,11 @@ public class DicActivity extends AppCompatActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+
+                DicInfo dicInfo = new DicInfo("notFound","NotFound",getDialect);
+                getDicdata.add(dicInfo);
+                DicActivity.ContentAdapter adapter = new DicActivity.ContentAdapter(getDicdata);
+                recyclerView.setAdapter(adapter);
             }
 
         }
